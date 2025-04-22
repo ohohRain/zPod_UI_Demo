@@ -7,46 +7,3414 @@
     <title>Interactive zPods App UI Demo</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        :root {
+            /* Updated colors from UI_DOCUMENTATION.md */
+            --primary: #00C2C5;
+            --primary-dark: #00D7DA;
+            --secondary: #8B5CF6;
+            --secondary-dark: #A78BFA;
+            --accent: #10B981;
+            --accent-dark: #34D399;
+            --success: #10B981;
+            --success-dark: #34D399;
+            --error: #EF4444;
+            --error-dark: #F87171;
+            --warning: #F59E0B;
+            --warning-dark: #FBBF24;
+            --info: #3B82F6;
+            --info-dark: #60A5FA;
+
+            /* Base colors */
+            --white: #FFFFFF;
+            --black: #000000;
+
+            /* Background colors */
+            --background: #FFFFFF;
+            --background-dark: #121212;
+            --card-background: #FFFFFF;
+            --card-background-dark: #1E1E1E;
+
+            /* Text colors */
+            --text: #1F2937;
+            --text-dark: #F9FAFB;
+            --text-secondary: #4B5563;
+            --text-secondary-dark: #E5E7EB;
+            --text-muted: #6B7280;
+            --text-muted-dark: #9CA3AF;
+
+            /* Grayscale */
+            --gray100: #F9FAFB;
+            --gray200: #F3F4F6;
+            --gray300: #E5E7EB;
+            --gray400: #D1D5DB;
+            --gray500: #9CA3AF;
+            --gray600: #6B7280;
+            --gray700: #4B5563;
+            --gray800: #374151;
+            --gray900: #1F2937;
+
+            /* Updated gradients */
+            --primary-gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            --secondary-gradient: linear-gradient(135deg, var(--accent) 0%, var(--info) 100%);
+
+            /* Border radii from UI_DOCUMENTATION.md */
+            --border-radius-small: 8px;
+            --border-radius-medium: 12px;
+            --border-radius-large: 16px;
+            --border-radius-circle: 9999px;
+
+            /* Renamed to match documentation */
+            --border-radius-sm: var(--border-radius-small);
+            --border-radius-md: var(--border-radius-medium);
+            --border-radius-lg: var(--border-radius-large);
+
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+            --transition-smooth: all 0.3s ease;
+
+            /* Spacing */
+            --spacing-xs: 4px;
+            --spacing-s: 8px;
+            --spacing-m: 16px;
+            --spacing-l: 24px;
+            --spacing-xl: 32px;
+            --spacing-xxl: 40px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            /* Animated Gradient Background */
+            background: linear-gradient(-45deg, hsl(181, 100%, 90%), hsl(258, 90%, 92%), hsl(217, 91%, 92%), hsl(145, 80%, 90%));
+            background-size: 400% 400%;
+            /* Make the gradient large for smooth animation */
+            animation: gradientAnimation 15s ease infinite;
+            /* Apply the animation */
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+            /* Add some padding around */
+            display: flex;
+            flex-direction: column;
+            /* Allow header and phone */
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .header {
+            /* Optional header outside the phone */
+            text-align: center;
+            margin-bottom: 30px;
+            width: 100%;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 16px;
+            margin-top: 8px;
+        }
+
+        .ui-preview {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* Remove fixed width, let the bezel define it */
+        }
+
+        /* New Container for Phone + Description */
+        .ui-preview-container {
+            display: flex;
+            align-items: center;
+            /* Vertically align items if they have different heights */
+            gap: 40px;
+            /* Space between phone and description */
+            width: 100%;
+            max-width: 900px;
+            /* Limit overall width */
+            justify-content: center;
+            /* Center the container */
+            margin-top: 20px;
+            /* Add some space below the main header */
+        }
+
+        /* Description Panel Styling */
+        .page-description {
+            width: 300px;
+            /* Width of the description panel */
+            padding: var(--spacing-l);
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.8), rgba(230, 245, 245, 0.7));
+            /* Subtle light glassy gradient */
+            backdrop-filter: blur(10px);
+            /* Frosted glass effect */
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: var(--border-radius-lg);
+            /* Rounded corners */
+            box-shadow: var(--shadow-md);
+            /* Consistent shadow */
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            height: fit-content;
+            /* Adjust height based on content */
+            max-height: 700px;
+            /* Limit max height slightly less than phone */
+            overflow-y: auto;
+            /* Allow scrolling if content exceeds max height */
+            scrollbar-width: none;
+            /* Firefox */
+            -ms-overflow-style: none;
+            /* IE/Edge */
+        }
+
+        .page-description::-webkit-scrollbar {
+            display: none;
+            /* Hide scrollbar */
+        }
+
+        .page-description h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: var(--spacing-m);
+            padding-bottom: var(--spacing-s);
+            border-bottom: 1px solid hsla(181, 100%, 80%, 0.5);
+            /* Light primary color border */
+        }
+
+        .page-description p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* New styles for the outer phone bezel */
+        .phone-bezel {
+            width: 395px;
+            /* Slightly wider than screen */
+            height: 810px;
+            /* Taller */
+            background: #0a0a0a;
+            /* Darker, less saturated black */
+            /* Dark bezel color */
+            border-radius: 45px;
+            /* Updated corner radius */
+            /* Rounded corners for the phone */
+            padding: 10px;
+            /* Thinner bezel padding - Already 10px */
+            /* Space between bezel and screen */
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4),
+                /* Softer, larger shadow */
+                inset 0 2px 4px rgba(255, 255, 255, 0.05),
+                /* Inner top highlight */
+                inset 0 -2px 4px rgba(0, 0, 0, 0.5);
+            /* Inner bottom shadow */
+            position: relative;
+            /* Add a subtle gradient for realism */
+            background-image: linear-gradient(to bottom, #282828, #0a0a0a);
+
+            /* Add side buttons */
+            --button-color: #333;
+        }
+
+        /* Left side volume buttons */
+        .phone-bezel::before,
+        .phone-bezel::after {
+            content: "";
+            position: absolute;
+            width: 3px;
+            height: 30px;
+            /* Volume button height */
+            background: var(--button-color);
+            left: -3px;
+            /* Position outside the padding */
+            border-radius: 3px 0 0 3px;
+            /* Rounded outer edge */
+            box-shadow: inset 1px 0 1px rgba(0, 0, 0, 0.3);
+        }
+
+        .phone-bezel::before {
+            top: 120px;
+        }
+
+        /* Volume Up */
+        .phone-bezel::after {
+            top: 160px;
+            height: 50px;
+        }
+
+        /* Volume Down (longer) */
+
+        /* Right side power button */
+        .phone-bezel .power-button {
+            content: "";
+            position: absolute;
+            width: 3px;
+            height: 60px;
+            background: var(--button-color);
+            right: -3px;
+            /* Position outside the padding */
+            top: 140px;
+            border-radius: 0 3px 3px 0;
+            /* Rounded outer edge */
+            box-shadow: inset -1px 0 1px rgba(0, 0, 0, 0.3);
+        }
+
+        .phone-frame {
+            width: 375px;
+            height: 100%;
+            /* Let the frame fill the padded area of the bezel */
+            /* iPhone 6/7/8 height */
+            background-color: var(--background);
+            border-radius: 35px;
+            /* Match outer bezel curve (45px - 10px padding) */
+            /* Match inner radius to bezel padding */
+            overflow: hidden;
+            position: relative;
+            box-shadow: none;
+            /* Remove shadow from screen, apply to bezel */
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            /* Use flexbox for layout */
+            flex-direction: column;
+            /* Stack content vertically */
+        }
+
+        .app-content {
+            flex: 1;
+            /* Take remaining vertical space */
+            overflow-y: auto;
+            /* Allow scrolling within the app content */
+            background-color: var(--gray100);
+            position: relative;
+            scrollbar-width: none;
+            /* Firefox */
+            -ms-overflow-style: none;
+            /* IE/Edge */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-content::-webkit-scrollbar {
+            display: none;
+            /* Hide scrollbar for Chrome/Safari/Opera */
+        }
+
+        /* --- Screen Styling --- */
+        .app-screen {
+            display: none;
+            /* Hide all screens by default */
+            flex: 1;
+            /* Allow screen content to fill space */
+            overflow-y: auto;
+            /* Enable scrolling within each screen */
+            scrollbar-width: none;
+            /* Firefox */
+            -ms-overflow-style: none;
+            /* IE/Edge */
+            padding: var(--spacing-l);
+        }
+
+        .app-screen::-webkit-scrollbar {
+            display: none;
+            /* Hide scrollbar for Chrome/Safari/Opera */
+        }
+
+        .app-screen.active {
+            display: flex;
+            /* Show active screen */
+            flex-direction: column;
+        }
+
+        /* --- Common Header/Footer Styling --- */
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-l);
+            padding: 0 var(--spacing-l);
+            /* Add padding if screen padding removed */
+            padding-top: var(--spacing-l);
+            /* Add top padding if needed */
+            position: sticky;
+            /* Make header sticky if desired */
+            top: 0;
+            background-color: var(--gray100);
+            /* Match background */
+            z-index: 10;
+        }
+
+        .app-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text);
+            text-align: center;
+            /* Center title */
+            flex: 1;
+            /* Allow title to take space */
+        }
+
+        .header-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gray200);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .header-icon i {
+            color: var(--text);
+            font-size: 18px;
+        }
+
+        .header-icon.profile {
+            background: var(--primary-gradient);
+        }
+
+        .header-icon.profile i {
+            color: white;
+        }
+
+        .phone-navigation {
+            height: 70px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: var(--card-background);
+            border-top: 1px solid var(--gray300);
+            padding: 0 16px;
+            /* Removed sticky positioning here, handled by flexbox layout */
+            width: 100%;
+            /* Ensure full width */
+            margin-top: auto;
+            /* Push to bottom */
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0.7;
+            cursor: pointer;
+            color: var(--text-muted);
+            /* Default color */
+            transition: all 0.2s ease;
+        }
+
+        .nav-item i {
+            font-size: 22px;
+            margin-bottom: 4px;
+            transition: color 0.2s ease;
+        }
+
+        .nav-item span {
+            font-size: 12px;
+            font-weight: 500;
+            /* Slightly bolder */
+        }
+
+        .nav-item.active {
+            opacity: 1;
+            color: var(--primary);
+            /* Active color for text */
+        }
+
+        .nav-item.active i {
+            color: var(--primary);
+            /* Active color for icon */
+        }
+
+        /* --- Specific Screen Styles (Keep relevant ones) --- */
+
+        /* Device Card Styles */
+        .device-card {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background: var(--primary-gradient);
+            border-radius: var(--border-radius-md);
+            margin-bottom: var(--spacing-l);
+            /* Adjusted margin */
+            color: var(--white);
+        }
+
+        .device-image {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: var(--border-radius-sm);
+            margin-right: 16px;
+        }
+
+        .device-info h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: var(--success);
+            /* Default to connected */
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        .status-dot.disconnected {
+            background-color: var(--error);
+        }
+
+        .device-metrics {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .device-metrics span {
+            margin-right: 8px;
+        }
+
+        .device-metrics span:last-child {
+            margin-right: 0;
+        }
+
+        .device-metrics i {
+            font-size: 14px;
+            margin-right: 4px;
+        }
+
+        /* Control Card Styles */
+        .controls-section h4,
+        .device-section h4,
+        .settings-group h4,
+        .profile-sections h3 {
+            margin-bottom: 16px;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .control-card,
+        .settings-item,
+        .profile-setting-item {
+            background-color: var(--card-background);
+            border-radius: var(--border-radius-md);
+            padding: 16px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .control-card:hover,
+        .settings-item:hover,
+        .profile-setting-item:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .control-icon,
+        .settings-icon,
+        .profile-setting-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--primary-gradient);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: var(--border-radius-sm);
+            margin-right: 16px;
+            flex-shrink: 0;
+            /* Prevent icon from shrinking */
+        }
+
+        .control-icon i,
+        .settings-icon i,
+        .profile-setting-icon i {
+            font-size: 20px;
+            color: var(--white);
+        }
+
+        .control-info,
+        .settings-text,
+        .profile-setting-text {
+            flex: 1;
+            min-width: 0;
+            /* Prevent text overflow issues */
+        }
+
+        .control-info h5,
+        .settings-text h5,
+        .profile-setting-item span {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            /* Adjusted margin */
+            color: var(--text);
+        }
+
+        .settings-text p {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 0;
+            /* Remove default p margin */
+        }
+
+        /* Slider Styles */
+        .control-slider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 8px;
+            /* Add space above slider */
+        }
+
+        .slider {
+            flex: 1;
+            height: 6px;
+            background-color: var(--gray300);
+            border-radius: 3px;
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            /* Use solid color */
+            cursor: pointer;
+        }
+
+        .slider-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+            min-width: 30px;
+            /* Adjust width */
+            text-align: right;
+        }
+
+        /* Color Picker Styles */
+        .color-picker-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 8px;
+            /* Add space */
+        }
+
+        .color-preview {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--border-radius-sm);
+            border: 2px solid var(--white);
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+        }
+
+        .color-slider-container {
+            position: relative;
+            width: 100%;
+            height: 24px;
+            border-radius: var(--border-radius-sm);
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .rainbow-gradient {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, #FF0000, #FFFF00, #00FF00, #00FFFF, #0000FF, #FF00FF, #FF0000);
+        }
+
+        .slider-handle {
+            position: absolute;
+            top: 0;
+            width: 6px;
+            height: 100%;
+            background-color: white;
+            box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transform: translateX(-3px);
+            /* Center handle */
+        }
+
+        /* Modern Toggle Styles */
+        .modern-toggle-container {
+            background-color: var(--card-background);
+            border-radius: var(--border-radius-md);
+            padding: 16px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .modern-toggle-container .icon {
+            /* Use specific class for icon */
+            width: 45px;
+            height: 45px;
+            background: var(--primary-gradient);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: var(--border-radius-sm);
+            margin-right: 16px;
+            flex-shrink: 0;
+        }
+
+        .modern-toggle-container .icon i {
+            font-size: 20px;
+            color: var(--white);
+        }
+
+        .modern-toggle-container .label {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text);
+            flex: 1;
+        }
+
+        .modern-toggle-container .toggle-state {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-right: 12px;
+            text-transform: uppercase;
+            /* Make state clear */
+            min-width: 30px;
+            /* Ensure space */
+            text-align: right;
+        }
+
+        .modern-toggle-slider-wrapper {
+            /* Wrapper for positioning */
+            position: relative;
+            width: 50px;
+            /* Slightly smaller */
+            height: 28px;
+            cursor: pointer;
+        }
+
+        .modern-toggle-slider {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: var(--gray300);
+            border-radius: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .modern-toggle-slider:before {
+            /* The knob */
+            content: '';
+            position: absolute;
+            left: 3px;
+            top: 3px;
+            width: 22px;
+            height: 22px;
+            background-color: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .modern-toggle-container.on .toggle-state {
+            color: var(--primary);
+        }
+
+        .modern-toggle-container.on .modern-toggle-slider {
+            background-color: var(--primary);
+        }
+
+        .modern-toggle-container.on .modern-toggle-slider:before {
+            left: calc(100% - 22px - 3px);
+        }
+
+        .modern-toggle-container.off .toggle-state {
+            color: var(--text-muted);
+        }
+
+        .modern-toggle-container.off .modern-toggle-slider {
+            background-color: var(--gray300);
+        }
+
+        .modern-toggle-container.off .modern-toggle-slider:before {
+            left: 3px;
+        }
+
+
+        /* Settings Tab Styles */
+        .settings-tabs {
+            display: flex;
+            margin: var(--spacing-l) 0;
+            border-bottom: 1px solid var(--gray300);
+        }
+
+        .settings-tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            border-bottom: 2px solid transparent;
+            /* Reserve space */
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .settings-tab.active {
+            font-weight: 600;
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .settings-tab-content {
+            display: none;
+            /* Hide content by default */
+        }
+
+        .settings-tab-content.active {
+            display: block;
+            /* Show active tab content */
+        }
+
+        /* Device List Styles */
+        .device-section {
+            margin-bottom: 32px;
+        }
+
+        .bluetooth-status {
+            margin-bottom: 24px;
+        }
+
+        .bluetooth-enabled {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            background-color: rgba(16, 185, 129, 0.1);
+            border-radius: var(--border-radius-sm);
+            margin-bottom: 16px;
+            color: var(--success);
+        }
+
+        .bluetooth-enabled i {
+            margin-right: 12px;
+        }
+
+        .scan-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 14px;
+            background: var(--primary-gradient);
+            color: var(--white);
+            border: none;
+            border-radius: var(--border-radius-sm);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .scan-button i {
+            margin-left: 8px;
+            animation: spin 2s linear infinite;
+            /* Add spinning animation */
+            display: none;
+            /* Hide initially */
+        }
+
+        .scan-button.scanning i {
+            display: inline-block;
+            /* Show when scanning */
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .device-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            background-color: var(--card-background);
+            border-radius: var(--border-radius-md);
+            margin-bottom: 12px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .device-item.connected {
+            /* Style connected device differently if needed */
+            border-left: 4px solid var(--success);
+        }
+
+        .device-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--primary-gradient);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: var(--border-radius-circle);
+            margin-right: 16px;
+            flex-shrink: 0;
+        }
+
+        .device-icon i {
+            font-size: 22px;
+            color: var(--white);
+        }
+
+        .device-details {
+            flex: 1;
+        }
+
+        .device-details h5 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--text);
+        }
+
+        .device-details p {
+            font-size: 14px;
+            color: var(--text-muted);
+            display: flex;
+            /* Align dot and text */
+            align-items: center;
+        }
+
+        .device-action {
+            margin-left: auto;
+            /* Push action to the right */
+            padding-left: 16px;
+            /* Add space */
+            cursor: pointer;
+        }
+
+        .device-action i {
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+
+        .connect-btn {
+            background: var(--primary-gradient);
+            color: var(--white);
+            border: none;
+            border-radius: var(--border-radius-sm);
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .add-device-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 32px;
+        }
+
+        .add-device-btn {
+            display: flex;
+            align-items: center;
+            background: var(--primary-gradient);
+            color: var(--white);
+            border: none;
+            border-radius: var(--border-radius-md);
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+        }
+
+        .add-device-btn i {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+
+        /* --- AI Chat Styles --- */
+        .ai-chat-screen {
+            /* Specific class for padding */
+            padding: 0 !important;
+            /* Remove default screen padding */
+        }
+
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: var(--spacing-m);
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-m);
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .chat-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .chat-message {
+            display: flex;
+            margin-bottom: var(--spacing-m);
+            max-width: 85%;
+            /* Limit message width */
+            align-items: flex-end;
+            /* Align avatar with bottom of bubble */
+        }
+
+        .chat-message.user {
+            justify-content: flex-end;
+            margin-left: auto;
+            /* Push user messages right */
+        }
+
+        .chat-message.ai {
+            margin-right: auto;
+            /* Push AI messages left */
+        }
+
+        .ai-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background: var(--primary-gradient);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: var(--spacing-s);
+            flex-shrink: 0;
+            /* Prevent shrinking */
+        }
+
+        .ai-avatar i {
+            color: white;
+        }
+
+        .message-bubble {
+            padding: var(--spacing-m);
+            border-radius: 18px;
+            line-height: 1.5;
+        }
+
+        .message-bubble.ai {
+            background-color: var(--gray200);
+            color: var(--text);
+            border-top-left-radius: 4px;
+        }
+
+        .message-bubble.user {
+            background-color: var(--primary);
+            color: white;
+            border-top-right-radius: 4px;
+        }
+
+        .message-bubble p {
+            margin: 0 0 var(--spacing-s) 0;
+        }
+
+        .message-bubble p:last-child {
+            margin-bottom: 0;
+        }
+
+        .message-bubble ul {
+            margin: 0 0 var(--spacing-s) 0;
+            padding-left: 20px;
+        }
+
+        .message-bubble ul:last-child {
+            margin-bottom: 0;
+        }
+
+        .message-input-area {
+            padding: var(--spacing-m);
+            border-top: 1px solid var(--gray300);
+            background-color: var(--gray100);
+            /* Match app background */
+            display: flex;
+            align-items: center;
+            margin-top: auto;
+            /* Push to bottom */
+        }
+
+        .message-input-wrapper {
+            flex: 1;
+            background-color: white;
+            border-radius: 24px;
+            /* More rounded */
+            padding: var(--spacing-s) var(--spacing-m);
+            border: 1px solid var(--gray300);
+            display: flex;
+            align-items: center;
+        }
+
+        .message-input-wrapper input {
+            border: none;
+            outline: none;
+            flex: 1;
+            font-size: 16px;
+            background: transparent;
+            /* Ensure no background */
+        }
+
+        .send-button {
+            background: none;
+            border: none;
+            color: var(--primary);
+            padding: 0;
+            margin-left: var(--spacing-s);
+            font-size: 20px;
+            /* Slightly larger icon */
+            cursor: pointer;
+        }
+
+        /* --- Music Page Styles --- */
+        .music-screen {
+            padding: 0 !important;
+            /* Remove default padding */
+        }
+
+        .music-container {
+            flex: 1;
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding: var(--spacing-l);
+            /* Add padding back */
+        }
+
+        .music-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .music-container h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: var(--spacing-xs);
+            /* Reduced margin */
+            color: var(--text);
+        }
+
+        .music-container>p {
+            /* Target only the top p */
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-l);
+            font-size: 16px;
+        }
+
+        .music-container h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: var(--spacing-m);
+            color: var(--text);
+        }
+
+        .featured-track-card {
+            background: var(--primary-gradient);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-m);
+            margin-bottom: var(--spacing-l);
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+
+        .featured-track-card .play-icon-bg {
+            width: 70px;
+            height: 70px;
+            border-radius: var(--border-radius-sm);
+            background-color: rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: var(--spacing-m);
+            flex-shrink: 0;
+        }
+
+        .featured-track-card .play-icon-bg i {
+            font-size: 24px;
+        }
+
+        .featured-track-card .track-info {
+            flex: 1;
+        }
+
+        .featured-track-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: white;
+            /* Override default h3 color */
+        }
+
+        .featured-track-card p {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 4px;
+        }
+
+        .featured-track-card p:last-child {
+            font-size: 12px;
+            opacity: 0.7;
+            margin-bottom: 0;
+        }
+
+        .music-categories-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-m);
+            margin-bottom: var(--spacing-l);
+        }
+
+        .category-card {
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-m);
+            color: white;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .category-card:hover {
+            transform: scale(1.03);
+        }
+
+        .category-card .icon-bg {
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            background-color: rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .category-card .icon-bg i {
+            font-size: 22px;
+        }
+
+        .category-card h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .category-card p {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        /* Specific Gradients for Categories */
+        .category-card.white-noise {
+            background: linear-gradient(135deg, #5c7cda, #39559f);
+        }
+
+        .category-card.peace-music {
+            background: linear-gradient(135deg, #00C2C5, #10B981);
+        }
+
+        .category-card.podcasts {
+            background: linear-gradient(135deg, #F59E0B, #FBBF24);
+        }
+
+        .category-card.stories {
+            background: linear-gradient(135deg, #8B5CF6, #A78BFA);
+        }
+
+        .horizontal-scroll-container {
+            display: flex;
+            overflow-x: auto;
+            gap: var(--spacing-m);
+            margin-bottom: var(--spacing-l);
+            padding-bottom: var(--spacing-s);
+            /* Space for potential scrollbar */
+            scrollbar-width: none;
+            /* Firefox */
+            -ms-overflow-style: none;
+            /* IE/Edge */
+        }
+
+        .horizontal-scroll-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .recent-track-item {
+            min-width: 150px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .recent-track-item .thumbnail {
+            width: 150px;
+            height: 150px;
+            border-radius: var(--border-radius-md);
+            background: linear-gradient(135deg, #5c7cda, #39559f);
+            /* Default gradient */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 8px;
+            transition: transform 0.2s ease;
+        }
+
+        .recent-track-item:hover .thumbnail {
+            transform: scale(1.03);
+        }
+
+        .recent-track-item .thumbnail i {
+            color: white;
+            font-size: 30px;
+        }
+
+        /* Example Specific Gradients for Tracks */
+        .recent-track-item.rain .thumbnail {
+            background: linear-gradient(135deg, #5c7cda, #39559f);
+        }
+
+        .recent-track-item.meditation .thumbnail {
+            background: linear-gradient(135deg, #00C2C5, #10B981);
+        }
+
+        .recent-track-item.forest .thumbnail {
+            background: linear-gradient(135deg, #8B5CF6, #A78BFA);
+        }
+
+        .recent-track-item p.title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: var(--text);
+        }
+
+        .recent-track-item p.duration {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .subscription-banner {
+            background-color: var(--gray100);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-m);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: var(--spacing-m);
+            /* Consistent margin */
+        }
+
+        .subscription-banner .icon-bg {
+            width: 60px;
+            height: 60px;
+            border-radius: 30px;
+            background: var(--primary-gradient);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: var(--spacing-s);
+        }
+
+        .subscription-banner .icon-bg i {
+            color: white;
+            font-size: 24px;
+        }
+
+        .subscription-banner h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+            color: var(--text);
+            /* Override default h3 color */
+        }
+
+        .subscription-banner p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-m);
+        }
+
+        .subscription-banner .price {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 16px;
+            margin-bottom: var(--spacing-s);
+        }
+
+        .subscription-banner .upgrade-btn {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: var(--border-radius-md);
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        /* --- Shop Page Styles --- */
+        .shop-screen {
+            padding: 0 !important;
+        }
+
+        .shop-container {
+            flex: 1;
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding: var(--spacing-l);
+        }
+
+        .shop-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .shop-container h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: var(--spacing-xs);
+            color: var(--text);
+        }
+
+        .shop-container>p {
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-l);
+            font-size: 16px;
+        }
+
+        .shop-container h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: var(--spacing-m);
+            color: var(--text);
+        }
+
+        .my-orders-card {
+            background: var(--primary-gradient);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-m);
+            margin-bottom: var(--spacing-l);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+            cursor: pointer;
+        }
+
+        .my-orders-card .content {
+            display: flex;
+            align-items: center;
+        }
+
+        .my-orders-card .icon-bg {
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            background-color: rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: var(--spacing-m);
+            flex-shrink: 0;
+        }
+
+        .my-orders-card .icon-bg i {
+            font-size: 22px;
+        }
+
+        .my-orders-card .text h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: white;
+        }
+
+        .my-orders-card .text p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .my-orders-card .chevron i {
+            font-size: 18px;
+        }
+
+        .shop-categories-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-m);
+            margin-bottom: var(--spacing-l);
+            /* Added margin */
+        }
+
+        .shop-category-item {
+            background-color: var(--gray100);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-m);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .shop-category-item .content {
+            display: flex;
+            align-items: center;
+        }
+
+        .shop-category-item .icon-bg {
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: var(--spacing-m);
+            flex-shrink: 0;
+        }
+
+        /* Specific Category Backgrounds */
+        .shop-category-item.bedding .icon-bg {
+            background: linear-gradient(135deg, #8B5CF6, #A78BFA);
+        }
+
+        .shop-category-item.electronics .icon-bg {
+            background: linear-gradient(135deg, #5c7cda, #39559f);
+        }
+
+        .shop-category-item.lifestyle .icon-bg {
+            background: linear-gradient(135deg, #00C2C5, #10B981);
+        }
+
+        .shop-category-item .icon-bg i {
+            font-size: 22px;
+            color: white;
+        }
+
+        .shop-category-item .text h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--text);
+        }
+
+        .shop-category-item .text p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .shop-category-item .chevron i {
+            font-size: 18px;
+            color: var(--text-secondary);
+        }
+
+        /* --- Profile Page Styles --- */
+        .profile-screen {
+            padding: 0 !important;
+        }
+
+        .profile-container {
+            flex: 1;
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding: var(--spacing-l);
+            /* Add padding back */
+        }
+
+        .profile-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .profile-screen .app-header {
+            /* Specific header for profile */
+            border-bottom: 1px solid var(--gray200);
+            /* Separator */
+            padding-top: var(--spacing-m);
+            /* Adjust padding */
+            padding-bottom: var(--spacing-m);
+            margin-bottom: 0;
+            /* Remove default margin */
+        }
+
+        .profile-screen .header-icon.back {
+            background: none;
+        }
+
+        /* Back button style */
+
+        .profile-info-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: var(--spacing-xl);
+            padding-top: var(--spacing-l);
+            /* Add space below header */
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            margin-bottom: var(--spacing-m);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .profile-avatar i.user-icon {
+            color: white;
+            font-size: 42px;
+        }
+
+        .profile-avatar .edit-avatar {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: var(--secondary);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid white;
+            cursor: pointer;
+        }
+
+        .profile-avatar .edit-avatar i {
+            color: white;
+            font-size: 14px;
+        }
+
+        .profile-info-section h2.user-name {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .profile-info-section p.user-email {
+            color: var(--text-secondary);
+            font-size: 16px;
+            margin-bottom: var(--spacing-s);
+        }
+
+        .profile-info-section .membership-badge {
+            background: var(--gray100);
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 14px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .profile-sections {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-l);
+            /* Space between sections */
+            margin-bottom: var(--spacing-l);
+            /* Space before sign out */
+        }
+
+        .profile-setting-item {
+            /* Uses common styles defined earlier */
+            cursor: pointer;
+        }
+
+        /* Specific icon colors */
+        .profile-setting-item .profile-setting-icon.edit {
+            background: rgba(92, 124, 218, 0.15);
+        }
+
+        .profile-setting-item .profile-setting-icon.edit i {
+            color: #5c7cda;
+        }
+
+        .profile-setting-item .profile-setting-icon.password {
+            background: rgba(0, 194, 197, 0.15);
+        }
+
+        .profile-setting-item .profile-setting-icon.password i {
+            color: #00C2C5;
+        }
+
+        .profile-setting-item .profile-setting-icon.notifications {
+            background: rgba(139, 92, 246, 0.15);
+        }
+
+        .profile-setting-item .profile-setting-icon.notifications i {
+            color: #8B5CF6;
+        }
+
+        .profile-setting-item .profile-setting-icon.language {
+            background: rgba(16, 185, 129, 0.15);
+        }
+
+        .profile-setting-item .profile-setting-icon.language i {
+            color: #10B981;
+        }
+
+        .profile-setting-item .profile-setting-icon.theme {
+            background: rgba(251, 191, 36, 0.15);
+        }
+
+        .profile-setting-item .profile-setting-icon.theme i {
+            color: #FBBF24;
+        }
+
+        .profile-setting-item .profile-setting-icon.privacy {
+            background: rgba(239, 68, 68, 0.15);
+        }
+
+        .profile-setting-item .profile-setting-icon.privacy i {
+            color: #EF4444;
+        }
+
+        .profile-setting-item .profile-setting-icon.help {
+            background: rgba(167, 139, 250, 0.15);
+        }
+
+        .profile-setting-item .profile-setting-icon.help i {
+            color: #A78BFA;
+        }
+
+        .profile-setting-item .profile-setting-icon.about {
+            background: rgba(16, 185, 129, 0.15);
+        }
+
+        /* Reusing style */
+        .profile-setting-item .profile-setting-icon.about i {
+            color: #10B981;
+        }
+
+
+        .profile-setting-item .action {
+            /* Container for chevron or toggle */
+            margin-left: auto;
+            /* Push right */
+            display: flex;
+            align-items: center;
+            padding-left: 16px;
+            /* Space */
+        }
+
+        .profile-setting-item .action .language-label {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-right: var(--spacing-s);
+        }
+
+        .profile-setting-item .action i.fas.fa-chevron-right {
+            color: var(--text-secondary);
+            font-size: 18px;
+        }
+
+        /* Profile Toggle (Reusing Modern Toggle Structure) */
+        .profile-setting-item .profile-toggle-wrapper {
+            /* Uses .modern-toggle-slider-wrapper styles */
+        }
+
+        .sign-out-button {
+            width: 100%;
+            background: none;
+            border: 1px solid var(--error);
+            color: var(--error);
+            padding: var(--spacing-m);
+            border-radius: var(--border-radius-md);
+            font-weight: 600;
+            font-size: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: var(--spacing-l);
+            /* Space at bottom */
+            cursor: pointer;
+        }
+
+        .sign-out-button i {
+            margin-right: var(--spacing-s);
+        }
+
+        /* --- Home Screen Specific --- */
+        .home-screen {
+            padding: 0 !important;
+        }
+
+        /* Remove screen padding */
+        .home-container {
+            flex: 1;
+            padding-top: 0;
+            /* Remove padding if header is not sticky */
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding: var(--spacing-l);
+            /* Add padding back */
+        }
+
+        .home-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .home-screen .app-header {
+            /* Specific home header styling */
+            margin-bottom: 0;
+            /* Remove margin if padding handled by container */
+            padding: var(--spacing-l);
+            /* Adjust padding */
+            position: static;
+            /* Override sticky behavior */
+            background-color: transparent;
+            /* Let container background show */
+            z-index: auto;
+            /* Reset z-index */
+        }
+
+        .ai-analysis-card,
+        .sleep-metrics-card,
+        .sleep-music-card {
+            background-color: var(--card-background);
+            border-radius: var(--border-radius-md);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: var(--spacing-l);
+        }
+
+        .section-header {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: var(--spacing-m);
+            display: flex;
+            align-items: center;
+            color: var(--text);
+        }
+
+        .section-header i {
+            color: var(--primary);
+            margin-right: 8px;
+            font-size: 16px;
+            /* Slightly smaller icon */
+        }
+
+        .ai-analysis-card .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--spacing-m);
+        }
+
+        .ai-analysis-card .icon-bg {
+            width: 50px;
+            height: 50px;
+            background: var(--primary-gradient);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: var(--border-radius-circle);
+            margin-right: var(--spacing-m);
+            flex-shrink: 0;
+        }
+
+        .ai-analysis-card .icon-bg i {
+            color: white;
+            font-size: 24px;
+        }
+
+        .ai-analysis-card .header-text h5 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--text);
+        }
+
+        .ai-analysis-card .header-text p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .ai-analysis-card .status-badge {
+            margin-left: auto;
+            background-color: rgba(16, 185, 129, 0.1);
+            padding: 6px 12px;
+            border-radius: var(--border-radius-sm);
+            color: var(--success);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .ai-analysis-card .analysis-text {
+            color: var(--text);
+            line-height: 1.5;
+            margin-bottom: var(--spacing-m);
+            font-size: 14px;
+            /* Slightly smaller text */
+        }
+
+        .ai-analysis-card .summary-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-m);
+            /* Added margin */
+        }
+
+        .ai-analysis-card .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex: 1;
+        }
+
+        .ai-analysis-card .stat-item .value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .ai-analysis-card .stat-item .label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .view-details-button {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            margin: 0 auto;
+            /* Center button */
+            padding: 8px;
+            /* Add padding for click area */
+        }
+
+        .view-details-button i {
+            font-size: 12px;
+            margin-left: 4px;
+        }
+
+        .sleep-metrics-card .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-m);
+        }
+
+        .sleep-metrics-card .date-tabs {
+            display: flex;
+            gap: 8px;
+            background-color: var(--gray200);
+            border-radius: var(--border-radius-sm);
+            padding: 4px;
+        }
+
+        .sleep-metrics-card .date-tabs button {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 12px;
+            padding: 6px 12px;
+            border-radius: var(--border-radius-sm);
+            /* Match inner radius */
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .sleep-metrics-card .date-tabs button.active {
+            background: var(--primary-gradient);
+            color: white;
+            font-weight: 600;
+        }
+
+        .sleep-metrics-card .date-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-m);
+        }
+
+        .sleep-metrics-card .date-nav-button {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid var(--gray300);
+            background: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .sleep-metrics-card .date-nav-button i {
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+
+        .sleep-metrics-card .current-date {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .sleep-duration-display {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-s);
+            align-items: center;
+            /* Vertically align */
+        }
+
+        .sleep-duration-display .time {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .sleep-duration-display .duration {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .sleep-phase-graph {
+            height: 150px;
+            /* Reduced height */
+            margin-bottom: var(--spacing-m);
+            position: relative;
+            background-color: var(--gray100);
+            /* Background for contrast */
+            border-radius: var(--border-radius-sm);
+            /* Rounded corners */
+            overflow: hidden;
+            /* Clip bars */
+        }
+
+        .sleep-phase-bars {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            /* Use full height */
+            display: flex;
+            align-items: flex-end;
+            /* Bars grow from bottom */
+        }
+
+        .sleep-phase-bar {
+            flex: 1;
+            /* Equal width */
+            margin: 0 1px;
+            /* Small gap between bars */
+            border-radius: 2px 2px 0 0;
+            /* Rounded top */
+        }
+
+        /* Sleep Phase Colors */
+        .sleep-phase-bar.awake {
+            background-color: #a0a0a0;
+            height: 90%;
+        }
+
+        .sleep-phase-bar.light1 {
+            background-color: #5c7cda;
+            height: 70%;
+        }
+
+        .sleep-phase-bar.deep1 {
+            background-color: #39559f;
+            height: 100%;
+        }
+
+        .sleep-phase-bar.rem1 {
+            background-color: #b5c4f4;
+            height: 60%;
+        }
+
+        .sleep-phase-bar.light2 {
+            background-color: #5c7cda;
+            height: 85%;
+        }
+
+        .sleep-phase-bar.deep2 {
+            background-color: #39559f;
+            height: 100%;
+        }
+
+        .sleep-phase-bar.rem2 {
+            background-color: #b5c4f4;
+            height: 65%;
+        }
+
+        .sleep-phase-bar.light3 {
+            background-color: #5c7cda;
+            height: 70%;
+        }
+
+        .sleep-phase-bar.awake2 {
+            background-color: #a0a0a0;
+            height: 80%;
+        }
+
+        .sleep-phase-legend {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: var(--spacing-l);
+            /* Increased margin */
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .legend-color-box {
+            width: 12px;
+            height: 12px;
+            margin-right: 6px;
+            /* Increased space */
+            border-radius: 2px;
+        }
+
+        .legend-item span {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Legend Colors */
+        .legend-color-box.awake {
+            background-color: #a0a0a0;
+        }
+
+        .legend-color-box.rem {
+            background-color: #b5c4f4;
+        }
+
+        .legend-color-box.light {
+            background-color: #5c7cda;
+        }
+
+        .legend-color-box.deep {
+            background-color: #39559f;
+        }
+
+        .sleep-quality-score-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: var(--spacing-l) 0;
+        }
+
+        .sleep-quality-circle {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            margin-bottom: var(--spacing-m);
+        }
+
+        .sleep-quality-circle svg {
+            transform: rotate(-90deg);
+            /* Start progress from top */
+        }
+
+        .circle-bg {
+            fill: none;
+            stroke: var(--gray200);
+            /* Lighter background */
+            stroke-width: 8;
+        }
+
+        .circle-progress {
+            fill: none;
+            stroke: var(--success);
+            /* Use success color */
+            stroke-width: 8;
+            stroke-dasharray: 283;
+            /* Circumference (2*PI*45) */
+            stroke-dashoffset: calc(283 - (283 * 92) / 100);
+            /* Adjust offset based on score */
+            stroke-linecap: round;
+            /* Rounded ends */
+            transition: stroke-dashoffset 0.5s ease-out;
+        }
+
+        .score-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .sleep-quality-score-section h5 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: var(--spacing-s);
+        }
+
+        .key-metrics-grid {
+            display: flex;
+            /* Use flex for better spacing */
+            gap: var(--spacing-m);
+            margin-bottom: var(--spacing-l);
+            /* Added margin */
+        }
+
+        .metric-box {
+            flex: 1;
+            /* Equal width */
+            background-color: var(--gray100);
+            padding: var(--spacing-m);
+            border-radius: var(--border-radius-md);
+        }
+
+        .metric-box .metric-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-s);
+            align-items: center;
+        }
+
+        .metric-box .metric-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .metric-box .metric-status i {
+            font-size: 16px;
+            /* Slightly larger icon */
+        }
+
+        .metric-box .metric-status i.fa-check-circle {
+            color: var(--success);
+        }
+
+        .metric-box .metric-status i.fa-exclamation-triangle {
+            color: var(--warning);
+        }
+
+        .metric-box .metric-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        /* Sleep Music Card on Home */
+        .sleep-music-card .featured-music {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--spacing-m);
+            padding-bottom: var(--spacing-m);
+            border-bottom: 1px solid var(--gray200);
+        }
+
+        .sleep-music-card .album-art {
+            width: 60px;
+            height: 60px;
+            border-radius: var(--border-radius-sm);
+            background: var(--primary-gradient);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: var(--spacing-m);
+            flex-shrink: 0;
+        }
+
+        .sleep-music-card .album-art i {
+            color: white;
+            font-size: 24px;
+        }
+
+        .sleep-music-card .track-info {
+            flex: 1;
+        }
+
+        .sleep-music-card .track-info h5 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--text);
+        }
+
+        .sleep-music-card .track-info p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .sleep-music-card .favorite-button {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: var(--text-muted);
+            /* Default color */
+            padding: 8px;
+            /* Click area */
+        }
+
+        .sleep-music-card .favorite-button.favorited {
+            color: var(--primary);
+            /* Favorited color */
+        }
+
+        .sleep-music-card .recommendations-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: var(--spacing-m);
+            color: var(--text);
+        }
+
+        .sleep-music-card .recommended-track-item {
+            min-width: 120px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .sleep-music-card .recommended-track-item .thumbnail {
+            width: 120px;
+            height: 120px;
+            border-radius: var(--border-radius-sm);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 8px;
+            transition: transform 0.2s ease;
+        }
+
+        .sleep-music-card .recommended-track-item:hover .thumbnail {
+            transform: scale(1.03);
+        }
+
+        .sleep-music-card .recommended-track-item .thumbnail i {
+            color: white;
+            font-size: 30px;
+        }
+
+        /* Specific Gradients for Recommended Tracks */
+        .sleep-music-card .recommended-track-item.rain .thumbnail {
+            background: linear-gradient(135deg, #8B5CF6, #00C2C5);
+        }
+
+        .sleep-music-card .recommended-track-item.noise .thumbnail {
+            background: linear-gradient(135deg, #00C2C5, #10B981);
+        }
+
+        .sleep-music-card .recommended-track-item.lullaby .thumbnail {
+            background: linear-gradient(135deg, #8B5CF6, #3B82F6);
+        }
+
+        .sleep-music-card .recommended-track-item p.title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: var(--text);
+        }
+
+        .sleep-music-card .recommended-track-item p.duration {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Settings Screen Header Adjustments (to match Profile) */
+        .settings-screen {
+            padding: 0 !important;
+            /* Match profile screen structure */
+        }
+
+        .settings-screen .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: var(--spacing-m);
+            /* Match profile header vertical padding */
+            padding-bottom: var(--spacing-m);
+            /* Match profile header vertical padding */
+            padding-left: var(--spacing-l);
+            /* Add left padding to match container */
+            padding-right: var(--spacing-l);
+            /* Add right padding to match container */
+            margin-bottom: 0;
+            /* Remove margin, let container handle spacing */
+            border-bottom: 1px solid var(--gray200);
+            /* Match profile header separator */
+        }
+
+        .settings-screen .header-icon.back {
+            background: none;
+        }
+
+        .settings-container {
+            flex: 1;
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding: var(--spacing-l);
+        }
+
+        .settings-container::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="ui-preview">
-        <div class="phone-frame">
-            <div class="app-content">
-                <!-- Screens will be loaded here -->
-                <div id="home-screen" class="app-screen active home-screen"></div>
-                <div id="ai-chat-screen" class="app-screen ai-chat-screen"></div>
-                <div id="music-screen" class="app-screen music-screen"></div>
-                <div id="shop-screen" class="app-screen shop-screen"></div>
-                <div id="settings-screen" class="app-screen"></div>
-                <div id="profile-screen" class="app-screen profile-screen"></div>
-            </div>
-
-            <!-- Bottom Navigation -->
-            <div class="phone-navigation">
-                <div class="nav-item active" data-target="home-screen">
-                    <i class="fas fa-home"></i>
-                    <span>Home</span>
-                </div>
-                <div class="nav-item" data-target="ai-chat-screen">
-                    <i class="fas fa-robot"></i>
-                    <span>AI Chat</span>
-                </div>
-                <div class="nav-item" data-target="music-screen">
-                    <i class="fas fa-music"></i>
-                    <span>Music</span>
-                </div>
-                <div class="nav-item" data-target="shop-screen">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span>Shop</span>
-                </div>
-            </div>
-        </div>
+    <!-- Optional Header -->
+    <div class="header">
+        <h1>zPods Interactive Demo</h1>
+        <p>Navigate using the bottom tabs and icons.</p>
     </div>
 
-    <!-- Load components via JavaScript -->
-    <script src="js/app.js"></script>
+    <!-- New Container for Phone + Description -->
+    <div class="ui-preview-container">
+        <!-- Phone Bezel Wrapper -->
+        <div class="phone-bezel">
+            <div class="dynamic-island"></div>
+            <div class="power-button"></div>
+            <!-- The original phone-frame now acts as the screen -->
+            <div class="phone-frame">
+                <div class="app-content">
+
+                    <!-- ===== Home Screen ===== -->
+                    <div id="home-screen" class="app-screen active home-screen">
+                        <div class="app-header">
+                            <div class="header-icon profile" id="profile-nav-icon">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="app-title">zPods</div>
+                            <div class="header-icon" id="settings-nav-icon">
+                                <i class="fas fa-cog"></i>
+                            </div>
+                        </div>
+                        <div class="home-container">
+                            <!-- Connected Device Card -->
+                            <div class="device-card">
+                                <div class="device-image">
+                                    <i class="fa-brands fa-bluetooth-b" style="font-size: 40px; color: white;"></i>
+                                </div>
+                                <div class="device-info">
+                                    <h3>Kids Room zPod</h3>
+                                    <p class="status"><span class="status-dot"></span> Connected</p>
+                                    <div class="device-metrics">
+                                        <span><i class="fas fa-fan"></i>5</span> •
+                                        <span><i class="fas fa-volume-up"></i>8</span> •
+                                        <span><i class="fas fa-lightbulb"></i>10</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- AI Sleep Analysis Section -->
+                            <div class="ai-analysis-card">
+                                <h4 class="section-header">
+                                    <i class="fas fa-robot"></i>
+                                    AI Sleep Analysis
+                                </h4>
+                                <div class="card-header">
+                                    <div class="icon-bg">
+                                        <i class="fas fa-moon"></i>
+                                    </div>
+                                    <div class="header-text">
+                                        <h5>Last Night's Sleep</h5>
+                                        <p>Tue, Nov 14 • 8h 45m</p>
+                                    </div>
+                                    <div class="status-badge">Good</div>
+                                </div>
+                                <p class="analysis-text">
+                                    Ryan had a steady sleep pattern with minimal movements. Temperature and humidity
+                                    were optimal throughout the night. Heart rate remained consistent with a slight
+                                    decrease during deep sleep phases.
+                                </p>
+                                <div class="summary-stats">
+                                    <div class="stat-item">
+                                        <span class="value">92%</span>
+                                        <span class="label">Sleep Quality</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="value">2.1h</span>
+                                        <span class="label">Deep Sleep</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="value">68</span>
+                                        <span class="label">Avg HR</span>
+                                    </div>
+                                </div>
+                                <button class="view-details-button">
+                                    View Full Analysis
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+
+                            <!-- Sleep Metrics Section -->
+                            <div class="sleep-metrics-card">
+                                <div class="card-header">
+                                    <h4 class="section-header" style="margin-bottom: 0;"> <!-- Remove margin from h4 -->
+                                        <i class="fas fa-chart-line"></i>
+                                        Sleep Metrics
+                                    </h4>
+                                    <div class="date-tabs">
+                                        <button class="active">Day</button>
+                                        <button>Week</button>
+                                        <button>Month</button>
+                                    </div>
+                                </div>
+                                <div class="date-navigation">
+                                    <button class="date-nav-button"><i class="fas fa-chevron-left"></i></button>
+                                    <h5 class="current-date">Tuesday, Nov 14</h5>
+                                    <button class="date-nav-button"><i class="fas fa-chevron-right"></i></button>
+                                </div>
+                                <div class="sleep-duration-display">
+                                    <span class="time">10:36 PM</span>
+                                    <span class="duration">8h 45m</span>
+                                    <span class="time">7:21 AM</span>
+                                </div>
+                                <div class="sleep-phase-graph">
+                                    <div class="sleep-phase-bars">
+                                        <div class="sleep-phase-bar awake"></div>
+                                        <div class="sleep-phase-bar light1"></div>
+                                        <div class="sleep-phase-bar deep1"></div>
+                                        <div class="sleep-phase-bar rem1"></div>
+                                        <div class="sleep-phase-bar light2"></div>
+                                        <div class="sleep-phase-bar deep2"></div>
+                                        <div class="sleep-phase-bar rem2"></div>
+                                        <div class="sleep-phase-bar light3"></div>
+                                        <div class="sleep-phase-bar awake2"></div>
+                                    </div>
+                                </div>
+                                <div class="sleep-phase-legend">
+                                    <div class="legend-item">
+                                        <div class="legend-color-box awake"></div><span>Awake</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color-box rem"></div><span>REM</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color-box light"></div><span>Light</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color-box deep"></div><span>Deep</span>
+                                    </div>
+                                </div>
+                                <div class="sleep-quality-score-section">
+                                    <div class="sleep-quality-circle">
+                                        <svg width="100" height="100" viewBox="0 0 100 100">
+                                            <circle class="circle-bg" cx="50" cy="50" r="45" />
+                                            <circle class="circle-progress" cx="50" cy="50" r="45" />
+                                        </svg>
+                                        <div class="score-text">92</div>
+                                    </div>
+                                    <h5>Sleep Quality Score</h5>
+                                </div>
+                                <div class="key-metrics-grid">
+                                    <div class="metric-box">
+                                        <div class="metric-header">
+                                            <span class="metric-label">Duration</span>
+                                            <span class="metric-status"><i class="fas fa-check-circle"></i></span>
+                                        </div>
+                                        <span class="metric-value">8h 45m</span>
+                                    </div>
+                                    <div class="metric-box">
+                                        <div class="metric-header">
+                                            <span class="metric-label">Depth</span>
+                                            <span class="metric-status"><i
+                                                    class="fas fa-exclamation-triangle"></i></span>
+                                        </div>
+                                        <span class="metric-value">Average</span>
+                                    </div>
+                                </div>
+                                <button class="view-details-button">
+                                    View Full Details
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+
+                            <!-- Recommended Sleep Music -->
+                            <div class="sleep-music-card">
+                                <h4 class="section-header">
+                                    <i class="fas fa-music"></i>
+                                    Sleep Music for Today
+                                </h4>
+                                <div class="featured-music">
+                                    <div class="album-art"><i class="fas fa-play"></i></div>
+                                    <div class="track-info">
+                                        <h5>Calm Ocean Waves</h5>
+                                        <p>Natural Sounds • 45 min</p>
+                                    </div>
+                                    <button class="favorite-button favorited"><i class="fas fa-heart"></i></button>
+                                </div>
+                                <h6 class="recommendations-title">Also Recommended</h6>
+                                <div class="horizontal-scroll-container">
+                                    <div class="recommended-track-item rain">
+                                        <div class="thumbnail"><i class="fas fa-volume-up"></i></div>
+                                        <p class="title">Gentle Rain</p>
+                                        <p class="duration">30 min</p>
+                                    </div>
+                                    <div class="recommended-track-item noise">
+                                        <div class="thumbnail"><i class="fas fa-volume-up"></i></div>
+                                        <p class="title">White Noise</p>
+                                        <p class="duration">60 min</p>
+                                    </div>
+                                    <div class="recommended-track-item lullaby">
+                                        <div class="thumbnail"><i class="fas fa-volume-up"></i></div>
+                                        <p class="title">Lullaby</p>
+                                        <p class="duration">45 min</p>
+                                    </div>
+                                </div>
+                                <button class="view-details-button" data-navigate="music-screen">
+                                    View Music Library
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===== AI Chat Screen ===== -->
+                    <div id="ai-chat-screen" class="app-screen ai-chat-screen">
+                        <!-- No header needed, accessed via tabs -->
+                        <div class="chat-container">
+                            <!-- AI welcome message -->
+                            <div class="chat-message ai">
+                                <div class="ai-avatar"><i class="fas fa-robot"></i></div>
+                                <div class="message-bubble ai">
+                                    <p>Hello! I'm your zPods AI sleep assistant. How can I help you today?</p>
+                                </div>
+                            </div>
+                            <!-- User message -->
+                            <div class="chat-message user">
+                                <div class="message-bubble user">
+                                    <p>Why am I waking up during my REM sleep? Is this normal?</p>
+                                </div>
+                            </div>
+                            <!-- AI response -->
+                            <div class="chat-message ai">
+                                <div class="ai-avatar"><i class="fas fa-robot"></i></div>
+                                <div class="message-bubble ai">
+                                    <p>It's actually quite common to briefly wake up after REM sleep periods. REM sleep
+                                        happens in cycles throughout the night, and the transitions between cycles can
+                                        sometimes lead to brief awakenings.</p>
+                                    <p>Your zPods data shows that you typically have 4-5 REM cycles per night, which is
+                                        normal. Most people don't remember these brief awakenings unless they last
+                                        longer
+                                        than a few minutes.</p>
+                                    <p>If you're concerned about frequent wakings, here are some tips:</p>
+                                    <ul>
+                                        <li>Maintain a consistent sleep schedule</li>
+                                        <li>Reduce caffeine and alcohol before bed</li>
+                                        <li>Keep your bedroom cool (around 65-68°F/18-20°C)</li>
+                                        <li>Try the Relaxation Program in your zPods before sleep</li>
+                                    </ul>
+                                    <div
+                                        style="margin-top: var(--spacing-m); background-color: rgba(0, 194, 197, 0.1); padding: var(--spacing-s); border-radius: 10px; display: flex; align-items: center;">
+                                        <i class="fas fa-headset"
+                                            style="color: var(--primary); margin-right: var(--spacing-s);"></i>
+                                        <a href="#"
+                                            style="color: var(--primary); text-decoration: none; font-weight: 500;">Get
+                                            more
+                                            support from a sleep specialist</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- User message -->
+                            <div class="chat-message user">
+                                <div class="message-bubble user">
+                                    <p>Thanks! How can I improve my deep sleep?</p>
+                                </div>
+                            </div>
+                            <!-- AI response -->
+                            <div class="chat-message ai">
+                                <div class="ai-avatar"><i class="fas fa-robot"></i></div>
+                                <div class="message-bubble ai">
+                                    <p>Based on your sleep data, your deep sleep averages 18% of total sleep time, which
+                                        is
+                                        within the normal range but could be improved. Here are evidence-based ways to
+                                        increase deep sleep:</p>
+                                    <ul>
+                                        <li>Exercise regularly, but not within 2 hours of bedtime</li>
+                                        <li>Try the "Deep Sleep" sound program on your zPods</li>
+                                        <li>Avoid screens 1 hour before bedtime</li>
+                                        <li>Consider taking a warm bath 1-2 hours before sleep</li>
+                                        <li>Ensure your bedroom is completely dark</li>
+                                    </ul>
+                                    <p>Your zPods can track improvements in your deep sleep percentage over time as you
+                                        implement these changes.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="message-input-area">
+                            <div class="message-input-wrapper">
+                                <input type="text" placeholder="Type your question..." id="chat-input">
+                                <button class="send-button" id="send-chat-button"><i
+                                        class="fas fa-paper-plane"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===== Music Screen ===== -->
+                    <div id="music-screen" class="app-screen music-screen">
+                        <!-- No header needed, accessed via tabs -->
+                        <div class="music-container">
+                            <h2>Sleep Music</h2>
+                            <p>Discover sounds that help you relax and fall asleep faster</p>
+
+                            <!-- Featured track -->
+                            <div class="featured-track-card">
+                                <div class="play-icon-bg"><i class="fas fa-play"></i></div>
+                                <div class="track-info">
+                                    <h3>Today's Recommendation</h3>
+                                    <p>Ocean Waves</p>
+                                    <p>45 min • Improves deep sleep</p>
+                                </div>
+                            </div>
+
+                            <!-- Categories -->
+                            <h3>Categories</h3>
+                            <div class="music-categories-grid">
+                                <div class="category-card white-noise">
+                                    <div class="icon-bg"><i class="fas fa-wave-square"></i></div>
+                                    <div>
+                                        <h4>White Noise</h4>
+                                        <p>12 tracks</p>
+                                    </div>
+                                </div>
+                                <div class="category-card peace-music">
+                                    <div class="icon-bg"><i class="fas fa-music"></i></div>
+                                    <div>
+                                        <h4>Peace Music</h4>
+                                        <p>18 tracks</p>
+                                    </div>
+                                </div>
+                                <div class="category-card podcasts">
+                                    <div class="icon-bg"><i class="fas fa-podcast"></i></div>
+                                    <div>
+                                        <h4>Podcasts</h4>
+                                        <p>8 episodes</p>
+                                    </div>
+                                </div>
+                                <div class="category-card stories">
+                                    <div class="icon-bg"><i class="fas fa-book"></i></div>
+                                    <div>
+                                        <h4>Bedtime Stories</h4>
+                                        <p>15 stories</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Recent Played Section -->
+                            <h3>Recently Played</h3>
+                            <div class="horizontal-scroll-container recent-tracks">
+                                <div class="recent-track-item rain">
+                                    <div class="thumbnail"><i class="fas fa-volume-up"></i></div>
+                                    <p class="title">Rain Sounds</p>
+                                    <p class="duration">60 min</p>
+                                </div>
+                                <div class="recent-track-item meditation">
+                                    <div class="thumbnail"><i class="fas fa-volume-up"></i></div>
+                                    <p class="title">Meditation Music</p>
+                                    <p class="duration">45 min</p>
+                                </div>
+                                <div class="recent-track-item forest">
+                                    <div class="thumbnail"><i class="fas fa-volume-up"></i></div>
+                                    <p class="title">Forest Sounds</p>
+                                    <p class="duration">30 min</p>
+                                </div>
+                                <div class="recent-track-item rain"> <!-- Repeat for scrolling demo -->
+                                    <div class="thumbnail"><i class="fas fa-volume-up"></i></div>
+                                    <p class="title">Gentle Stream</p>
+                                    <p class="duration">30 min</p>
+                                </div>
+                            </div>
+
+                            <!-- Subscription Banner -->
+                            <div class="subscription-banner">
+                                <div class="icon-bg"><i class="fas fa-crown"></i></div>
+                                <h3>Premium Sleep Music</h3>
+                                <p>Unlock full access to all exclusive sleep content</p>
+                                <div class="price">Starting from $4.99 per month</div>
+                                <button class="upgrade-btn">Upgrade Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===== Shop Screen ===== -->
+                    <div id="shop-screen" class="app-screen shop-screen">
+                        <!-- No header needed, accessed via tabs -->
+                        <div class="shop-container">
+                            <h2>zPod Market Place</h2>
+                            <p>Discover premium products to enhance your sleep experience</p>
+
+                            <!-- My Orders Section -->
+                            <div class="my-orders-card">
+                                <div class="content">
+                                    <div class="icon-bg"><i class="fas fa-box"></i></div>
+                                    <div class="text">
+                                        <h3>My Orders</h3>
+                                        <p>Track your purchases</p>
+                                    </div>
+                                </div>
+                                <div class="chevron"><i class="fas fa-chevron-right"></i></div>
+                            </div>
+
+                            <!-- Shop Categories -->
+                            <h3>Categories</h3>
+                            <div class="shop-categories-list">
+                                <div class="shop-category-item bedding">
+                                    <div class="content">
+                                        <div class="icon-bg"><i class="fas fa-bed"></i></div>
+                                        <div class="text">
+                                            <h4>Shop Bedding</h4>
+                                            <p>Pillows, sheets & more</p>
+                                        </div>
+                                    </div>
+                                    <div class="chevron"><i class="fas fa-chevron-right"></i></div>
+                                </div>
+                                <div class="shop-category-item electronics">
+                                    <div class="content">
+                                        <div class="icon-bg"><i class="fas fa-microchip"></i></div>
+                                        <div class="text">
+                                            <h4>Shop Electronics</h4>
+                                            <p>Sleep trackers & smart devices</p>
+                                        </div>
+                                    </div>
+                                    <div class="chevron"><i class="fas fa-chevron-right"></i></div>
+                                </div>
+                                <div class="shop-category-item lifestyle">
+                                    <div class="content">
+                                        <div class="icon-bg"><i class="fas fa-tshirt"></i></div>
+                                        <div class="text">
+                                            <h4>Shop Life Style</h4>
+                                            <p>Sleepwear & accessories</p>
+                                        </div>
+                                    </div>
+                                    <div class="chevron"><i class="fas fa-chevron-right"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===== Settings Screen ===== -->
+                    <div id="settings-screen" class="app-screen settings-screen">
+                        <div class="app-header">
+                            <div class="header-icon back" id="settings-back-button"> <!-- Back button -->
+                                <i class="fas fa-arrow-left"></i>
+                            </div>
+                            <div class="app-title">Settings</div>
+                            <div style="width: 40px; height: 40px;"></div> <!-- Spacer -->
+                        </div>
+                        <div class="settings-container">
+                            <!-- Device Info Card (conditional display might be needed) -->
+                            <div class="device-card">
+                                <div class="device-image">
+                                    <i class="fa-brands fa-bluetooth-b" style="font-size: 40px; color: white;"></i>
+                                </div>
+                                <div class="device-info">
+                                    <h3>Kids Room zPod</h3>
+                                    <p class="status"><span class="status-dot"></span> Connected</p>
+                                    <div class="device-metrics">
+                                        <span><i class="fas fa-fan"></i><span class="metric-value"
+                                                data-metric="fan">5</span></span> •
+                                        <span><i class="fas fa-volume-up"></i><span class="metric-value"
+                                                data-metric="volume">8</span></span> •
+                                        <span><i class="fas fa-lightbulb"></i><span class="metric-value"
+                                                data-metric="brightness">10</span></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tab Navigation -->
+                            <div class="settings-tabs">
+                                <div class="settings-tab active" data-tab="controls">Controls</div>
+                                <div class="settings-tab" data-tab="devices">Devices</div>
+                            </div>
+
+                            <!-- Controls Tab Content -->
+                            <div id="settings-controls-content" class="settings-tab-content active">
+                                <div class="controls-section">
+                                    <!--<h4>Device Controls</h4>--> <!-- Removed redundant header -->
+
+                                    <div class="control-card">
+                                        <div class="control-icon"><i class="fas fa-fan"></i></div>
+                                        <div class="control-info">
+                                            <h5>Fan Speed</h5>
+                                            <div class="control-slider">
+                                                <input type="range" min="0" max="15" value="5" class="slider"
+                                                    data-metric="fan">
+                                                <span class="slider-value">5</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="control-card">
+                                        <div class="control-icon"><i class="fas fa-volume-up"></i></div>
+                                        <div class="control-info">
+                                            <h5>Speaker Volume</h5>
+                                            <div class="control-slider">
+                                                <input type="range" min="0" max="15" value="8" class="slider"
+                                                    data-metric="volume">
+                                                <span class="slider-value">8</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="control-card">
+                                        <div class="control-icon"><i class="fas fa-lightbulb"></i></div>
+                                        <div class="control-info">
+                                            <h5>Light Brightness</h5>
+                                            <div class="control-slider">
+                                                <input type="range" min="0" max="15" value="10" class="slider"
+                                                    data-metric="brightness">
+                                                <span class="slider-value">10</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="control-card">
+                                        <div class="control-icon"><i class="fas fa-palette"></i></div>
+                                        <div class="control-info">
+                                            <h5>Light Color</h5>
+                                            <div class="color-picker-container">
+                                                <div class="color-preview" style="background-color: #FF5C00;"></div>
+                                                <div class="color-slider-container">
+                                                    <div class="rainbow-gradient"></div>
+                                                    <div class="slider-handle" style="left: 10%;"></div>
+                                                    <!-- Example position -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modern-toggle-container on" data-control="backlight">
+                                        <div class="icon"><i class="fas fa-bolt"></i></div>
+                                        <div class="label">Backlight</div>
+                                        <div class="toggle-state">ON</div>
+                                        <div class="modern-toggle-slider-wrapper">
+                                            <div class="modern-toggle-slider"></div>
+                                        </div>
+                                    </div>
+                                    <div class="modern-toggle-container on" data-control="parent-controls">
+                                        <div class="icon"><i class="fas fa-lock"></i></div>
+                                        <div class="label">Parent Controls</div>
+                                        <div class="toggle-state">ON</div>
+                                        <div class="modern-toggle-slider-wrapper">
+                                            <div class="modern-toggle-slider"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Devices Tab Content -->
+                            <div id="settings-devices-content" class="settings-tab-content">
+                                <div class="device-section">
+                                    <div class="bluetooth-status">
+                                        <div class="bluetooth-enabled">
+                                            <i class="fa-brands fa-bluetooth-b"></i>
+                                            <span>Bluetooth is enabled</span>
+                                        </div>
+                                        <button class="scan-button" id="scan-devices-button">
+                                            <span>Scan for Devices</span>
+                                            <i class="fas fa-sync-alt"></i>
+                                        </button>
+                                    </div>
+
+                                    <h4>Connected Devices</h4>
+                                    <div class="device-item connected">
+                                        <div class="device-icon"><i class="fa-brands fa-bluetooth-b"></i></div>
+                                        <div class="device-details">
+                                            <h5>Kids Room zPod</h5>
+                                            <p><span class="status-dot"></span> Connected</p>
+                                        </div>
+                                        <div class="device-action"><i class="fas fa-chevron-right"></i></div>
+                                    </div>
+
+                                    <h4>Available Devices</h4>
+                                    <div class="device-item">
+                                        <div class="device-icon"><i class="fa-brands fa-bluetooth-b"></i></div>
+                                        <div class="device-details">
+                                            <h5>Guest Room zPod</h5>
+                                            <p>Tap to connect</p>
+                                        </div>
+                                        <div class="device-action">
+                                            <button class="connect-btn">Connect</button>
+                                        </div>
+                                    </div>
+                                    <div class="device-item">
+                                        <div class="device-icon"><i class="fa-brands fa-bluetooth-b"></i></div>
+                                        <div class="device-details">
+                                            <h5>zPod_A7F92E</h5>
+                                            <p>Tap to connect</p>
+                                        </div>
+                                        <div class="device-action">
+                                            <button class="connect-btn">Connect</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="add-device-container">
+                                        <button class="add-device-btn">
+                                            <i class="fas fa-plus"></i>
+                                            <span>Add Device</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===== Profile Screen ===== -->
+                    <div id="profile-screen" class="app-screen profile-screen">
+                        <div class="app-header">
+                            <div class="header-icon back" id="profile-back-button"> <!-- Back button -->
+                                <i class="fas fa-arrow-left"></i>
+                            </div>
+                            <div class="app-title">Profile</div>
+                            <div style="width: 40px; height: 40px;"></div> <!-- Spacer -->
+                        </div>
+                        <div class="profile-container">
+                            <!-- User info section -->
+                            <div class="profile-info-section">
+                                <div class="profile-avatar">
+                                    <i class="fas fa-user user-icon"></i>
+                                    <div class="edit-avatar"><i class="fas fa-camera"></i></div>
+                                </div>
+                                <h2 class="user-name">Alex Johnson</h2>
+                                <p class="user-email">alex.johnson@example.com</p>
+                                <div class="membership-badge">Premium Member</div>
+                            </div>
+
+                            <!-- Profile Sections -->
+                            <div class="profile-sections">
+                                <div class="settings-group">
+                                    <h3>Account Settings</h3>
+                                    <div class="profile-setting-item">
+                                        <div class="profile-setting-icon edit"><i class="fas fa-user-edit"></i></div>
+                                        <div class="profile-setting-text"><span>Edit Profile</span></div>
+                                        <div class="action"><i class="fas fa-chevron-right"></i></div>
+                                    </div>
+                                    <div class="profile-setting-item">
+                                        <div class="profile-setting-icon password"><i class="fas fa-lock"></i></div>
+                                        <div class="profile-setting-text"><span>Change Password</span></div>
+                                        <div class="action"><i class="fas fa-chevron-right"></i></div>
+                                    </div>
+                                    <div class="profile-setting-item">
+                                        <div class="profile-setting-icon notifications"><i class="fas fa-bell"></i>
+                                        </div>
+                                        <div class="profile-setting-text"><span>Notifications</span></div>
+                                        <div class="action"><i class="fas fa-chevron-right"></i></div>
+                                    </div>
+                                    <div class="profile-setting-item">
+                                        <div class="profile-setting-icon language"><i class="fas fa-globe"></i></div>
+                                        <div class="profile-setting-text"><span>Language</span></div>
+                                        <div class="action">
+                                            <span class="language-label">English</span>
+                                            <i class="fas fa-chevron-right"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="settings-group">
+                                    <h3>App Preferences</h3>
+                                    <div class="profile-setting-item">
+                                        <div class="profile-setting-icon theme"><i class="fas fa-moon"></i></div>
+                                        <div class="profile-setting-text"><span>Dark Mode</span></div>
+                                        <div class="action">
+                                            <div class="modern-toggle-container off" data-control="dark-mode"
+                                                style="padding: 0; box-shadow: none; margin-bottom: 0;">
+                                                <!-- Inline style override -->
+                                                <div class="modern-toggle-slider-wrapper">
+                                                    <div class="modern-toggle-slider"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="profile-setting-item">
+                                        <div class="profile-setting-icon privacy"><i class="fas fa-shield-alt"></i>
+                                        </div>
+                                        <div class="profile-setting-text"><span>Privacy Settings</span></div>
+                                        <div class="action"><i class="fas fa-chevron-right"></i></div>
+                                    </div>
+                                </div>
+
+                                <div class="settings-group">
+                                    <h3>Support & About</h3>
+                                    <div class="profile-setting-item">
+                                        <div class="profile-setting-icon help"><i class="fas fa-question-circle"></i>
+                                        </div>
+                                        <div class="profile-setting-text"><span>Help Center</span></div>
+                                        <div class="action"><i class="fas fa-chevron-right"></i></div>
+                                    </div>
+                                    <div class="profile-setting-item">
+                                        <div class="profile-setting-icon about"><i class="fas fa-info-circle"></i></div>
+                                        <div class="profile-setting-text"><span>About zPods App</span></div>
+                                        <div class="action"><i class="fas fa-chevron-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sign Out -->
+                            <button class="sign-out-button">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Sign Out
+                            </button>
+                        </div>
+                    </div>
+
+                </div> <!-- End .app-content -->
+
+                <!-- ===== Bottom Navigation ===== -->
+                <div class="phone-navigation">
+                    <div class="nav-item active" data-target="home-screen">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </div>
+                    <div class="nav-item" data-target="ai-chat-screen">
+                        <i class="fas fa-robot"></i>
+                        <span>AI Chat</span>
+                    </div>
+                    <div class="nav-item" data-target="music-screen">
+                        <i class="fas fa-music"></i>
+                        <span>Music</span>
+                    </div>
+                    <div class="nav-item" data-target="shop-screen">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Shop</span>
+                    </div>
+                </div>
+
+            </div> <!-- End .phone-frame -->
+        </div> <!-- End .phone-bezel -->
+
+        <!-- New Description Panel -->
+        <div class="page-description">
+            <h3 id="description-title">Home Screen</h3> <!-- Placeholder Title -->
+            <p id="description-text">This is the main dashboard, providing a quick overview of your connected zPod,
+                recent sleep analysis, key metrics, and recommended sleep music.</p> <!-- Placeholder Text -->
+        </div>
+
+    </div> <!-- End .ui-preview-container -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const screens = document.querySelectorAll('.app-screen');
+            const navItems = document.querySelectorAll('.phone-navigation .nav-item');
+            const settingsNavIcon = document.getElementById('settings-nav-icon');
+            const profileNavIcon = document.getElementById('profile-nav-icon');
+            const settingsBackButton = document.getElementById('settings-back-button');
+            const profileBackButton = document.getElementById('profile-back-button');
+            const settingsTabs = document.querySelectorAll('.settings-tab');
+            const settingsTabContents = document.querySelectorAll('.settings-tab-content');
+            const sliders = document.querySelectorAll('.slider');
+            const sliderValues = document.querySelectorAll('.slider-value');
+            const metricValueSpans = document.querySelectorAll('.device-metrics .metric-value');
+            const toggles = document.querySelectorAll('.modern-toggle-container');
+            const viewMusicLibraryButton = document.querySelector('.view-details-button[data-navigate="music-screen"]');
+            const scanButton = document.getElementById('scan-devices-button');
+            const darkModeToggleProfile = document.querySelector('.profile-setting-item [data-control="dark-mode"]');
+            const descriptionTitleElement = document.getElementById('description-title'); // Get description title element
+            const descriptionTextElement = document.getElementById('description-text'); // Get description text element
+
+            let currentScreen = 'home-screen'; // Keep track of the current screen
+
+            // Descriptions for each screen
+            const screenDescriptions = {
+                'home-screen': {
+                    title: 'Home Dashboard',
+                    text: 'Your central hub. See the connected zPod status, get a quick AI sleep analysis from the last night, view key sleep metrics like duration and quality, and discover recommended sleep music.'
+                },
+                'ai-chat-screen': {
+                    title: 'AI Sleep Assistant',
+                    text: 'Chat with your intelligent sleep assistant. Ask questions about your sleep patterns, get personalized tips for improvement, and understand your zPod data.'
+                },
+                'music-screen': {
+                    title: 'Sleep Music Library',
+                    text: 'Explore a curated library of relaxing sounds, music, podcasts, and bedtime stories designed to help you unwind and fall asleep faster. Check out recommendations and browse categories.'
+                },
+                'shop-screen': {
+                    title: 'zPods Market Place',
+                    text: 'Discover and purchase premium zPods products and accessories to enhance your sleep environment, including bedding, electronics, and lifestyle items. You can also track your orders here.'
+                },
+                'settings-screen': {
+                    title: 'Device Settings',
+                    text: 'Manage your connected zPod. Adjust controls like fan speed, speaker volume, light brightness, and color. You can also manage device connections, scan for new devices, and toggle settings like backlight and parent controls.'
+                },
+                'profile-screen': {
+                    title: 'User Profile',
+                    text: 'Manage your account information. Edit your profile details, change your password, configure notification and language preferences, toggle dark mode, access privacy settings, find help, and sign out.'
+                }
+            };
+
+            function showScreen(screenId) {
+                screens.forEach(screen => {
+                    screen.classList.remove('active');
+                });
+                const targetScreen = document.getElementById(screenId);
+                if (targetScreen) {
+                    targetScreen.classList.add('active');
+                    currentScreen = screenId; // Update current screen tracker
+
+                    // Update bottom nav active state
+                    navItems.forEach(item => {
+                        item.classList.toggle('active', item.dataset.target === screenId);
+                    });
+                } else {
+                    console.error("Screen not found:", screenId);
+                    // Optionally show a default screen like home
+                    showScreen('home-screen');
+                }
+                // Scroll to top of the new screen
+                const appContent = document.querySelector('.app-content');
+                if (appContent) {
+                    appContent.scrollTop = 0;
+                }
+
+                // Update description panel
+                const description = screenDescriptions[screenId];
+                if (description && descriptionTitleElement && descriptionTextElement) {
+                    descriptionTitleElement.textContent = description.title;
+                    descriptionTextElement.textContent = description.text;
+                } else {
+                    // Fallback if description not found
+                    descriptionTitleElement.textContent = screenId.replace('-', ' ').replace(/(?:^|\s)\S/g, a => a.toUpperCase()); // Format ID as title
+                    descriptionTextElement.textContent = 'Detailed description coming soon.';
+                    console.warn(`Description not found for screen: ${screenId}`);
+                }
+            }
+
+            // --- Navigation Event Listeners ---
+
+            // Bottom Navigation
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const targetScreenId = item.dataset.target;
+                    if (targetScreenId) {
+                        showScreen(targetScreenId);
+                    }
+                });
+            });
+
+            // Header Icons
+            if (settingsNavIcon) {
+                settingsNavIcon.addEventListener('click', () => showScreen('settings-screen'));
+            }
+            if (profileNavIcon) {
+                profileNavIcon.addEventListener('click', () => showScreen('profile-screen'));
+            }
+
+            // Back Buttons
+            if (settingsBackButton) {
+                settingsBackButton.addEventListener('click', () => showScreen('home-screen')); // Go back to home from settings
+            }
+            if (profileBackButton) {
+                profileBackButton.addEventListener('click', () => showScreen('home-screen')); // Go back to home from profile
+            }
+
+            // View Music Library Button on Home Screen
+            if (viewMusicLibraryButton) {
+                viewMusicLibraryButton.addEventListener('click', (e) => {
+                    e.preventDefault(); // Prevent default button behavior if any
+                    const targetScreenId = viewMusicLibraryButton.dataset.navigate;
+                    if (targetScreenId) {
+                        showScreen(targetScreenId);
+                    }
+                });
+            }
+
+
+            // --- Settings Screen Specific Logic ---
+
+            // Settings Tabs
+            if (settingsTabs.length > 0) {
+                settingsTabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        const targetTab = tab.dataset.tab;
+
+                        // Update tab active state
+                        settingsTabs.forEach(t => t.classList.remove('active'));
+                        tab.classList.add('active');
+
+                        // Show corresponding content
+                        settingsTabContents.forEach(content => {
+                            content.classList.toggle('active', content.id === `settings-${targetTab}-content`);
+                        });
+                    });
+                });
+            }
+
+            // Scan Button Animation (Example)
+            if (scanButton) {
+                scanButton.addEventListener('click', () => {
+                    if (scanButton.classList.contains('scanning')) return; // Prevent multiple clicks
+
+                    scanButton.classList.add('scanning');
+                    scanButton.querySelector('span').textContent = 'Scanning...';
+
+                    // Simulate scanning duration
+                    setTimeout(() => {
+                        scanButton.classList.remove('scanning');
+                        scanButton.querySelector('span').textContent = 'Scan for Devices';
+                        // Add logic here to potentially update the device list
+                    }, 3000); // 3 seconds scan
+                });
+            }
+
+            // --- Control Sliders & Toggles ---
+
+            // Update slider values and device metrics in header
+            sliders.forEach(slider => {
+                slider.addEventListener('input', function () {
+                    const valueSpan = this.parentElement.querySelector('.slider-value');
+                    if (valueSpan) {
+                        valueSpan.textContent = this.value;
+                    }
+                    // Update the metric in the header device card
+                    const metric = this.dataset.metric;
+                    if (metric) {
+                        const headerMetricSpan = document.querySelector(`.device-metrics .metric-value[data-metric="${metric}"]`);
+                        if (headerMetricSpan) {
+                            headerMetricSpan.textContent = this.value;
+                        }
+                    }
+                });
+            });
+
+            // Modern Toggles
+            toggles.forEach(toggleContainer => {
+                const sliderWrapper = toggleContainer.querySelector('.modern-toggle-slider-wrapper');
+                const stateLabel = toggleContainer.querySelector('.toggle-state');
+
+                if (sliderWrapper && stateLabel) {
+                    sliderWrapper.addEventListener('click', () => {
+                        const isOn = toggleContainer.classList.toggle('on');
+                        toggleContainer.classList.toggle('off', !isOn);
+                        stateLabel.textContent = isOn ? 'ON' : 'OFF';
+
+                        // Special handling for Dark Mode toggle in Profile
+                        if (toggleContainer.dataset.control === 'dark-mode') {
+                            document.body.classList.toggle('dark-theme', isOn); // Example: toggle a class on body
+                            // You might need more comprehensive theme switching logic here
+                        }
+                    });
+                }
+            });
+
+            // Initialize Dark Mode Toggle based on current state (example)
+            if (darkModeToggleProfile) {
+                const isDarkModeInitially = document.body.classList.contains('dark-theme');
+                darkModeToggleProfile.classList.toggle('on', isDarkModeInitially);
+                darkModeToggleProfile.classList.toggle('off', !isDarkModeInitially);
+                darkModeToggleProfile.querySelector('.toggle-state').textContent = isDarkModeInitially ? 'ON' : 'OFF';
+            }
+
+
+            // --- AI Chat Specific ---
+            const chatInput = document.getElementById('chat-input');
+            const sendChatButton = document.getElementById('send-chat-button');
+            const chatContainer = document.querySelector('.chat-container');
+
+            function addChatMessage(message, type = 'user') {
+                if (!message.trim() || !chatContainer) return;
+
+                const messageWrapper = document.createElement('div');
+                messageWrapper.classList.add('chat-message', type);
+
+                const messageBubble = document.createElement('div');
+                messageBubble.classList.add('message-bubble', type);
+                messageBubble.innerHTML = `<p>${message}</p>`; // Use innerHTML to allow basic formatting if needed later
+
+                if (type === 'ai') {
+                    const avatar = document.createElement('div');
+                    avatar.classList.add('ai-avatar');
+                    avatar.innerHTML = '<i class="fas fa-robot"></i>';
+                    messageWrapper.appendChild(avatar);
+                }
+
+                messageWrapper.appendChild(messageBubble);
+                chatContainer.appendChild(messageWrapper);
+
+                // Scroll to bottom
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+
+            function handleSendChat() {
+                const message = chatInput.value;
+                addChatMessage(message, 'user');
+                chatInput.value = ''; // Clear input
+
+                // Simulate AI response (replace with actual logic)
+                setTimeout(() => {
+                    addChatMessage("I'm processing your request...", 'ai');
+                }, 1000);
+            }
+
+            if (sendChatButton && chatInput) {
+                sendChatButton.addEventListener('click', handleSendChat);
+                chatInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        handleSendChat();
+                    }
+                });
+            }
+
+            // --- Initial State ---
+            showScreen(currentScreen); // Show the initial screen ('home-screen')
+
+        });
+    </script>
+
 </body>
 
 </html>
