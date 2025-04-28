@@ -375,6 +375,8 @@
             /* Center title */
             flex: 1;
             /* Allow title to take space */
+            display: none;
+            /* Hide the title */
         }
 
         .header-icon {
@@ -394,7 +396,8 @@
         }
 
         .header-icon.profile {
-            background: var(--primary-gradient);
+            background: var(--primary);
+            /* Changed from primary-gradient to match bottom tabs */
         }
 
         .header-icon.profile i {
@@ -2430,6 +2433,45 @@
         .settings-container::-webkit-scrollbar {
             display: none;
         }
+
+        /* Add new styles for the status bar */
+        .header-status-bar {
+            min-width: 120px;
+            height: 40px;
+            background: var(--primary);
+            /* Changed from gradient to match bottom tabs */
+            border-radius: var(--border-radius-circle);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 12px;
+            cursor: pointer;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header-status-bar:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+
+        .header-status-bar i {
+            margin-right: 4px;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            margin: 0 4px;
+        }
+
+        /* Update home page first section margin to account for removed card */
+        .home-screen .ai-analysis-card {
+            margin-top: 0;
+        }
     </style>
 </head>
 
@@ -2457,26 +2499,16 @@
                                 <i class="fas fa-user"></i>
                             </div>
                             <div class="app-title">zPods</div>
-                            <div class="header-icon" id="settings-nav-icon">
-                                <i class="fas fa-cog"></i>
+                            <div class="header-status-bar" id="settings-nav-icon">
+                                <div class="status-item"><i class="fas fa-fan"></i><span id="header-fan">5</span></div>
+                                <div class="status-item"><i class="fas fa-volume-up"></i><span
+                                        id="header-volume">8</span></div>
+                                <div class="status-item"><i class="fas fa-lightbulb"></i><span
+                                        id="header-light">10</span></div>
                             </div>
                         </div>
                         <div class="home-container">
-                            <!-- Connected Device Card -->
-                            <div class="device-card">
-                                <div class="device-image">
-                                    <i class="fa-brands fa-bluetooth-b" style="font-size: 40px; color: white;"></i>
-                                </div>
-                                <div class="device-info">
-                                    <h3>Kids Room zPod</h3>
-                                    <p class="status"><span class="status-dot"></span> Connected</p>
-                                    <div class="device-metrics">
-                                        <span><i class="fas fa-fan"></i>5</span> •
-                                        <span><i class="fas fa-volume-up"></i>8</span> •
-                                        <span><i class="fas fa-lightbulb"></i>10</span>
-                                    </div>
-                                </div>
-                            </div>
+                            <!-- Removed Device Card -->
 
                             <!-- AI Sleep Analysis Section -->
                             <div class="ai-analysis-card">
@@ -3186,7 +3218,7 @@
             const screenDescriptions = {
                 'home-screen': {
                     title: 'Home Dashboard',
-                    text: 'Your central hub. See the connected zPod status, get a quick AI sleep analysis from the last night, view key sleep metrics like duration and quality, and discover recommended sleep music.'
+                    text: 'Your central hub. Check the status of your zPod in the header bar, get a quick AI sleep analysis from the last night, view key sleep metrics like duration and quality, and discover recommended sleep music.'
                 },
                 'ai-chat-screen': {
                     title: 'AI Sleep Assistant',
@@ -3339,6 +3371,12 @@
                         const headerMetricSpan = document.querySelector(`.device-metrics .metric-value[data-metric="${metric}"]`);
                         if (headerMetricSpan) {
                             headerMetricSpan.textContent = this.value;
+                        }
+
+                        // Update the header status bar values
+                        const headerStatusValue = document.getElementById(`header-${metric}`);
+                        if (headerStatusValue) {
+                            headerStatusValue.textContent = this.value;
                         }
                     }
                 });
