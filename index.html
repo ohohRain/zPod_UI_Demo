@@ -2468,9 +2468,46 @@
             margin: 0 4px;
         }
 
+        /* Style for the settings icon in the status bar */
+        .header-status-bar .status-item:first-child {
+            margin-right: 5px;
+            font-size: 16px;
+        }
+
         /* Update home page first section margin to account for removed card */
         .home-screen .ai-analysis-card {
             margin-top: 0;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.6;
+                transform: scale(0.8);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+
+            100% {
+                opacity: 0.6;
+                transform: scale(0.8);
+            }
+        }
+
+        /* Styles for Sleep Autopilot when ON */
+        .modern-toggle-container[data-control="sleep-autopilot"].on {
+            background: linear-gradient(to right, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+        }
+
+        .modern-toggle-container[data-control="sleep-autopilot"].on .toggle-state {
+            color: var(--secondary);
+        }
+
+        .modern-toggle-container[data-control="sleep-autopilot"].on .modern-toggle-slider {
+            background: linear-gradient(135deg, var(--info), var(--secondary));
         }
     </style>
 </head>
@@ -2500,6 +2537,7 @@
                             </div>
                             <div class="app-title">zPods</div>
                             <div class="header-status-bar" id="settings-nav-icon">
+                                <div class="status-item"><i class="fas fa-cog"></i></div>
                                 <div class="status-item"><i class="fas fa-fan"></i><span id="header-fan">5</span></div>
                                 <div class="status-item"><i class="fas fa-volume-up"></i><span
                                         id="header-volume">8</span></div>
@@ -2923,6 +2961,25 @@
                                         <span><i class="fas fa-lightbulb"></i><span class="metric-value"
                                                 data-metric="brightness">10</span></span>
                                     </div>
+                                </div>
+                            </div>
+
+                            <!-- Sleep Autopilot Toggle Button -->
+                            <div class="modern-toggle-container off" data-control="sleep-autopilot"
+                                style="margin: var(--spacing-m) 0; background: linear-gradient(to right, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1)); position: relative; overflow: hidden;">
+                                <div class="icon"
+                                    style="background: linear-gradient(135deg, var(--info), var(--secondary)); position: relative;">
+                                    <i class="fas fa-moon"></i>
+                                    <!-- Pulsing dot to suggest AI activity -->
+                                    <span class="ai-activity-indicator"
+                                        style="position: absolute; top: 5px; right: 5px; width: 6px; height: 6px; background-color: #fff; border-radius: 50%; animation: pulse 2s infinite;"></span>
+                                </div>
+                                <div class="label"
+                                    style="font-weight: 600; background: linear-gradient(90deg, var(--info), var(--secondary)); -webkit-background-clip: text; background-clip: text; color: transparent;">
+                                    Sleep Autopilot AI</div>
+                                <div class="toggle-state" style="color: var(--info);">OFF</div>
+                                <div class="modern-toggle-slider-wrapper">
+                                    <div class="modern-toggle-slider"></div>
                                 </div>
                             </div>
 
@@ -3378,9 +3435,46 @@
                         if (headerStatusValue) {
                             headerStatusValue.textContent = this.value;
                         }
+
+                        // Check if Sleep Autopilot is ON, if so, turn it OFF when user manually adjusts settings
+                        const autopilotToggle = document.querySelector('.modern-toggle-container[data-control="sleep-autopilot"]');
+                        if (autopilotToggle && autopilotToggle.classList.contains('on')) {
+                            // Turn off autopilot
+                            autopilotToggle.classList.remove('on');
+                            autopilotToggle.classList.add('off');
+                            const stateLabel = autopilotToggle.querySelector('.toggle-state');
+                            if (stateLabel) {
+                                stateLabel.textContent = 'OFF';
+                            }
+                        }
                     }
                 });
             });
+
+            // Function to update slider values programmatically
+            function updateSliderValue(metric, value) {
+                // Update slider position and displayed value
+                const slider = document.querySelector(`.slider[data-metric="${metric}"]`);
+                if (slider) {
+                    slider.value = value;
+                    const valueSpan = slider.parentElement.querySelector('.slider-value');
+                    if (valueSpan) {
+                        valueSpan.textContent = value;
+                    }
+                }
+
+                // Update metrics in the device card
+                const headerMetricSpan = document.querySelector(`.device-metrics .metric-value[data-metric="${metric}"]`);
+                if (headerMetricSpan) {
+                    headerMetricSpan.textContent = value;
+                }
+
+                // Update header status bar values
+                const headerStatusValue = document.getElementById(`header-${metric}`);
+                if (headerStatusValue) {
+                    headerStatusValue.textContent = value;
+                }
+            }
 
             // Modern Toggles
             toggles.forEach(toggleContainer => {
@@ -3397,6 +3491,17 @@
                         if (toggleContainer.dataset.control === 'dark-mode') {
                             document.body.classList.toggle('dark-theme', isOn); // Example: toggle a class on body
                             // You might need more comprehensive theme switching logic here
+                        }
+
+                        // Sleep Autopilot feature - sets all controls to 5
+                        if (toggleContainer.dataset.control === 'sleep-autopilot') {
+                            if (isOn) {
+                                // When turning ON, set fan and volume to 5, but light to 2
+                                updateSliderValue('fan', 5);
+                                updateSliderValue('volume', 5);
+                                updateSliderValue('brightness', 2);
+                            }
+                            // Note: we don't reset values when turning OFF - they stay at their last set values
                         }
                     });
                 }
