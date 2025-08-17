@@ -2086,7 +2086,7 @@ body {
     background: linear-gradient(135deg, #EF4444, #F87171);
 }
 
-.metric-icon.resp {
+.metric-icon.duration {
     background: linear-gradient(135deg, #3B82F6, #60A5FA);
 }
 
@@ -2094,7 +2094,7 @@ body {
     background: linear-gradient(135deg, #F59E0B, #FBBF24);
 }
 
-.metric-icon.snoring {
+.metric-icon.latency {
     background: linear-gradient(135deg, #8B5CF6, #A78BFA);
 }
 
