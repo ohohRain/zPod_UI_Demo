@@ -40,7 +40,7 @@
                         </div>
                         <div class="home-container">
                             <!-- OZI Device Card -->
-                            <div class="device-card-new">
+                            <div class="device-card-new clickable-card" data-navigate="settings-screen">
                                 <div class="device-header">
                                     <h3>OZI</h3>
                                     <div class="device-status">
@@ -53,21 +53,21 @@
                                         <div class="control-icon">
                                             <i class="fas fa-volume-up"></i>
                                         </div>
-                                        <div class="control-value" data-metric="volume">0</div>
+                                        <div class="control-value" data-metric="volume">8</div>
                                         <div class="control-label">Volume</div>
                                     </div>
                                     <div class="control-item">
                                         <div class="control-icon">
                                             <i class="fas fa-fan"></i>
                                         </div>
-                                        <div class="control-value" data-metric="fan">9</div>
+                                        <div class="control-value" data-metric="fan">5</div>
                                         <div class="control-label">Fan</div>
                                     </div>
                                     <div class="control-item">
                                         <div class="control-icon">
                                             <i class="fas fa-lightbulb"></i>
                                         </div>
-                                        <div class="control-value" data-metric="brightness">0</div>
+                                        <div class="control-value" data-metric="brightness">10</div>
                                         <div class="control-label">Light</div>
                                     </div>
                                 </div>
@@ -108,9 +108,9 @@
                                                 <div class="metric-value-line">
                                                     <span class="metric-value">59</span>
                                                     <span class="metric-unit">bpm</span>
+                                                    <span class="metric-trend positive">✓</span>
                                                 </div>
                                                 <span class="metric-label">Heart Rate</span>
-                                                <span class="metric-trend positive">✓</span>
                                             </div>
                                         </div>
 
@@ -122,9 +122,9 @@
                                                 <div class="metric-value-line">
                                                     <span class="metric-value">8h18</span>
                                                     <span class="metric-unit"></span>
+                                                    <span class="metric-trend optimal">✓</span>
                                                 </div>
                                                 <span class="metric-label">Sleep Duration</span>
-                                                <span class="metric-trend optimal">✓</span>
                                             </div>
                                         </div>
 
@@ -136,9 +136,9 @@
                                                 <div class="metric-value-line">
                                                     <span class="metric-value">6</span>
                                                     <span class="metric-unit">times</span>
+                                                    <span class="metric-trend warning">⚠</span>
                                                 </div>
                                                 <span class="metric-label">Interruptions</span>
-                                                <span class="metric-trend warning">⚠</span>
                                             </div>
                                         </div>
 
@@ -150,9 +150,9 @@
                                                 <div class="metric-value-line">
                                                     <span class="metric-value">42</span>
                                                     <span class="metric-unit">min</span>
+                                                    <span class="metric-trend positive">-5</span>
                                                 </div>
                                                 <span class="metric-label">Time to Sleep</span>
-                                                <span class="metric-trend positive">-5</span>
                                             </div>
                                         </div>
                                     </div>
@@ -202,54 +202,70 @@
                                     <!-- Sleep histogram showing progression through the night -->
                                     <div class="sleep-histogram">
                                         <!-- 16 bars representing 8h 18m sleep (30 min each) following realistic sleep cycles -->
-                                        
+
                                         <!-- 11:30 PM - 12:00 AM: Awake then transitioning to light sleep -->
-                                        <div class="time-segment" data-stage="awake" style="height: 100%;" title="11:30 PM - 12:00 AM: Falling asleep"></div>
-                                        
+                                        <div class="time-segment" data-stage="awake" style="height: 100%;"
+                                            title="11:30 PM - 12:00 AM: Falling asleep"></div>
+
                                         <!-- 12:00 AM - 12:30 AM: Light sleep -->
-                                        <div class="time-segment" data-stage="light" style="height: 75%;" title="12:00 AM - 12:30 AM: Light sleep"></div>
-                                        
+                                        <div class="time-segment" data-stage="light" style="height: 75%;"
+                                            title="12:00 AM - 12:30 AM: Light sleep"></div>
+
                                         <!-- 12:30 AM - 1:00 AM: Cycle 1 - Deep sleep begins -->
-                                        <div class="time-segment" data-stage="deep" style="height: 25%;" title="12:30 AM - 1:00 AM: Deep sleep"></div>
-                                        
+                                        <div class="time-segment" data-stage="deep" style="height: 25%;"
+                                            title="12:30 AM - 1:00 AM: Deep sleep"></div>
+
                                         <!-- 1:00 AM - 1:30 AM: Cycle 1 - Deep sleep peak -->
-                                        <div class="time-segment" data-stage="deep" style="height: 25%;" title="1:00 AM - 1:30 AM: Deep sleep peak"></div>
-                                        
+                                        <div class="time-segment" data-stage="deep" style="height: 25%;"
+                                            title="1:00 AM - 1:30 AM: Deep sleep peak"></div>
+
                                         <!-- 1:30 AM - 2:00 AM: Light sleep -->
-                                        <div class="time-segment" data-stage="light" style="height: 75%;" title="1:30 AM - 2:00 AM: Light sleep"></div>
-                                        
+                                        <div class="time-segment" data-stage="light" style="height: 75%;"
+                                            title="1:30 AM - 2:00 AM: Light sleep"></div>
+
                                         <!-- 2:00 AM - 2:30 AM: First REM -->
-                                        <div class="time-segment" data-stage="rem" style="height: 50%;" title="2:00 AM - 2:30 AM: REM sleep"></div>
-                                        
+                                        <div class="time-segment" data-stage="rem" style="height: 50%;"
+                                            title="2:00 AM - 2:30 AM: REM sleep"></div>
+
                                         <!-- 2:30 AM - 3:00 AM: Brief awakening then light -->
-                                        <div class="time-segment" data-stage="awake" style="height: 100%;" title="2:30 AM - 3:00 AM: Brief awakening"></div>
-                                        
+                                        <div class="time-segment" data-stage="awake" style="height: 100%;"
+                                            title="2:30 AM - 3:00 AM: Brief awakening"></div>
+
                                         <!-- 3:00 AM - 3:30 AM: Cycle 2 - Light sleep -->
-                                        <div class="time-segment" data-stage="light" style="height: 75%;" title="3:00 AM - 3:30 AM: Light sleep"></div>
-                                        
+                                        <div class="time-segment" data-stage="light" style="height: 75%;"
+                                            title="3:00 AM - 3:30 AM: Light sleep"></div>
+
                                         <!-- 3:30 AM - 4:00 AM: Cycle 2 - Deep sleep -->
-                                        <div class="time-segment" data-stage="deep" style="height: 25%;" title="3:30 AM - 4:00 AM: Deep sleep"></div>
-                                        
+                                        <div class="time-segment" data-stage="deep" style="height: 25%;"
+                                            title="3:30 AM - 4:00 AM: Deep sleep"></div>
+
                                         <!-- 4:00 AM - 4:30 AM: Light sleep -->
-                                        <div class="time-segment" data-stage="light" style="height: 75%;" title="4:00 AM - 4:30 AM: Light sleep"></div>
-                                        
+                                        <div class="time-segment" data-stage="light" style="height: 75%;"
+                                            title="4:00 AM - 4:30 AM: Light sleep"></div>
+
                                         <!-- 4:30 AM - 5:00 AM: REM sleep increases -->
-                                        <div class="time-segment" data-stage="rem" style="height: 50%;" title="4:30 AM - 5:00 AM: REM sleep"></div>
-                                        
+                                        <div class="time-segment" data-stage="rem" style="height: 50%;"
+                                            title="4:30 AM - 5:00 AM: REM sleep"></div>
+
                                         <!-- 5:00 AM - 5:30 AM: Light sleep -->
-                                        <div class="time-segment" data-stage="light" style="height: 75%;" title="5:00 AM - 5:30 AM: Light sleep"></div>
-                                        
+                                        <div class="time-segment" data-stage="light" style="height: 75%;"
+                                            title="5:00 AM - 5:30 AM: Light sleep"></div>
+
                                         <!-- 5:30 AM - 6:00 AM: Longer REM period -->
-                                        <div class="time-segment" data-stage="rem" style="height: 50%;" title="5:30 AM - 6:00 AM: REM sleep"></div>
-                                        
+                                        <div class="time-segment" data-stage="rem" style="height: 50%;"
+                                            title="5:30 AM - 6:00 AM: REM sleep"></div>
+
                                         <!-- 6:00 AM - 6:30 AM: Light sleep -->
-                                        <div class="time-segment" data-stage="light" style="height: 75%;" title="6:00 AM - 6:30 AM: Light sleep"></div>
-                                        
+                                        <div class="time-segment" data-stage="light" style="height: 75%;"
+                                            title="6:00 AM - 6:30 AM: Light sleep"></div>
+
                                         <!-- 6:30 AM - 7:00 AM: Final REM cycle -->
-                                        <div class="time-segment" data-stage="rem" style="height: 50%;" title="6:30 AM - 7:00 AM: REM sleep"></div>
-                                        
+                                        <div class="time-segment" data-stage="rem" style="height: 50%;"
+                                            title="6:30 AM - 7:00 AM: REM sleep"></div>
+
                                         <!-- 7:00 AM - 7:48 AM: Light sleep then wake -->
-                                        <div class="time-segment" data-stage="awake" style="height: 100%;" title="7:00 AM - 7:48 AM: Waking up"></div>
+                                        <div class="time-segment" data-stage="awake" style="height: 100%;"
+                                            title="7:00 AM - 7:48 AM: Waking up"></div>
                                     </div>
                                 </div>
                                 <div class="graph-legend">
@@ -604,21 +620,21 @@
                                         <div class="control-icon">
                                             <i class="fas fa-volume-up"></i>
                                         </div>
-                                        <div class="control-value" data-metric="volume">0</div>
+                                        <div class="control-value" data-metric="volume">8</div>
                                         <div class="control-label">Volume</div>
                                     </div>
                                     <div class="control-item">
                                         <div class="control-icon">
                                             <i class="fas fa-fan"></i>
                                         </div>
-                                        <div class="control-value" data-metric="fan">9</div>
+                                        <div class="control-value" data-metric="fan">5</div>
                                         <div class="control-label">Fan</div>
                                     </div>
                                     <div class="control-item">
                                         <div class="control-icon">
                                             <i class="fas fa-lightbulb"></i>
                                         </div>
-                                        <div class="control-value" data-metric="brightness">0</div>
+                                        <div class="control-value" data-metric="brightness">10</div>
                                         <div class="control-label">Light</div>
                                     </div>
                                 </div>
@@ -655,17 +671,6 @@
                                     <!--<h4>Device Controls</h4>--> <!-- Removed redundant header -->
 
                                     <div class="control-card">
-                                        <div class="control-icon"><i class="fas fa-fan"></i></div>
-                                        <div class="control-info">
-                                            <h5>Fan Speed</h5>
-                                            <div class="control-slider">
-                                                <input type="range" min="0" max="15" value="5" class="slider"
-                                                    data-metric="fan">
-                                                <span class="slider-value">5</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="control-card">
                                         <div class="control-icon"><i class="fas fa-volume-up"></i></div>
                                         <div class="control-info">
                                             <h5>Speaker Volume</h5>
@@ -673,6 +678,17 @@
                                                 <input type="range" min="0" max="15" value="8" class="slider"
                                                     data-metric="volume">
                                                 <span class="slider-value">8</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="control-card">
+                                        <div class="control-icon"><i class="fas fa-fan"></i></div>
+                                        <div class="control-info">
+                                            <h5>Fan Speed</h5>
+                                            <div class="control-slider">
+                                                <input type="range" min="0" max="15" value="5" class="slider"
+                                                    data-metric="fan">
+                                                <span class="slider-value">5</span>
                                             </div>
                                         </div>
                                     </div>
@@ -687,17 +703,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="control-card">
+                                    <div class="control-card color-slider-card">
                                         <div class="control-icon"><i class="fas fa-palette"></i></div>
                                         <div class="control-info">
                                             <h5>Light Color</h5>
-                                            <div class="color-picker-container">
-                                                <div class="color-preview" style="background-color: #FF5C00;"></div>
-                                                <div class="color-slider-container">
-                                                    <div class="rainbow-gradient"></div>
-                                                    <div class="slider-handle" style="left: 10%;"></div>
-                                                    <!-- Example position -->
-                                                </div>
+                                            <div class="color-slider-container">
+                                                <div class="color-gradient-bar"></div>
+                                                <div class="color-slider-handle" style="left: 50%;"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -786,12 +798,14 @@
                             <div class="app-title" id="metric-detail-title">Metric Detail</div>
                             <div style="width: 40px; height: 40px;"></div> <!-- Spacer -->
                         </div>
-                        
+
                         <div class="metric-detail-container">
                             <!-- Content will be populated dynamically based on which metric was clicked -->
                             <div class="metric-detail-placeholder">
-                                <i class="fas fa-chart-line" style="font-size: 48px; color: var(--gray400); margin-bottom: var(--spacing-m);"></i>
-                                <p style="color: var(--text-secondary); text-align: center;">Detailed metric analysis will appear here</p>
+                                <i class="fas fa-chart-line"
+                                    style="font-size: 48px; color: var(--gray400); margin-bottom: var(--spacing-m);"></i>
+                                <p style="color: var(--text-secondary); text-align: center;">Detailed metric analysis
+                                    will appear here</p>
                             </div>
                         </div>
                     </div>
@@ -856,6 +870,7 @@
                                             <div class="modern-toggle-container off" data-control="dark-mode"
                                                 style="padding: 0; box-shadow: none; margin-bottom: 0;">
                                                 <!-- Inline style override -->
+                                                <div class="toggle-state">OFF</div>
                                                 <div class="modern-toggle-slider-wrapper">
                                                     <div class="modern-toggle-slider"></div>
                                                 </div>

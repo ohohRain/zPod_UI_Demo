@@ -493,12 +493,12 @@ body {
 
 .status-dot {
     display: inline-block;
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
     background-color: var(--success);
     /* Default to connected */
     border-radius: 50%;
-    margin-right: 6px;
+    margin-right: 4px;
 }
 
 .status-dot.disconnected {
@@ -517,12 +517,20 @@ body {
 
 /* New Device Card Design */
 .device-card-new {
-    background: var(--primary-gradient);
+    background: var(--card-background);
     border-radius: var(--border-radius-md);
     padding: 12px;
-    color: white;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--gray200);
     flex-shrink: 0;
-    margin-bottom: 0;
+    margin-bottom: var(--spacing-l);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.device-card-new:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
 .device-header {
@@ -531,13 +539,13 @@ body {
     align-items: center;
     margin-bottom: 8px;
     padding-bottom: 6px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid var(--gray200);
 }
 
 .device-header h3 {
     font-size: 18px;
     font-weight: 700;
-    color: white;
+    color: var(--text);
     margin: 0;
 }
 
@@ -545,16 +553,14 @@ body {
     display: flex;
     align-items: center;
     gap: 4px;
-    color: white;
     font-size: 12px;
-    font-weight: 500;
+    color: var(--text-secondary);
 }
 
 .device-controls-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 8px;
-    align-items: start;
 }
 
 .control-item {
@@ -566,37 +572,61 @@ body {
     justify-content: flex-start;
 }
 
-.control-icon {
+/* Settings Screen Control Icons - Match device card style */
+.control-card .control-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--gray100);
     display: flex;
-    justify-content: center;
     align-items: center;
-    margin-bottom: 4px;
-    height: 24px;
+    justify-content: center;
+    margin-bottom: 0;
     flex-shrink: 0;
 }
 
+.control-card .control-icon i {
+    font-size: 14px;
+    color: var(--primary);
+}
+
+/* Home Screen Control Icons (smaller) */
+.device-controls-grid .control-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--gray100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4px;
+    flex-shrink: 0;
+}
+
+.device-controls-grid .control-icon i {
+    font-size: 14px;
+    color: var(--primary);
+}
+
 .control-icon i {
-    font-size: 20px;
-    color: white;
+    font-size: 14px;
+    color: var(--primary);
 }
 
 .control-value {
-    font-size: 22px;
+    font-size: 16px;
     font-weight: 700;
-    color: white;
-    line-height: 1;
+    color: var(--text);
     margin-bottom: 2px;
-    min-height: 22px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .control-label {
-    font-size: 11px;
+    font-size: 12px;
+    color: var(--text-muted);
     font-weight: 500;
-    color: rgba(255, 255, 255, 0.9);
-    min-height: 11px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -631,10 +661,11 @@ body {
 .profile-setting-item {
     background-color: var(--card-background);
     border-radius: var(--border-radius-md);
-    padding: 16px;
+    padding: 18px;
     margin-bottom: 16px;
     display: flex;
     align-items: center;
+    gap: 16px;
     box-shadow: var(--shadow-sm);
     transition: box-shadow 0.3s ease;
 }
@@ -670,6 +701,9 @@ body {
 .profile-setting-text {
     flex: 1;
     min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     /* Prevent text overflow issues */
 }
 
@@ -678,9 +712,10 @@ body {
 .profile-setting-item span {
     font-size: 16px;
     font-weight: 600;
-    margin-bottom: 4px;
+    margin-bottom: 8px;
     /* Adjusted margin */
     color: var(--text);
+    line-height: 1.2;
 }
 
 .settings-text p {
@@ -694,9 +729,10 @@ body {
 .control-slider {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-top: 8px;
-    /* Add space above slider */
+    gap: 16px;
+    margin-top: 0;
+    /* Remove extra space */
+    min-height: 32px;
 }
 
 .slider {
@@ -719,12 +755,18 @@ body {
 }
 
 .slider-value {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text);
-    min-width: 30px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary);
+    min-width: 36px;
     /* Adjust width */
-    text-align: right;
+    text-align: center;
+    background: var(--gray100);
+    padding: 4px 8px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Color Picker Styles */
@@ -744,31 +786,129 @@ body {
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
 }
 
-.color-slider-container {
+/* Color Preset Grid */
+.color-presets-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.color-preset {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
     position: relative;
-    width: 100%;
-    height: 24px;
-    border-radius: var(--border-radius-sm);
-    overflow: hidden;
-    cursor: pointer;
 }
 
-.rainbow-gradient {
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to right, #FF0000, #FFFF00, #00FF00, #00FFFF, #0000FF, #FF00FF, #FF0000);
+.color-preset:hover {
+    transform: scale(1.1);
+    border-color: var(--gray300);
 }
 
-.slider-handle {
+.color-preset.active {
+    border-color: var(--primary);
+    transform: scale(1.1);
+}
+
+.color-preset.active::after {
+    content: '✓';
     position: absolute;
-    top: 0;
-    width: 6px;
-    height: 100%;
-    background-color: white;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
-    cursor: pointer;
-    transform: translateX(-3px);
-    /* Center handle */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Color preset colors */
+.color-preset[data-color="#FF5C5C"] {
+    background-color: #FF5C5C;
+}
+
+.color-preset[data-color="#FF9F40"] {
+    background-color: #FF9F40;
+}
+
+.color-preset[data-color="#FFCD56"] {
+    background-color: #FFCD56;
+}
+
+.color-preset[data-color="#4BC0C0"] {
+    background-color: #4BC0C0;
+}
+
+.color-preset[data-color="#36A2EB"] {
+    background-color: #36A2EB;
+}
+
+.color-preset[data-color="#9966FF"] {
+    background-color: #9966FF;
+}
+
+.color-preset[data-color="#FF6384"] {
+    background-color: #FF6384;
+}
+
+.color-preset[data-color="#4ECDC4"] {
+    background-color: #4ECDC4;
+}
+
+.color-preset[data-color="#45B7D1"] {
+    background-color: #45B7D1;
+}
+
+.color-preset[data-color="#96CEB4"] {
+    background-color: #96CEB4;
+}
+
+.color-preset[data-color="#FECA57"] {
+    background-color: #FECA57;
+}
+
+.color-preset[data-color="#FF9FF3"] {
+    background-color: #FF9FF3;
+}
+
+/* Special styling for the color picker card */
+.control-card:has(.color-picker-container) {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 20px;
+}
+
+.control-card:has(.color-picker-container) .control-info {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+.control-card:has(.color-picker-container) .control-icon {
+    align-self: flex-start;
+    margin-bottom: 12px;
+}
+
+/* If :has() is not supported, use a fallback class */
+.control-card.color-picker-card {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 20px;
+}
+
+.control-card.color-picker-card .control-info {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+.control-card.color-picker-card .control-icon {
+    align-self: flex-start;
+    margin-bottom: 12px;
 }
 
 /* Modern Toggle Styles */
@@ -784,19 +924,32 @@ body {
 }
 
 .modern-toggle-container .icon {
-    /* Use specific class for icon */
-    width: 45px;
-    height: 45px;
-    background: var(--primary-gradient);
+    /* Use device card icon style */
+    width: 32px;
+    height: 32px;
+    background: var(--gray100);
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: var(--border-radius-sm);
+    border-radius: 50%;
     margin-right: 16px;
     flex-shrink: 0;
 }
 
 .modern-toggle-container .icon i {
+    font-size: 14px;
+    color: var(--primary);
+}
+
+/* Special styling for Sleep Autopilot AI - keep gradient */
+.modern-toggle-container[data-control="sleep-autopilot"] .icon {
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(135deg, var(--info), var(--secondary));
+    border-radius: var(--border-radius-sm);
+}
+
+.modern-toggle-container[data-control="sleep-autopilot"] .icon i {
     font-size: 20px;
     color: var(--white);
 }
@@ -2001,7 +2154,7 @@ body {
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
-    margin-bottom: var(--spacing-m);
+    margin-bottom: var(--spacing-s);
 }
 
 .quality-score-container {
@@ -2905,12 +3058,15 @@ body {
     min-height: 0;
     position: relative;
     /* Hide scrollbar for native app feel */
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE/Edge */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE/Edge */
 }
 
 .sleep-details-container::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
+    display: none;
+    /* Chrome, Safari, Opera */
 }
 
 /* Time Period Selector */
@@ -3113,10 +3269,10 @@ body {
 }
 
 .legend-color.awake {
-    background: linear-gradient(45deg, var(--gray400) 25%, transparent 25%), 
-                linear-gradient(-45deg, var(--gray400) 25%, transparent 25%), 
-                linear-gradient(45deg, transparent 75%, var(--gray400) 75%), 
-                linear-gradient(-45deg, transparent 75%, var(--gray400) 75%);
+    background: linear-gradient(45deg, var(--gray400) 25%, transparent 25%),
+        linear-gradient(-45deg, var(--gray400) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, var(--gray400) 75%),
+        linear-gradient(-45deg, transparent 75%, var(--gray400) 75%);
     background-size: 4px 4px;
     background-position: 0 0, 0 2px, 2px -2px, -2px 0px;
 }
@@ -3141,7 +3297,7 @@ body {
     left: 20%;
     right: 20%;
     bottom: 20%;
-    background: radial-gradient(circle, rgba(255,255,255,0.4) 1px, transparent 1px);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 1px, transparent 1px);
     background-size: 4px 4px;
     border-radius: inherit;
 }
@@ -3235,7 +3391,7 @@ body {
 
 .score-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--success) 0%, var(--primary) 100%);
+    background: var(--success); /* Default green, will be overridden by score color classes */
     border-radius: var(--border-radius-sm);
     transition: width 0.3s ease;
 }
@@ -3329,6 +3485,265 @@ body {
     color: var(--info);
 }
 
+/* Week View Styles */
+.week-view {
+    background: var(--card-background);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-m) var(--spacing-s);
+    margin: var(--spacing-m) 0;
+    border: 1px solid var(--gray200);
+    box-shadow: var(--shadow-sm);
+    min-height: 100px;
+}
+
+.week-days-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 4px;
+    padding: 0;
+    width: 100%;
+}
+
+.week-day-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+    padding: var(--spacing-xs) 2px;
+    min-width: 0;
+}
+
+.day-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-align: center;
+    line-height: 1;
+    margin-bottom: 2px;
+}
+
+.score-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    transition: var(--transition-smooth);
+    flex-shrink: 0;
+    position: relative;
+    margin: 6px auto;
+}
+
+.score-circle.has-data {
+    background: linear-gradient(135deg, var(--primary), var(--success));
+    color: white;
+    border-color: var(--primary);
+    box-shadow: 0 2px 4px rgba(0, 194, 197, 0.2);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    font-weight: 800;
+}
+
+.score-circle.no-data {
+    background: #F8FAFC;
+    border-color: #E2E8F0;
+    color: #94A3B8;
+    position: relative;
+}
+
+.score-circle.no-data::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 4px;
+    height: 4px;
+    background: #CBD5E1;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Enhanced Week View Interactions */
+.week-day-item:hover .score-circle.has-data {
+    transform: scale(1.05);
+    box-shadow: 0 3px 8px rgba(0, 194, 197, 0.3);
+}
+
+.week-day-item:hover .score-circle.no-data {
+    border-color: #CBD5E1;
+    background: #F1F5F9;
+}
+
+.week-day-item:hover .day-label {
+    color: var(--text-primary);
+}
+
+/* Score circle already has transition defined above */
+
+/* Week view header styling */
+.week-view-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-s);
+    padding: 0 var(--spacing-xs);
+}
+
+.week-view-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.week-view-subtitle {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+/* Add date indicators below day labels */
+.day-date {
+    font-size: 9px;
+    color: var(--text-muted);
+    text-align: center;
+    line-height: 1;
+    margin-top: 2px;
+}
+
+/* Month View Styles */
+.month-view {
+    background: var(--card-background);
+    border-radius: 12px;
+    padding: 16px;
+    margin: 16px 0;
+    border: 1px solid var(--gray200);
+    box-shadow: var(--shadow-sm);
+}
+
+.calendar-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: 8px;
+    padding: 0 8px;
+}
+
+.calendar-day-header {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    padding: 8px 4px;
+}
+
+.month-calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    background: var(--card-background);
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.calendar-day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 4px;
+    position: relative;
+}
+
+.calendar-date {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 13px;
+    font-weight: 500;
+    background: transparent;
+    border: none;
+    margin: 0 auto;
+}
+
+.calendar-date.has-data {
+    background: transparent;
+    color: var(--text);
+}
+
+.calendar-date.has-data:hover {
+    background: rgba(0, 194, 197, 0.1);
+    transform: none;
+    box-shadow: none;
+}
+
+.calendar-date.no-data {
+    background: transparent;
+    color: var(--text-secondary);
+    border: none;
+}
+
+.calendar-date.no-data:hover {
+    background: var(--gray100);
+}
+
+.calendar-empty {
+    width: 100%;
+    height: 100%;
+}
+
+.date-number {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.date-score {
+    font-size: 10px;
+    font-weight: 500;
+    margin-top: 2px;
+}
+
+/* Responsive adjustments for smaller screens */
+/* Enhanced responsive design for week view */
+@media (max-width: 480px) {
+    .week-view {
+        padding: var(--spacing-s) 6px;
+        margin: var(--spacing-s) 0;
+    }
+
+    .week-days-container {
+        gap: 2px;
+    }
+
+    .week-day-item {
+        padding: var(--spacing-xs) 1px;
+        gap: 4px;
+    }
+
+    .day-label {
+        font-size: 10px;
+    }
+
+    .day-date {
+        font-size: 8px;
+    }
+
+    .score-circle {
+        width: 38px;
+        height: 30px;
+        font-size: 10px;
+        border-radius: 3px;
+    }
+}
+
 /* Header menu icon */
 .header-icon.menu {
     background: none;
@@ -3361,4 +3776,118 @@ body {
     align-items: center;
     justify-content: center;
     padding: var(--spacing-xl);
+}
+
+/* Color Slider */
+.color-slider-container {
+    position: relative;
+    margin-top: 0;
+    height: 16px;
+    /* Match regular slider height */
+    cursor: pointer;
+    z-index: 10;
+    user-select: none;
+    pointer-events: auto;
+    padding: 0;
+    /* Remove padding to match regular sliders */
+    max-width: 180px;
+    /* Limit width to make it shorter */
+}
+
+.color-gradient-bar {
+    width: 100%;
+    height: 16px;
+    border-radius: 8px;
+    background: linear-gradient(to right,
+            #ff0000 0%,
+            #ff8000 16.66%,
+            #ffff00 33.33%,
+            #80ff00 50%,
+            #00ff80 66.66%,
+            #0080ff 83.33%,
+            #8000ff 100%);
+    position: relative;
+    cursor: pointer;
+    z-index: 11;
+    pointer-events: auto;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.color-slider-handle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* Default center position */
+    transform: translateY(-50%) translateX(-50%);
+    width: 20px;
+    height: 20px;
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 50%;
+    cursor: grab;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    z-index: 12;
+    pointer-events: auto;
+    /* Ensure handle is always clickable */
+    min-width: 20px;
+    min-height: 20px;
+}
+
+.color-slider-handle:hover {
+    transform: translateY(-50%) translateX(-50%) scale(1.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+.color-slider-handle:active,
+.color-slider-handle.dragging {
+    cursor: grabbing;
+    transform: translateY(-50%) translateX(-50%) scale(1.05);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* Ensure the color slider is interactive within the control card */
+.control-card .color-slider-container {
+    position: relative;
+    margin-top: 0;
+    width: 100%;
+    pointer-events: auto;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+}
+
+.control-card .color-slider-container,
+.control-card .color-slider-container * {
+    pointer-events: auto !important;
+    /* Force enable pointer events */
+}
+
+/* Improve control card layout for color slider */
+.control-card:has(.color-slider-container) {
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+}
+
+.control-card:has(.color-slider-container) .control-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Fallback for browsers without :has() support */
+.control-card.color-slider-card {
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+}
+
+.control-card.color-slider-card .control-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
