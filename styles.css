@@ -1938,8 +1938,13 @@ body {
 }
 
 .clickable-card:hover {
-    box-shadow: var(--shadow-md);
-    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+    transform: translateY(-4px);
+}
+
+.clickable-card:focus {
+    outline: 3px solid var(--primary);
+    outline-offset: 2px;
 }
 
 /* Sleep Summary Card */
@@ -1995,8 +2000,8 @@ body {
 .score-section {
     display: flex;
     flex-direction: column;
-    align-items: center;
     flex-shrink: 0;
+    margin-bottom: var(--spacing-m);
 }
 
 .quality-score-container {
@@ -2180,13 +2185,6 @@ body {
     background: none;
 }
 
-.sleep-details-container {
-    padding: var(--spacing-l);
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
 .empty-state {
     text-align: center;
@@ -2892,4 +2890,475 @@ body {
 
 .modern-toggle-container[data-control="sleep-autopilot"].on .modern-toggle-slider {
     background: linear-gradient(135deg, var(--info), var(--secondary));
+}
+
+/* ===== Sleep Details Page Styles ===== */
+
+/* Update sleep-details-container */
+.sleep-details-container {
+    padding: var(--spacing-m);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-s);
+    overflow-y: auto;
+    min-height: 0;
+    position: relative;
+    /* Hide scrollbar for native app feel */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+}
+
+.sleep-details-container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+/* Time Period Selector */
+.time-period-selector {
+    display: flex;
+    background: var(--gray100);
+    border-radius: var(--border-radius-md);
+    padding: 4px;
+    gap: 4px;
+    margin-bottom: var(--spacing-s);
+    flex-shrink: 0;
+    width: 100%;
+}
+
+.period-tab {
+    flex: 1;
+    padding: var(--spacing-s) var(--spacing-m);
+    text-align: center;
+    border-radius: var(--border-radius-sm);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.period-tab.active {
+    background: var(--primary);
+    color: white;
+    box-shadow: var(--shadow-sm);
+}
+
+/* Date Navigation */
+.date-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-s) 0;
+    margin-bottom: var(--spacing-s);
+    flex-shrink: 0;
+    width: 100%;
+}
+
+.nav-arrow {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--border-radius-circle);
+    background: var(--gray100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.nav-arrow:hover {
+    background: var(--gray200);
+}
+
+.nav-arrow i {
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.current-date {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+/* Sleep Stage Graph */
+.sleep-stage-graph {
+    background: var(--card-background);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-s);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--gray200);
+    margin: 0 0 var(--spacing-s) 0;
+    position: relative;
+    z-index: 0;
+}
+
+.graph-timeline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-m);
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.duration-label {
+    font-weight: 600;
+    color: var(--text);
+    font-size: 16px;
+}
+
+.graph-container {
+    margin: var(--spacing-xs) 0;
+    display: flex;
+    align-items: flex-end;
+    gap: var(--spacing-xs);
+    height: 100px;
+}
+
+/* Y-axis labels */
+.y-axis {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    width: 45px;
+    padding-right: var(--spacing-xs);
+}
+
+.stage-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-align: right;
+    font-weight: 500;
+}
+
+/* Sleep histogram */
+.sleep-histogram {
+    display: flex;
+    align-items: flex-end;
+    height: 100%;
+    flex: 1;
+    gap: 2px;
+    border-bottom: 2px solid var(--gray300);
+    padding-bottom: 2px;
+    position: relative;
+}
+
+/* Time segments representing sleep stages */
+.time-segment {
+    flex: 1;
+    min-width: 8px;
+    border-radius: 2px 2px 0 0;
+    transition: var(--transition-smooth);
+    cursor: pointer;
+    position: relative;
+}
+
+.time-segment:hover,
+.time-segment:focus {
+    transform: scaleY(1.08) translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    outline: none;
+}
+
+.time-segment:focus {
+    outline: 3px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* Sleep stage colors for time segments */
+.time-segment[data-stage="awake"] {
+    background: var(--gray400);
+}
+
+.time-segment[data-stage="light"] {
+    background: var(--primary);
+}
+
+.time-segment[data-stage="deep"] {
+    background: var(--secondary);
+}
+
+.time-segment[data-stage="rem"] {
+    background: var(--accent);
+}
+
+/* Grid lines removed for cleaner look */
+
+.graph-legend {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-l);
+    margin-top: var(--spacing-m);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+}
+
+.legend-color.awake {
+    background: linear-gradient(45deg, var(--gray400) 25%, transparent 25%), 
+                linear-gradient(-45deg, var(--gray400) 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, var(--gray400) 75%), 
+                linear-gradient(-45deg, transparent 75%, var(--gray400) 75%);
+    background-size: 4px 4px;
+    background-position: 0 0, 0 2px, 2px -2px, -2px 0px;
+}
+
+.legend-color.rem {
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+}
+
+.legend-color.light {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+}
+
+.legend-color.deep {
+    background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
+    position: relative;
+}
+
+.legend-color.deep::after {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    right: 20%;
+    bottom: 20%;
+    background: radial-gradient(circle, rgba(255,255,255,0.4) 1px, transparent 1px);
+    background-size: 4px 4px;
+    border-radius: inherit;
+}
+
+/* Sleep Quality Score - Progress Bar Design */
+.sleep-quality-score {
+    margin: var(--spacing-m) 0;
+    padding: var(--spacing-m);
+    background: var(--card-background);
+    border-radius: var(--border-radius-md);
+    border: 1px solid var(--gray200);
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    z-index: 1;
+}
+
+.score-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-m);
+    gap: var(--spacing-m);
+    min-height: 40px;
+}
+
+.score-label {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.4;
+    flex: 1;
+    margin-right: var(--spacing-s);
+}
+
+.score-rating {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--success);
+    background: rgba(16, 185, 129, 0.1);
+    padding: 8px 16px;
+    border-radius: var(--border-radius-md);
+    line-height: 1.3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    flex-shrink: 0;
+    min-height: 32px;
+    transition: var(--transition-smooth);
+}
+
+.score-rating:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.score-rating.excellent {
+    color: var(--success);
+    background: rgba(16, 185, 129, 0.15);
+}
+
+.score-rating.good {
+    color: var(--primary);
+    background: rgba(0, 194, 197, 0.1);
+}
+
+.score-rating.fair {
+    color: var(--warning);
+    background: rgba(245, 158, 11, 0.1);
+}
+
+.score-rating.poor {
+    color: var(--error);
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.score-bar-container {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-m);
+}
+
+.score-bar {
+    flex: 1;
+    height: 8px;
+    background: var(--gray200);
+    border-radius: var(--border-radius-sm);
+    overflow: hidden;
+    position: relative;
+}
+
+.score-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--success) 0%, var(--primary) 100%);
+    border-radius: var(--border-radius-sm);
+    transition: width 0.3s ease;
+}
+
+.score-number {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    min-width: 60px;
+    text-align: right;
+}
+
+/* Detailed Metrics Grid */
+.detailed-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-m);
+}
+
+.metric-card {
+    background: var(--card-background);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-m);
+    border: 1px solid var(--gray200);
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.metric-card.clickable-metric:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-m);
+    border-color: var(--primary);
+}
+
+.metric-card.clickable-metric:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-xs);
+}
+
+.metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.metric-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-s);
+}
+
+.metric-card .metric-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.metric-arrow {
+    color: var(--gray400);
+    font-size: 12px;
+}
+
+.metric-value-large {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: var(--spacing-s);
+}
+
+.metric-status {
+    position: absolute;
+    bottom: var(--spacing-m);
+    right: var(--spacing-m);
+}
+
+.metric-status i {
+    font-size: 16px;
+}
+
+.metric-status.good i {
+    color: var(--success);
+}
+
+.metric-status.warning i {
+    color: var(--warning);
+}
+
+.metric-status.info i {
+    color: var(--info);
+}
+
+/* Header menu icon */
+.header-icon.menu {
+    background: none;
+    color: var(--text-secondary);
+}
+
+.header-icon.menu i {
+    color: var(--text-secondary);
+}
+
+/* ===== Metric Detail Screen (Sub-subpage) ===== */
+.metric-detail-screen {
+    background: var(--gray50);
+    height: 100%;
+}
+
+.metric-detail-container {
+    padding: var(--spacing-l);
+    height: calc(100% - 60px);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.metric-detail-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-xl);
 }

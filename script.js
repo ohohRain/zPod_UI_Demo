@@ -17,8 +17,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const descriptionTitleElement = document.getElementById('description-title'); // Get description title element
     const descriptionTextElement = document.getElementById('description-text'); // Get description text element
     const sleepDetailsBackBtn = document.getElementById('sleep-details-back-btn');
+    const metricDetailBackBtn = document.getElementById('metric-detail-back-btn');
+    const metricDetailTitle = document.getElementById('metric-detail-title');
+    const clickableMetrics = document.querySelectorAll('.clickable-metric');
 
     let currentScreen = 'home-screen'; // Keep track of the current screen
+    let previousScreen = 'home-screen'; // Track previous screen for sub-subpage navigation
 
     // Descriptions for each screen
     const screenDescriptions = {
@@ -45,6 +49,14 @@ document.addEventListener('DOMContentLoaded', () => {
         'profile-screen': {
             title: 'User Profile',
             text: 'Manage your account information. Edit your profile details, change your password, configure notification and language preferences, toggle dark mode, access privacy settings, find help, and sign out.'
+        },
+        'sleep-details-screen': {
+            title: 'Sleep Quality Details',
+            text: 'Detailed analysis of your sleep quality. View your sleep stages throughout the night, quality score, and key metrics including heart rate, duration, interruptions, movement score, and sleep timing.'
+        },
+        'metric-detail-screen': {
+            title: 'Metric Analysis',
+            text: 'In-depth analysis of your selected sleep metric. View trends, patterns, and insights to better understand and improve your sleep quality.'
         }
     };
 
@@ -314,6 +326,36 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.key === 'Enter') {
                 handleSendChat();
             }
+        });
+    }
+
+    // --- Metric Card Click Handlers ---
+    clickableMetrics.forEach(metric => {
+        metric.addEventListener('click', () => {
+            const metricType = metric.getAttribute('data-metric');
+            const metricLabel = metric.querySelector('.metric-label').textContent;
+            
+            // Store the current screen as previous before navigating
+            previousScreen = currentScreen;
+            
+            // Update the metric detail screen title
+            if (metricDetailTitle) {
+                metricDetailTitle.textContent = metricLabel.toUpperCase();
+            }
+            
+            // Navigate to metric detail screen
+            showScreen('metric-detail-screen');
+            
+            // You can add specific content for each metric type here later
+            console.log(`Navigating to detail for: ${metricType}`);
+        });
+    });
+    
+    // --- Metric Detail Back Button ---
+    if (metricDetailBackBtn) {
+        metricDetailBackBtn.addEventListener('click', () => {
+            // Go back to sleep details screen
+            showScreen('sleep-details-screen');
         });
     }
 

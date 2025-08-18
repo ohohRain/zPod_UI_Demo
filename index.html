@@ -80,18 +80,21 @@
                                         <i class="fas fa-moon"></i>
                                         Sleep Summary
                                     </h4>
-                                    <span class="date-text">8/2/2025</span>
+                                    <span class="date-text">Tuesday, July 01</span>
                                 </div>
-                                
+
                                 <div class="summary-content">
                                     <!-- Sleep Quality Score Section -->
                                     <div class="score-section">
-                                        <div class="quality-score-container">
-                                            <div class="score-circle">
-                                                <span class="score-number">93</span>
-                                                <span class="score-label">Quality</span>
+                                        <div class="score-header">
+                                            <span class="score-label">Sleep Quality Score</span>
+                                            <span class="score-rating excellent">Very Good</span>
+                                        </div>
+                                        <div class="score-bar-container">
+                                            <div class="score-bar">
+                                                <div class="score-fill" style="width: 85%;"></div>
                                             </div>
-                                            <span class="status-badge excellent">Excellent</span>
+                                            <span class="score-number">85/100</span>
                                         </div>
                                     </div>
 
@@ -103,11 +106,11 @@
                                             </div>
                                             <div class="metric-details">
                                                 <div class="metric-value-line">
-                                                    <span class="metric-value">65</span>
+                                                    <span class="metric-value">59</span>
                                                     <span class="metric-unit">bpm</span>
                                                 </div>
-                                                <span class="metric-label">HR</span>
-                                                <span class="metric-trend positive">+2</span>
+                                                <span class="metric-label">Heart Rate</span>
+                                                <span class="metric-trend positive">✓</span>
                                             </div>
                                         </div>
 
@@ -117,24 +120,24 @@
                                             </div>
                                             <div class="metric-details">
                                                 <div class="metric-value-line">
-                                                    <span class="metric-value">7.5</span>
-                                                    <span class="metric-unit">hours</span>
+                                                    <span class="metric-value">8h18</span>
+                                                    <span class="metric-unit"></span>
                                                 </div>
-                                                <span class="metric-label">Duration</span>
+                                                <span class="metric-label">Sleep Duration</span>
                                                 <span class="metric-trend optimal">✓</span>
                                             </div>
                                         </div>
 
                                         <div class="metric-item">
                                             <div class="metric-icon movement">
-                                                <i class="fas fa-running"></i>
+                                                <i class="fas fa-exclamation-triangle"></i>
                                             </div>
                                             <div class="metric-details">
                                                 <div class="metric-value-line">
-                                                    <span class="metric-value">51</span>
-                                                    <span class="metric-unit">min</span>
+                                                    <span class="metric-value">6</span>
+                                                    <span class="metric-unit">times</span>
                                                 </div>
-                                                <span class="metric-label">Movement</span>
+                                                <span class="metric-label">Interruptions</span>
                                                 <span class="metric-trend warning">⚠</span>
                                             </div>
                                         </div>
@@ -145,10 +148,10 @@
                                             </div>
                                             <div class="metric-details">
                                                 <div class="metric-value-line">
-                                                    <span class="metric-value">18</span>
+                                                    <span class="metric-value">42</span>
                                                     <span class="metric-unit">min</span>
                                                 </div>
-                                                <span class="metric-label">Latency</span>
+                                                <span class="metric-label">Time to Sleep</span>
                                                 <span class="metric-trend positive">-5</span>
                                             </div>
                                         </div>
@@ -165,15 +168,191 @@
                             <div class="header-icon back" id="sleep-details-back-btn">
                                 <i class="fas fa-arrow-left"></i>
                             </div>
-                            <div class="app-title">Sleep Details</div>
+                            <div class="app-title">SLEEP QUALITY</div>
                             <div style="width: 40px; height: 40px;"></div> <!-- Spacer -->
                         </div>
+
                         <div class="sleep-details-container">
-                            <div class="empty-state">
-                                <i class="fas fa-chart-line empty-state-icon"></i>
-                                <h3>Sleep Details</h3>
-                                <p>Detailed sleep analytics will be displayed here.</p>
-                                <p class="empty-state-subtitle">Coming soon...</p>
+                            <!-- Time Period Selector -->
+                            <div class="time-period-selector">
+                                <div class="period-tab active" data-period="day">Day</div>
+                                <div class="period-tab" data-period="week">Week</div>
+                                <div class="period-tab" data-period="month">Month</div>
+                            </div>
+
+                            <!-- Date Navigation -->
+                            <div class="date-navigation">
+                                <div class="nav-arrow left">
+                                    <i class="fas fa-chevron-left"></i>
+                                </div>
+                                <div class="current-date">Tuesday, July 01</div>
+                                <div class="nav-arrow right">
+                                    <i class="fas fa-chevron-right"></i>
+                                </div>
+                            </div>
+
+                            <!-- Sleep Stage Graph -->
+                            <div class="sleep-stage-graph">
+                                <div class="graph-timeline">
+                                    <span class="time-label start">11:30 PM</span>
+                                    <span class="duration-label">8h 18m</span>
+                                    <span class="time-label end">7:48 AM</span>
+                                </div>
+                                <div class="graph-container">
+                                    <!-- Sleep histogram showing progression through the night -->
+                                    <div class="sleep-histogram">
+                                        <!-- 16 bars representing 8h 18m sleep (30 min each) following realistic sleep cycles -->
+                                        
+                                        <!-- 11:30 PM - 12:00 AM: Awake then transitioning to light sleep -->
+                                        <div class="time-segment" data-stage="awake" style="height: 100%;" title="11:30 PM - 12:00 AM: Falling asleep"></div>
+                                        
+                                        <!-- 12:00 AM - 12:30 AM: Light sleep -->
+                                        <div class="time-segment" data-stage="light" style="height: 75%;" title="12:00 AM - 12:30 AM: Light sleep"></div>
+                                        
+                                        <!-- 12:30 AM - 1:00 AM: Cycle 1 - Deep sleep begins -->
+                                        <div class="time-segment" data-stage="deep" style="height: 25%;" title="12:30 AM - 1:00 AM: Deep sleep"></div>
+                                        
+                                        <!-- 1:00 AM - 1:30 AM: Cycle 1 - Deep sleep peak -->
+                                        <div class="time-segment" data-stage="deep" style="height: 25%;" title="1:00 AM - 1:30 AM: Deep sleep peak"></div>
+                                        
+                                        <!-- 1:30 AM - 2:00 AM: Light sleep -->
+                                        <div class="time-segment" data-stage="light" style="height: 75%;" title="1:30 AM - 2:00 AM: Light sleep"></div>
+                                        
+                                        <!-- 2:00 AM - 2:30 AM: First REM -->
+                                        <div class="time-segment" data-stage="rem" style="height: 50%;" title="2:00 AM - 2:30 AM: REM sleep"></div>
+                                        
+                                        <!-- 2:30 AM - 3:00 AM: Brief awakening then light -->
+                                        <div class="time-segment" data-stage="awake" style="height: 100%;" title="2:30 AM - 3:00 AM: Brief awakening"></div>
+                                        
+                                        <!-- 3:00 AM - 3:30 AM: Cycle 2 - Light sleep -->
+                                        <div class="time-segment" data-stage="light" style="height: 75%;" title="3:00 AM - 3:30 AM: Light sleep"></div>
+                                        
+                                        <!-- 3:30 AM - 4:00 AM: Cycle 2 - Deep sleep -->
+                                        <div class="time-segment" data-stage="deep" style="height: 25%;" title="3:30 AM - 4:00 AM: Deep sleep"></div>
+                                        
+                                        <!-- 4:00 AM - 4:30 AM: Light sleep -->
+                                        <div class="time-segment" data-stage="light" style="height: 75%;" title="4:00 AM - 4:30 AM: Light sleep"></div>
+                                        
+                                        <!-- 4:30 AM - 5:00 AM: REM sleep increases -->
+                                        <div class="time-segment" data-stage="rem" style="height: 50%;" title="4:30 AM - 5:00 AM: REM sleep"></div>
+                                        
+                                        <!-- 5:00 AM - 5:30 AM: Light sleep -->
+                                        <div class="time-segment" data-stage="light" style="height: 75%;" title="5:00 AM - 5:30 AM: Light sleep"></div>
+                                        
+                                        <!-- 5:30 AM - 6:00 AM: Longer REM period -->
+                                        <div class="time-segment" data-stage="rem" style="height: 50%;" title="5:30 AM - 6:00 AM: REM sleep"></div>
+                                        
+                                        <!-- 6:00 AM - 6:30 AM: Light sleep -->
+                                        <div class="time-segment" data-stage="light" style="height: 75%;" title="6:00 AM - 6:30 AM: Light sleep"></div>
+                                        
+                                        <!-- 6:30 AM - 7:00 AM: Final REM cycle -->
+                                        <div class="time-segment" data-stage="rem" style="height: 50%;" title="6:30 AM - 7:00 AM: REM sleep"></div>
+                                        
+                                        <!-- 7:00 AM - 7:48 AM: Light sleep then wake -->
+                                        <div class="time-segment" data-stage="awake" style="height: 100%;" title="7:00 AM - 7:48 AM: Waking up"></div>
+                                    </div>
+                                </div>
+                                <div class="graph-legend">
+                                    <div class="legend-item">
+                                        <div class="legend-color awake"></div>
+                                        <span>Awake</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color rem"></div>
+                                        <span>REM</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color light"></div>
+                                        <span>Light</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color deep"></div>
+                                        <span>Deep</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sleep Quality Score -->
+                            <div class="sleep-quality-score">
+                                <div class="score-header">
+                                    <span class="score-label">Sleep Quality Score</span>
+                                    <span class="score-rating">Very Good</span>
+                                </div>
+                                <div class="score-bar-container">
+                                    <div class="score-bar">
+                                        <div class="score-fill" style="width: 85%;"></div>
+                                    </div>
+                                    <span class="score-number">85/100</span>
+                                </div>
+                            </div>
+
+                            <!-- Detailed Metrics Grid -->
+                            <div class="detailed-metrics-grid">
+                                <div class="metric-card clickable-metric" data-metric="heart-rate">
+                                    <div class="metric-card-header">
+                                        <span class="metric-label">Heart Rate</span>
+                                        <i class="fas fa-chevron-right metric-arrow"></i>
+                                    </div>
+                                    <div class="metric-value-large">59 bpm</div>
+                                    <div class="metric-status good">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                </div>
+
+                                <div class="metric-card clickable-metric" data-metric="sleep-duration">
+                                    <div class="metric-card-header">
+                                        <span class="metric-label">Sleep Duration</span>
+                                        <i class="fas fa-chevron-right metric-arrow"></i>
+                                    </div>
+                                    <div class="metric-value-large">8h18</div>
+                                    <div class="metric-status good">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                </div>
+
+                                <div class="metric-card clickable-metric" data-metric="interruptions">
+                                    <div class="metric-card-header">
+                                        <span class="metric-label">Interruptions</span>
+                                        <i class="fas fa-chevron-right metric-arrow"></i>
+                                    </div>
+                                    <div class="metric-value-large">6 times</div>
+                                    <div class="metric-status warning">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </div>
+                                </div>
+
+                                <div class="metric-card clickable-metric" data-metric="movement-score">
+                                    <div class="metric-card-header">
+                                        <span class="metric-label">Movement Score</span>
+                                        <i class="fas fa-chevron-right metric-arrow"></i>
+                                    </div>
+                                    <div class="metric-value-large">78/100</div>
+                                    <div class="metric-status good">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                </div>
+
+                                <div class="metric-card clickable-metric" data-metric="time-to-sleep">
+                                    <div class="metric-card-header">
+                                        <span class="metric-label">Time to Sleep</span>
+                                        <i class="fas fa-chevron-right metric-arrow"></i>
+                                    </div>
+                                    <div class="metric-value-large">42 min</div>
+                                    <div class="metric-status info">
+                                        <i class="fas fa-info-circle"></i>
+                                    </div>
+                                </div>
+
+                                <div class="metric-card clickable-metric" data-metric="time-to-wake">
+                                    <div class="metric-card-header">
+                                        <span class="metric-label">Time to Wake</span>
+                                        <i class="fas fa-chevron-right metric-arrow"></i>
+                                    </div>
+                                    <div class="metric-value-large">28 min</div>
+                                    <div class="metric-status info">
+                                        <i class="fas fa-info-circle"></i>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -594,6 +773,25 @@
                                         </button>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===== Metric Detail Screen (Sub-subpage) ===== -->
+                    <div id="metric-detail-screen" class="app-screen metric-detail-screen">
+                        <div class="app-header">
+                            <div class="header-icon back" id="metric-detail-back-btn">
+                                <i class="fas fa-arrow-left"></i>
+                            </div>
+                            <div class="app-title" id="metric-detail-title">Metric Detail</div>
+                            <div style="width: 40px; height: 40px;"></div> <!-- Spacer -->
+                        </div>
+                        
+                        <div class="metric-detail-container">
+                            <!-- Content will be populated dynamically based on which metric was clicked -->
+                            <div class="metric-detail-placeholder">
+                                <i class="fas fa-chart-line" style="font-size: 48px; color: var(--gray400); margin-bottom: var(--spacing-m);"></i>
+                                <p style="color: var(--text-secondary); text-align: center;">Detailed metric analysis will appear here</p>
                             </div>
                         </div>
                     </div>
