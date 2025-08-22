@@ -17,6 +17,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const descriptionTextElement = document.getElementById('description-text'); // Get description text element
     const sleepDetailsBackBtn = document.getElementById('sleep-details-back-btn');
     const metricDetailBackBtn = document.getElementById('metric-detail-back-btn');
+    const whiteNoiseBackBtn = document.getElementById('white-noise-back-btn');
+    const natureSoundsBackBtn = document.getElementById('nature-sounds-back-btn');
+    const ambientNoiseBackBtn = document.getElementById('ambient-noise-back-btn');
+    const mechanicalSoundsBackBtn = document.getElementById('mechanical-sounds-back-btn');
+    const urbanAmbienceBackBtn = document.getElementById('urban-ambience-back-btn');
     const metricDetailTitle = document.getElementById('metric-detail-title');
     const clickableMetrics = document.querySelectorAll('.clickable-metric');
     const periodTabs = document.querySelectorAll('.period-tab');
@@ -325,6 +330,26 @@ document.addEventListener('DOMContentLoaded', () => {
         'metric-detail-screen': {
             title: 'Metric Analysis',
             text: 'In-depth analysis of your selected sleep metric. View trends, patterns, and insights to better understand and improve your sleep quality.'
+        },
+        'white-noise-screen': {
+            title: 'White Noise Collection',
+            text: 'Explore our curated collection of soothing white noise and ambient sounds. Choose from nature sounds, mechanical noise, urban ambience, and pure white noise to help you relax and sleep better.'
+        },
+        'nature-sounds-screen': {
+            title: 'Nature Sounds',
+            text: 'Immerse yourself in the soothing sounds of nature. From gentle rainfall to ocean waves, these natural soundscapes help you relax and drift into peaceful sleep.'
+        },
+        'ambient-noise-screen': {
+            title: 'Ambient Noise',
+            text: 'Pure tones and ambient frequencies designed to mask distractions and promote deep focus or relaxation. Choose from white, pink, brown noise and more.'
+        },
+        'mechanical-sounds-screen': {
+            title: 'Mechanical Sounds',
+            text: 'Consistent mechanical sounds that many find soothing for sleep. From fan noise to air conditioners, these steady sounds create a calming environment.'
+        },
+        'urban-ambience-screen': {
+            title: 'Urban Ambience',
+            text: 'The gentle hum of city life and cozy indoor environments. Perfect for those who find comfort in the sounds of coffee shops, libraries, and urban landscapes.'
         }
     };
 
@@ -404,6 +429,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (sleepDetailsBackBtn) {
         sleepDetailsBackBtn.addEventListener('click', () => showScreen('home-screen')); // Go back to home from sleep details
+    }
+    if (whiteNoiseBackBtn) {
+        whiteNoiseBackBtn.addEventListener('click', () => showScreen('music-screen')); // Go back to music screen from white noise
+    }
+    if (natureSoundsBackBtn) {
+        natureSoundsBackBtn.addEventListener('click', () => showScreen('white-noise-screen')); // Go back to white noise screen
+    }
+    if (ambientNoiseBackBtn) {
+        ambientNoiseBackBtn.addEventListener('click', () => showScreen('white-noise-screen')); // Go back to white noise screen
+    }
+    if (mechanicalSoundsBackBtn) {
+        mechanicalSoundsBackBtn.addEventListener('click', () => showScreen('white-noise-screen')); // Go back to white noise screen
+    }
+    if (urbanAmbienceBackBtn) {
+        urbanAmbienceBackBtn.addEventListener('click', () => showScreen('white-noise-screen')); // Go back to white noise screen
     }
 
     // Clickable Cards Navigation
@@ -1833,5 +1873,94 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     `;
     document.head.appendChild(style);
+
+    // === WHITE NOISE FUNCTIONALITY ===
+
+    // Add click handlers for noise categories - navigate to category screens
+    const noiseCategoryItems = document.querySelectorAll('.clickable-noise-category');
+    noiseCategoryItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const category = item.getAttribute('data-category');
+            // Map category to screen name
+            const screenMapping = {
+                'nature': 'nature-sounds-screen',
+                'ambient': 'ambient-noise-screen',
+                'mechanical': 'mechanical-sounds-screen',
+                'urban': 'urban-ambience-screen'
+            };
+            const screenId = screenMapping[category];
+            if (screenId) {
+                showScreen(screenId);
+            }
+        });
+    });
+
+    // Handle track playing (placeholder function)
+    function playTrack(trackName, category) {
+        console.log(`Playing: ${trackName} from ${category} category`);
+        
+        // Here you would integrate with actual audio playback
+        // For now, we'll just show a visual feedback
+        showTrackFeedback(trackName);
+    }
+
+    // Show visual feedback when track is selected
+    function showTrackFeedback(trackName) {
+        // Create a temporary notification
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            bottom: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #00C2C5, #5c7cda);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 1001;
+            animation: slideUpFade 3s ease;
+            box-shadow: 0 4px 20px rgba(0, 194, 197, 0.3);
+        `;
+        notification.textContent = `♪ Now Playing: ${trackName}`;
+
+        // Add animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideUpFade {
+                0% { transform: translateX(-50%) translateY(20px); opacity: 0; }
+                15% { transform: translateX(-50%) translateY(0); opacity: 1; }
+                85% { transform: translateX(-50%) translateY(0); opacity: 1; }
+                100% { transform: translateX(-50%) translateY(-20px); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        document.body.appendChild(notification);
+
+        // Remove notification after animation
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+            if (style.parentNode) {
+                style.parentNode.removeChild(style);
+            }
+        }, 3000);
+    }
+
+    // Add click handlers for popular tracks in white noise screen
+    const popularTracks = document.querySelectorAll('.clickable-track');
+    popularTracks.forEach(track => {
+        track.addEventListener('click', () => {
+            const trackName = track.querySelector('h5').textContent;
+            playTrack(trackName, 'popular');
+        });
+    });
+
+    // Featured track functionality removed - no longer needed
+
+    // === END WHITE NOISE FUNCTIONALITY ===
 
 });

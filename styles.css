@@ -1445,12 +1445,14 @@ body {
     font-size: 14px;
     opacity: 0.9;
     margin-bottom: 4px;
+    color: white !important;
 }
 
 .featured-track-card p:last-child {
     font-size: 12px;
     opacity: 0.7;
     margin-bottom: 0;
+    color: white !important;
 }
 
 .music-categories-grid {
@@ -3891,3 +3893,403 @@ body {
     flex-direction: column;
     gap: 8px;
 }
+
+/* === WHITE NOISE SCREEN STYLES === */
+.white-noise-screen {
+    padding: 0 !important;
+}
+
+.white-noise-screen .app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--spacing-m);
+    padding-bottom: var(--spacing-m);
+    padding-left: var(--spacing-l);
+    padding-right: var(--spacing-l);
+    margin-bottom: 0;
+    border-bottom: 1px solid var(--gray200);
+}
+
+.white-noise-container {
+    padding: var(--spacing-l);
+    overflow-y: auto;
+    height: calc(100% - 80px);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.white-noise-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* Categories Section */
+.categories-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.categories-section h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: var(--spacing-m);
+}
+
+.noise-categories-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-m);
+}
+
+.noise-category-card {
+    background: white;
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-m);
+    border: 1px solid var(--gray200);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.noise-category-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.category-content {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-m);
+}
+
+.category-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--border-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.noise-category-card.nature .category-icon {
+    background: linear-gradient(135deg, #10B981, #059669);
+}
+
+.noise-category-card.ambient .category-icon {
+    background: linear-gradient(135deg, #5c7cda, #4c63d2);
+}
+
+.noise-category-card.mechanical .category-icon {
+    background: linear-gradient(135deg, #F59E0B, #D97706);
+}
+
+.noise-category-card.urban .category-icon {
+    background: linear-gradient(135deg, #6B7280, #4B5563);
+}
+
+.category-text h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 2px;
+}
+
+.category-text p {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.track-count {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* Popular Tracks Section */
+.popular-tracks-section {
+    margin-bottom: var(--spacing-l);
+}
+
+.popular-tracks-section h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: var(--spacing-m);
+}
+
+.popular-tracks-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-s);
+}
+
+.track-item {
+    background: white;
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-m);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-m);
+    border: 1px solid var(--gray200);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-sm);
+}
+
+.track-item:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+}
+
+.track-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--border-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.track-icon.rain {
+    background: linear-gradient(135deg, #3B82F6, #1D4ED8);
+}
+
+.track-icon.ocean {
+    background: linear-gradient(135deg, #00C2C5, #0891B2);
+}
+
+.track-icon.white {
+    background: linear-gradient(135deg, #6B7280, #374151);
+}
+
+.track-icon.brown {
+    background: linear-gradient(135deg, #92400E, #78350F);
+}
+
+.track-icon.forest {
+    background: linear-gradient(135deg, #10B981, #059669);
+}
+
+.track-info {
+    flex: 1;
+}
+
+.track-info h5 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 2px;
+}
+
+.track-info p {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.play-btn {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.play-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 194, 197, 0.3);
+}
+
+
+/* New Category List Styling */
+.noise-categories-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-s);
+}
+.noise-category-item {
+    background-color: var(--gray100);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-m);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.noise-category-item:hover {
+    background-color: var(--gray200);
+    transform: translateY(-1px);
+}
+.noise-category-item .content {
+    display: flex;
+    align-items: center;
+}
+.noise-category-item .icon-bg {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: var(--spacing-m);
+    flex-shrink: 0;
+}
+.noise-category-item.nature .icon-bg {
+    background: linear-gradient(135deg, #10B981, #059669);
+}
+.noise-category-item.ambient .icon-bg {
+    background: linear-gradient(135deg, #5c7cda, #4c63d2);
+}
+.noise-category-item.mechanical .icon-bg {
+    background: linear-gradient(135deg, #F59E0B, #D97706);
+}
+.noise-category-item.urban .icon-bg {
+    background: linear-gradient(135deg, #6B7280, #4B5563);
+}
+.noise-category-item .icon-bg i {
+    font-size: 22px;
+    color: white;
+}
+.noise-category-item .text h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--text);
+}
+.noise-category-item .text p {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+.noise-category-item .chevron i {
+    font-size: 18px;
+    color: var(--text-secondary);
+}
+
+/* Popular Tracks Section */
+.popular-tracks-section {
+    margin-bottom: var(--spacing-xl);
+}
+.popular-tracks-section h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: var(--spacing-m);
+}
+.popular-tracks-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-s);
+}
+.popular-tracks-list .track-item {
+    background: white;
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-m);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-m);
+    border: 1px solid var(--gray200);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.popular-tracks-list .track-item:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+    background-color: var(--gray50);
+}
+
+/* Category Screens */
+.category-screen {
+    padding: 0 !important;
+}
+.category-screen .app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--spacing-m);
+    padding-bottom: var(--spacing-m);
+    padding-left: var(--spacing-l);
+    padding-right: var(--spacing-l);
+    margin-bottom: 0;
+    border-bottom: 1px solid var(--gray200);
+}
+.category-container {
+    padding: var(--spacing-l);
+    overflow-y: auto;
+    height: calc(100% - 80px);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.category-container::-webkit-scrollbar {
+    display: none;
+}
+.category-container .tracks-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-s);
+}
+.category-container .track-item {
+    background: white;
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-m);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-m);
+    border: 1px solid var(--gray200);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.category-container .track-item:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+    background-color: var(--gray50);
+}
+
+/* Track Icon Colors for Category Pages */
+.track-icon.fire {
+    background: linear-gradient(135deg, #F59E0B, #D97706);
+}
+.track-icon.pink {
+    background: linear-gradient(135deg, #EC4899, #BE185D);
+}
+.track-icon.brown {
+    background: linear-gradient(135deg, #A16207, #92400E);
+}
+.track-icon.purple {
+    background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+}
+.track-icon.ambient {
+    background: linear-gradient(135deg, #5c7cda, #4c63d2);
+}
+.track-icon.mechanical {
+    background: linear-gradient(135deg, #F59E0B, #D97706);
+}
+.track-icon.coffee {
+    background: linear-gradient(135deg, #92400E, #78350F);
+}
+.track-icon.library {
+    background: linear-gradient(135deg, #4B5563, #374151);
+}
+.track-icon.city {
+    background: linear-gradient(135deg, #6B7280, #4B5563);
+}
+.track-icon.train {
+    background: linear-gradient(135deg, #374151, #1F2937);
+}
+
+/* === END WHITE NOISE STYLES === */

@@ -498,7 +498,7 @@
                             <!-- Categories -->
                             <h3>Categories</h3>
                             <div class="music-categories-grid">
-                                <div class="category-card white-noise">
+                                <div class="category-card white-noise clickable-card" data-navigate="white-noise-screen">
                                     <div class="icon-bg"><i class="fas fa-wave-square"></i></div>
                                     <div>
                                         <h4>White Noise</h4>
@@ -615,6 +615,481 @@
                                         </div>
                                     </div>
                                     <div class="chevron"><i class="fas fa-chevron-right"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===== White Noise Screen ===== -->
+                    <div id="white-noise-screen" class="app-screen white-noise-screen">
+                        <div class="app-header">
+                            <div class="header-icon back" id="white-noise-back-btn">
+                                <i class="fas fa-arrow-left"></i>
+                            </div>
+                            <div class="app-title">WHITE NOISE</div>
+                            <div style="width: 40px; height: 40px;"></div> <!-- Spacer -->
+                        </div>
+                        
+                        <div class="white-noise-container">
+                            <!-- Categories Section -->
+                            <div class="categories-section">
+                                <h3>Categories</h3>
+                                <div class="noise-categories-list">
+                                    <div class="noise-category-item nature clickable-noise-category" data-category="nature">
+                                        <div class="content">
+                                            <div class="icon-bg nature">
+                                                <i class="fas fa-leaf"></i>
+                                            </div>
+                                            <div class="text">
+                                                <h4>Nature Sounds</h4>
+                                                <p>Rain, ocean, forest & more</p>
+                                            </div>
+                                        </div>
+                                        <div class="chevron">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="noise-category-item ambient clickable-noise-category" data-category="ambient">
+                                        <div class="content">
+                                            <div class="icon-bg ambient">
+                                                <i class="fas fa-wind"></i>
+                                            </div>
+                                            <div class="text">
+                                                <h4>Ambient Noise</h4>
+                                                <p>White, pink & brown noise</p>
+                                            </div>
+                                        </div>
+                                        <div class="chevron">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="noise-category-item mechanical clickable-noise-category" data-category="mechanical">
+                                        <div class="content">
+                                            <div class="icon-bg mechanical">
+                                                <i class="fas fa-fan"></i>
+                                            </div>
+                                            <div class="text">
+                                                <h4>Mechanical</h4>
+                                                <p>Fans, air conditioners & more</p>
+                                            </div>
+                                        </div>
+                                        <div class="chevron">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="noise-category-item urban clickable-noise-category" data-category="urban">
+                                        <div class="content">
+                                            <div class="icon-bg urban">
+                                                <i class="fas fa-city"></i>
+                                            </div>
+                                            <div class="text">
+                                                <h4>Urban Ambience</h4>
+                                                <p>Coffee shops, libraries & city</p>
+                                            </div>
+                                        </div>
+                                        <div class="chevron">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Popular Tracks Section -->
+                            <div class="popular-tracks-section">
+                                <h3>Popular Tracks</h3>
+                                <div class="popular-tracks-list">
+                                    <div class="track-item clickable-track" data-track="rain-on-window">
+                                        <div class="track-icon rain">
+                                            <i class="fas fa-cloud-rain"></i>
+                                        </div>
+                                        <div class="track-info">
+                                            <h5>Rain on Window</h5>
+                                            <p>Gentle rainfall • 4 hours</p>
+                                        </div>
+                                        <div class="track-actions">
+                                            <div class="play-btn mini">
+                                                <i class="fas fa-play"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="track-item clickable-track" data-track="ocean-waves">
+                                        <div class="track-icon ocean">
+                                            <i class="fas fa-water"></i>
+                                        </div>
+                                        <div class="track-info">
+                                            <h5>Ocean Waves</h5>
+                                            <p>Deep sea sounds • 8 hours</p>
+                                        </div>
+                                        <div class="track-actions">
+                                            <div class="play-btn mini">
+                                                <i class="fas fa-play"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="track-item clickable-track" data-track="white-noise">
+                                        <div class="track-icon white">
+                                            <i class="fas fa-wave-square"></i>
+                                        </div>
+                                        <div class="track-info">
+                                            <h5>Pure White Noise</h5>
+                                            <p>Classic white noise • 10 hours</p>
+                                        </div>
+                                        <div class="track-actions">
+                                            <div class="play-btn mini">
+                                                <i class="fas fa-play"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===== Nature Sounds Screen ===== -->
+                    <div id="nature-sounds-screen" class="app-screen category-screen">
+                        <div class="app-header">
+                            <div class="header-icon back" id="nature-sounds-back-btn">
+                                <i class="fas fa-arrow-left"></i>
+                            </div>
+                            <div class="app-title">NATURE SOUNDS</div>
+                            <div style="width: 40px; height: 40px;"></div> <!-- Spacer -->
+                        </div>
+                        
+                        <div class="category-container">
+                            <div class="tracks-list">
+                                <div class="track-item clickable-track" data-track="ocean-waves">
+                                    <div class="track-icon ocean">
+                                        <i class="fas fa-water"></i>
+                                    </div>
+                                    <div class="track-info">
+                                        <h5>Ocean Waves</h5>
+                                        <p>Deep rolling waves • 8 hours</p>
+                                    </div>
+                                    <div class="track-actions">
+                                        <div class="play-btn mini">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="track-item clickable-track" data-track="gentle-rain">
+                                    <div class="track-icon rain">
+                                        <i class="fas fa-cloud-rain"></i>
+                                    </div>
+                                    <div class="track-info">
+                                        <h5>Gentle Rain</h5>
+                                        <p>Light rainfall • 6 hours</p>
+                                    </div>
+                                    <div class="track-actions">
+                                        <div class="play-btn mini">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="track-item clickable-track" data-track="thunderstorm">
+                                    <div class="track-icon rain">
+                                        <i class="fas fa-bolt"></i>
+                                    </div>
+                                    <div class="track-info">
+                                        <h5>Thunderstorm</h5>
+                                        <p>Heavy rain & thunder • 4 hours</p>
+                                    </div>
+                                    <div class="track-actions">
+                                        <div class="play-btn mini">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="track-item clickable-track" data-track="mountain-stream">
+                                    <div class="track-icon ocean">
+                                        <i class="fas fa-water"></i>
+                                    </div>
+                                    <div class="track-info">
+                                        <h5>Mountain Stream</h5>
+                                        <p>Flowing water • 8 hours</p>
+                                    </div>
+                                    <div class="track-actions">
+                                        <div class="play-btn mini">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="track-item clickable-track" data-track="campfire">
+                                    <div class="track-icon fire">
+                                        <i class="fas fa-fire"></i>
+                                    </div>
+                                    <div class="track-info">
+                                        <h5>Campfire Crackling</h5>
+                                        <p>Warm fire sounds • 6 hours</p>
+                                    </div>
+                                    <div class="track-actions">
+                                        <div class="play-btn mini">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===== Ambient Noise Screen ===== -->
+                    <div id="ambient-noise-screen" class="app-screen category-screen">
+                        <div class="app-header">
+                            <div class="header-icon back" id="ambient-noise-back-btn">
+                                <i class="fas fa-arrow-left"></i>
+                            </div>
+                            <div class="app-title">AMBIENT NOISE</div>
+                            <div style="width: 40px; height: 40px;"></div> <!-- Spacer -->
+                        </div>
+                        
+                        <div class="category-container">
+                            <div class="tracks-list">
+                                <div class="track-item clickable-track" data-track="pure-white-noise">
+                                    <div class="track-icon white">
+                                        <i class="fas fa-wave-square"></i>
+                                    </div>
+                                    <div class="track-info">
+                                        <h5>Pure White Noise</h5>
+                                        <p>Classic white noise • 12 hours</p>
+                                    </div>
+                                    <div class="track-actions">
+                                        <div class="play-btn mini">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="track-item clickable-track" data-track="pink-noise">
+                                    <div class="track-icon pink">
+                                        <i class="fas fa-wave-square"></i>
+                                    </div>
+                                    <div class="track-info">
+                                        <h5>Pink Noise</h5>
+                                        <p>Deeper frequency noise • 12 hours</p>
+                                    </div>
+                                    <div class="track-actions">
+                                        <div class="play-btn mini">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="track-item clickable-track" data-track="brown-noise">
+                                    <div class="track-icon brown">
+                                        <i class="fas fa-wave-square"></i>
+                                    </div>
+                                    <div class="track-info">
+                                        <h5>Brown Noise</h5>
+                                        <p>Low frequency rumble • 12 hours</p>
+                                    </div>
+                                    <div class="track-actions">
+                                        <div class="play-btn mini">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="track-item clickable-track" data-track="binaural-beats">
+                                    <div class="track-icon purple">
+                                        <i class="fas fa-headphones"></i>
+                                    </div>
+                                    <div class="track-info">
+                                        <h5>Binaural Beats</h5>
+                                        <p>Focus & relaxation • 2 hours</p>
+                                    </div>
+                                    <div class="track-actions">
+                                        <div class="play-btn mini">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="track-item clickable-track" data-track="static-noise">
+                                    <div class="track-icon white">
+                                        <i class="fas fa-radio"></i>
+                                    </div>
+                                    <div class="track-info">
+                                        <h5>Static Noise</h5>
+                                        <p>Radio static • 8 hours</p>
+                                    </div>
+                                    <div class="track-actions">
+                                        <div class="play-btn mini">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="track-item clickable-track" data-track="ambient-drone">
+                                    <div class="track-icon ambient">
+                                        <i class="fas fa-volume-up"></i>
+                                    </div>
+                                    <div class="track-info">
+                                        <h5>Ambient Drone</h5>
+                                        <p>Deep atmospheric • 6 hours</p>
+                                    </div>
+                                    <div class="track-actions">
+                                        <div class="play-btn mini">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===== Mechanical Sounds Screen ===== -->
+                    <div id="mechanical-sounds-screen" class="app-screen category-screen">
+                        <div class="app-header">
+                            <div class="header-icon back" id="mechanical-sounds-back-btn">
+                                <i class="fas fa-arrow-left"></i>
+                            </div>
+                            <div class="app-title">MECHANICAL SOUNDS</div>
+                            <div style="width: 40px; height: 40px;"></div> <!-- Spacer -->
+                        </div>
+                        
+                        <div class="category-container">
+                            <div class="tracks-list">
+                                <div class="track-item clickable-track" data-track="fan-noise">
+                                    <div class="track-icon mechanical">
+                                        <i class="fas fa-fan"></i>
+                                    </div>
+                                    <div class="track-info">
+                                        <h5>Fan Noise</h5>
+                                        <p>Steady fan rotation • 12 hours</p>
+                                    </div>
+                                    <div class="track-actions">
+                                        <div class="play-btn mini">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="track-item clickable-track" data-track="air-conditioner">
+                                    <div class="track-icon mechanical">
+                                        <i class="fas fa-snowflake"></i>
+                                    </div>
+                                    <div class="track-info">
+                                        <h5>Air Conditioner</h5>
+                                        <p>AC hum • 10 hours</p>
+                                    </div>
+                                    <div class="track-actions">
+                                        <div class="play-btn mini">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="track-item clickable-track" data-track="hair-dryer">
+                                    <div class="track-icon mechanical">
+                                        <i class="fas fa-wind"></i>
+                                    </div>
+                                    <div class="track-info">
+                                        <h5>Hair Dryer</h5>
+                                        <p>Consistent motor • 3 hours</p>
+                                    </div>
+                                    <div class="track-actions">
+                                        <div class="play-btn mini">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="track-item clickable-track" data-track="washing-machine">
+                                    <div class="track-icon mechanical">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </div>
+                                    <div class="track-info">
+                                        <h5>Washing Machine</h5>
+                                        <p>Laundry cycle • 1 hour</p>
+                                    </div>
+                                    <div class="track-actions">
+                                        <div class="play-btn mini">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===== Urban Ambience Screen ===== -->
+                    <div id="urban-ambience-screen" class="app-screen category-screen">
+                        <div class="app-header">
+                            <div class="header-icon back" id="urban-ambience-back-btn">
+                                <i class="fas fa-arrow-left"></i>
+                            </div>
+                            <div class="app-title">URBAN AMBIENCE</div>
+                            <div style="width: 40px; height: 40px;"></div> <!-- Spacer -->
+                        </div>
+                        
+                        <div class="category-container">
+                            <div class="tracks-list">
+                                <div class="track-item clickable-track" data-track="coffee-shop">
+                                    <div class="track-icon coffee">
+                                        <i class="fas fa-coffee"></i>
+                                    </div>
+                                    <div class="track-info">
+                                        <h5>Coffee Shop</h5>
+                                        <p>Café atmosphere • 4 hours</p>
+                                    </div>
+                                    <div class="track-actions">
+                                        <div class="play-btn mini">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="track-item clickable-track" data-track="library-silence">
+                                    <div class="track-icon library">
+                                        <i class="fas fa-book"></i>
+                                    </div>
+                                    <div class="track-info">
+                                        <h5>Library Silence</h5>
+                                        <p>Quiet study sounds • 8 hours</p>
+                                    </div>
+                                    <div class="track-actions">
+                                        <div class="play-btn mini">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="track-item clickable-track" data-track="city-traffic">
+                                    <div class="track-icon city">
+                                        <i class="fas fa-car"></i>
+                                    </div>
+                                    <div class="track-info">
+                                        <h5>City Traffic</h5>
+                                        <p>Distant traffic • 6 hours</p>
+                                    </div>
+                                    <div class="track-actions">
+                                        <div class="play-btn mini">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="track-item clickable-track" data-track="train-journey">
+                                    <div class="track-icon train">
+                                        <i class="fas fa-train"></i>
+                                    </div>
+                                    <div class="track-info">
+                                        <h5>Train Journey</h5>
+                                        <p>Train on tracks • 3 hours</p>
+                                    </div>
+                                    <div class="track-actions">
+                                        <div class="play-btn mini">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
