@@ -1,0 +1,169 @@
+/* Sleep Coach Section - Original Clean Version */
+.sleep-coach-section {
+    margin: 16px 0;
+}
+
+.sleep-coach-card {
+    background: var(--card-background);
+    border-radius: var(--border-radius-md);
+    border: 1px solid var(--gray200);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+.coach-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, #00C2C5 0%, #00D7DA 100%);
+    color: white;
+    cursor: pointer;
+}
+
+.coach-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.coach-title i {
+    font-size: 18px;
+}
+
+.coach-toggle-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    padding: 6px 10px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.coach-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.coach-toggle-btn i {
+    transition: transform 0.3s ease;
+}
+
+.coach-toggle-btn.expanded i {
+    transform: rotate(180deg);
+}
+
+.coach-summary {
+    padding: 16px;
+    background: var(--gray100);
+    border-bottom: 1px solid var(--gray200);
+}
+
+.coach-summary-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text);
+    margin: 0;
+}
+
+.coach-details {
+    padding: 20px;
+    background: white;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.coach-suggestions {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.suggestion-category {
+    background: var(--gray50, #f9fafb);
+    padding: 16px;
+    border-radius: 8px;
+    border-left: 3px solid var(--primary);
+}
+
+.action-items-category {
+    background: rgba(16, 185, 129, 0.1);
+    border-left: 3px solid var(--success, #10B981);
+}
+
+.category-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0 0 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.suggestion-list,
+.action-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.suggestion-list li,
+.action-items li {
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+.suggestion-list li::before {
+    content: "•";
+    position: absolute;
+    left: 8px;
+    color: var(--primary);
+    font-weight: bold;
+}
+
+.action-items li::before {
+    content: "✓";
+    position: absolute;
+    left: 8px;
+    color: var(--success, #10B981);
+}
+
+/* Action items special styling */
+.action-items li {
+    background: white;
+    padding: 10px 10px 10px 30px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.action-items li::before {
+    left: 10px;
+}
+
+/* Custom scrollbar for coach details */
+.coach-details::-webkit-scrollbar {
+    width: 6px;
+}
+
+.coach-details::-webkit-scrollbar-track {
+    background: var(--gray100);
+    border-radius: 3px;
+}
+
+.coach-details::-webkit-scrollbar-thumb {
+    background: var(--gray400);
+    border-radius: 3px;
+}
+
+.coach-details::-webkit-scrollbar-thumb:hover {
+    background: var(--gray500);
+}

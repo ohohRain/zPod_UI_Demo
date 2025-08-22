@@ -1,0 +1,280 @@
+# OZI App - Sleep Details Subpage (Updated with Sleep Stage Graph)
+Generated: 2025-08-17
+
+## Updated Sleep Details Interface Design
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          PHONE BEZEL (Dark Frame)                          │
+│ ┌─ Dynamic Island ●●●●●●●●●●●●●●●●●●●●●●●●│                                │
+│ │                                       │ Power Button ──┐                 │
+│ │  ┌─────────────────────────────────────────────────────────────────┐     │
+│ │  │                    PHONE SCREEN                                 │     │
+│ │  │ ┌─────────────────────────────────────────────────────────────┐ │     │
+│ │  │ │                   APP HEADER                                │ │     │
+│ │  │ │  ┌───┐                                                      │ │     │
+│ │  │ │  │ ◀ │         SLEEP QUALITY                                │ │     │
+│ │  │ │  └───┘                                                      │ │     │
+│ │  │ │  Back                                                       │ │     │
+│ │  │ └─────────────────────────────────────────────────────────────┘ │     │
+│ │  │                                                               │     │
+│ │  │ ┌─────────────────────────────────────────────────────────────┐ │     │
+│ │  │ │              TIME PERIOD SELECTOR                          │ │     │
+│ │  │ │    ┌─────┐     ┌─────┐     ┌─────┐                        │ │     │
+│ │  │ │    │ Day │     │Week │     │Month│                        │ │     │
+│ │  │ │    └─────┘     └─────┘     └─────┘                        │ │     │
+│ │  │ │   [ACTIVE]                                                │ │     │
+│ │  │ └─────────────────────────────────────────────────────────────┘ │     │
+│ │  │                                                               │     │
+│ │  │ ┌─────────────────────────────────────────────────────────────┐ │     │
+│ │  │ │              DATE NAVIGATION                               │ │     │
+│ │  │ │    ┌───┐          Tuesday, July 01          ┌───┐         │ │     │
+│ │  │ │    │ ◀ │                                     │ ▶ │         │ │     │
+│ │  │ │    └───┘                                     └───┘         │ │     │
+│ │  │ └─────────────────────────────────────────────────────────────┘ │     │
+│ │  │                                                               │     │
+│ │  │ ┌─────────────────────────────────────────────────────────────┐ │     │
+│ │  │ │                SLEEP STAGE GRAPH                           │ │     │
+│ │  │ │                                                           │ │     │
+│ │  │ │   11:46 PM          8h18          9:02 AM               │ │     │
+│ │  │ │                                                           │ │     │
+│ │  │ │ █ ████ ████ ████ ████ ████ ████ ████ ████ ████ ████ █     │ │     │
+│ │  │ │ █ ░░██ ░░██ ░░░░ ████ ░░░░ ████ ░░░░ ████ ░░░░ ████ █     │ │     │
+│ │  │ │ █ ░░██ ░░██ ░░░░ ████ ░░░░ ████ ░░░░ ████ ░░░░ ████ █     │ │     │
+│ │  │ │ █ ░░██ ░░██ ░░░░ ████ ░░░░ ████ ░░░░ ████ ░░░░ ████ █     │ │     │
+│ │  │ │ █ ░░██ ░░██ ░░░░ ░░░░ ░░░░ ░░░░ ░░░░ ░░░░ ░░░░ ░░░░ █     │ │     │
+│ │  │ │ █ ░░██ ░░██ ░░░░ ░░░░ ░░░░ ░░░░ ░░░░ ░░░░ ░░░░ ░░░░ █     │ │     │
+│ │  │ │ █ ████ ████ ████ ████ ████ ████ ████ ████ ████ ████ █     │ │     │
+│ │  │ │                                                           │ │     │
+│ │  │ │ ■ Awake   ░ REM   ▒ Light   ■ Deep                      │ │     │
+│ │  │ └─────────────────────────────────────────────────────────────┘ │     │
+│ │  │                                                               │     │
+│ │  │ ┌─────────────────────────────────────────────────────────────┐ │     │
+│ │  │ │              SLEEP QUALITY SCORE                           │ │     │
+│ │  │ │                                                           │ │     │
+│ │  │ │                    ┌─────────┐                            │ │     │
+│ │  │ │                    │   79    │                            │ │     │
+│ │  │ │                    │░░░░░░░░░│                            │ │     │
+│ │  │ │                    └─────────┘                            │ │     │
+│ │  │ │                                                           │ │     │
+│ │  │ │                Sleep Quality Score                        │ │     │
+│ │  │ └─────────────────────────────────────────────────────────────┘ │     │
+│ │  │                                                               │     │
+│ │  │ ┌─────────────────────────────────────────────────────────────┐ │     │
+│ │  │ │                METRICS GRID (2x4)                         │ │     │
+│ │  │ │                                                           │ │     │
+│ │  │ │  ┌─────────────────────┐ ┌─────────────────────┐           │ │     │
+│ │  │ │  │ Duration ▶         │ │ Heart Rate ▶       │           │ │     │
+│ │  │ │  │ 8h18               │ │ 59 bpm             │           │ │     │
+│ │  │ │  │               ✓   │ │               ✓   │           │ │     │
+│ │  │ │  └─────────────────────┘ └─────────────────────┘           │ │     │
+│ │  │ │                                                           │ │     │
+│ │  │ │  ┌─────────────────────┐ ┌─────────────────────┐           │ │     │
+│ │  │ │  │ HRV ▶              │ │ Depth ▶            │           │ │     │
+│ │  │ │  │ 62 ms              │ │ Bad                │           │ │     │
+│ │  │ │  │               ✓   │ │               !   │           │ │     │
+│ │  │ │  └─────────────────────┘ └─────────────────────┘           │ │     │
+│ │  │ │                                                           │ │     │
+│ │  │ │  ┌─────────────────────┐ ┌─────────────────────┐           │ │     │
+│ │  │ │  │ Regularity ▶       │ │ Interruptions ▶    │           │ │     │
+│ │  │ │  │ Good               │ │ 6 times            │           │ │     │
+│ │  │ │  │               ✓   │ │               !   │           │ │     │
+│ │  │ │  └─────────────────────┘ └─────────────────────┘           │ │     │
+│ │  │ │                                                           │ │     │
+│ │  │ │  ┌─────────────────────┐ ┌─────────────────────┐           │ │     │
+│ │  │ │  │ Time to sleep ▶    │ │ Time to get up ▶   │           │ │     │
+│ │  │ │  │ 42min              │ │ 28min              │           │ │     │
+│ │  │ │  │               i   │ │               i   │           │ │     │
+│ │  │ │  └─────────────────────┘ └─────────────────────┘           │ │     │
+│ │  │ └─────────────────────────────────────────────────────────────┘ │     │
+│ │  │                                                               │     │
+│ │  │ ┌─────────────────────────────────────────────────────────────┐ │     │
+│ │  │ │               BOTTOM HOME INDICATOR                        │ │     │
+│ │  │ │                     ████████                               │ │     │
+│ │  │ └─────────────────────────────────────────────────────────────┘ │     │
+│ │  └───────────────────────────────────────────────────────────────┘     │
+│ └─────────────────────────────────────────────────────────────────────────┘
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+## Updated Component Breakdown
+
+### Header Section
+```
+┌─────────────────────────────────────────┐
+│ [◀]         SLEEP QUALITY               │
+│Back                                     │
+└─────────────────────────────────────────┘
+```
+- Back Arrow: Navigation to previous screen
+- Title: "SLEEP QUALITY" - center aligned
+
+
+### Time Period Selector
+```
+┌─────────────────────────────────────────┐
+│    [Day]     [Week]     [Month]         │
+│   ACTIVE                                │
+└─────────────────────────────────────────┘
+```
+- Three tabs with Day as active state (blue background)
+- Clean, rounded tab design
+
+### Date Navigation
+```
+┌─────────────────────────────────────────┐
+│    [◀]    Tuesday, July 01    [▶]       │
+└─────────────────────────────────────────┘
+```
+- Circular arrow buttons for date navigation
+- Full date format display
+
+### Sleep Stage Graph (Primary Focus)
+```
+┌─────────────────────────────────────────────────────────┐
+│                SLEEP STAGE GRAPH                        │
+│                                                         │
+│   11:46 PM          8h18          9:02 AM              │
+│                                                         │
+│ █ ████ ████ ████ ████ ████ ████ ████ ████ ████ ████ █  │
+│ █ ░░██ ░░██ ░░░░ ████ ░░░░ ████ ░░░░ ████ ░░░░ ████ █  │
+│ █ ░░██ ░░██ ░░░░ ████ ░░░░ ████ ░░░░ ████ ░░░░ ████ █  │
+│ █ ░░██ ░░██ ░░░░ ████ ░░░░ ████ ░░░░ ████ ░░░░ ████ █  │
+│ █ ░░██ ░░██ ░░░░ ░░░░ ░░░░ ░░░░ ░░░░ ░░░░ ░░░░ ░░░░ █  │
+│ █ ░░██ ░░██ ░░░░ ░░░░ ░░░░ ░░░░ ░░░░ ░░░░ ░░░░ ░░░░ █  │
+│ █ ████ ████ ████ ████ ████ ████ ████ ████ ████ ████ █  │
+│                                                         │
+│ ■ Awake   ░ REM   ▒ Light   ■ Deep                    │
+└─────────────────────────────────────────────────────────┘
+```
+
+**Graph Elements:**
+- **Timeline**: 11:46 PM (bedtime) → 8h18 (duration) → 9:02 AM (wake time)
+- **Y-axis**: Sleep stages from Awake (top) to Deep (bottom)
+- **Color Coding**: 
+  - ■ Gray: Awake periods
+  - ░ Light Blue: REM sleep
+  - ▒ Blue: Light sleep  
+  - ■ Dark Blue: Deep sleep
+- **Horizontal Bars**: Show sleep stage progression throughout the night
+- **Legend**: Color-coded explanation at bottom
+
+### Sleep Quality Score (Repositioned)
+```
+┌─────────────────────────────────────────┐
+│              SLEEP QUALITY SCORE        │
+│                                         │
+│                ┌─────────┐               │
+│                │   79    │               │
+│                │░░░░░░░░░│               │
+│                └─────────┘               │
+│                                         │
+│            Sleep Quality Score          │
+└─────────────────────────────────────────┘
+```
+- Moved below the sleep stage graph
+- Circular score display with green accent
+- Smaller, supporting role to the graph
+
+### Enhanced Metrics Grid (2x4 Layout)
+```
+┌─────────────────────────────────────────────────────────┐
+│                  METRICS GRID                           │
+│                                                         │
+│  ┌─────────────────────┐ ┌─────────────────────┐       │
+│  │ Duration ▶         │ │ Heart Rate ▶       │       │
+│  │ 8h18               │ │ 59 bpm             │       │
+│  │               ✓   │ │               ✓   │       │
+│  └─────────────────────┘ └─────────────────────┘       │
+│                                                         │
+│  ┌─────────────────────┐ ┌─────────────────────┐       │
+│  │ HRV ▶              │ │ Depth ▶            │       │
+│  │ 62 ms              │ │ Bad                │       │
+│  │               ✓   │ │               !   │       │
+│  └─────────────────────┘ └─────────────────────┘       │
+│                                                         │
+│  ┌─────────────────────┐ ┌─────────────────────┐       │
+│  │ Regularity ▶       │ │ Interruptions ▶    │       │
+│  │ Good               │ │ 6 times            │       │
+│  │               ✓   │ │               !   │       │
+│  └─────────────────────┘ └─────────────────────┘       │
+│                                                         │
+│  ┌─────────────────────┐ ┌─────────────────────┐       │
+│  │ Time to sleep ▶    │ │ Time to get up ▶   │       │
+│  │ 42min              │ │ 28min              │       │
+│  │               i   │ │               i   │       │
+│  └─────────────────────┘ └─────────────────────┘       │
+└─────────────────────────────────────────────────────────┘
+```
+
+**Row 1:**
+- Duration: 8h18 with green checkmark (good)
+- Heart Rate: 59 bpm with green checkmark (good)
+
+**Row 2:**
+- HRV: 62 ms with green checkmark (good)
+- Depth: Bad with red warning icon (needs attention)
+
+**Row 3:**
+- Regularity: Good with green checkmark
+- Interruptions: 6 times with red warning icon (high)
+
+**Row 4:**
+- Time to sleep: 42min with blue info icon
+- Time to get up: 28min with blue info icon
+
+## Key Design Changes
+
+### 1. Visual Hierarchy Restructure
+- **Primary**: Sleep Stage Graph (most prominent, center stage)
+- **Secondary**: Sleep Quality Score (supporting the graph data)
+- **Tertiary**: Detailed metrics grid (comprehensive breakdown)
+
+### 2. Sleep Stage Graph Features
+- **Timeline Integration**: Shows bedtime, total sleep, and wake time
+- **Stage Visualization**: Clear color-coded bars for each sleep stage
+- **Pattern Recognition**: Visual representation of sleep cycles
+- **Interactive Potential**: Graph can be tapped/swiped for detailed views
+
+### 3. Enhanced Status Indicators
+- **Green Checkmarks (✓)**: Good/optimal values
+- **Red Warning Icons (!)**: Values needing attention
+- **Blue Info Icons (i)**: Informational metrics
+- **Arrow Icons (▶)**: Indicates tappable for more details
+
+### 4. Color System Refinement
+- **Sleep Stages**: 
+  - Gray (#8E8E93): Awake
+  - Light Blue (#A4D8F0): REM
+  - Blue (#007AFF): Light Sleep
+  - Dark Blue (#1D3A5F): Deep Sleep
+- **Status Colors**:
+  - Green (#34C759): Good/optimal
+  - Red (#FF3B30): Warning/poor
+  - Blue (#007AFF): Informational
+
+### 5. Improved Information Architecture
+1. **Context Setting**: Time period and date selection
+2. **Primary Data**: Sleep stage progression (visual story)
+3. **Quality Assessment**: Overall score derived from stages
+4. **Detailed Metrics**: Comprehensive health indicators
+5. **Navigation**: Clear paths to detailed views
+
+## UX Improvements
+
+### 1. Progressive Disclosure
+- Sleep stage graph provides immediate visual understanding
+- Quality score gives quick assessment
+- Metrics grid offers detailed exploration
+
+### 2. Actionable Insights
+- Warning indicators highlight areas for improvement
+- Good indicators reinforce positive behaviors
+- Info indicators provide context without judgment
+
+### 3. Visual Storytelling
+- Graph tells the "story" of the night's sleep
+- Color coding creates instant understanding
+- Timeline provides context for sleep patterns
+
+This updated design places the sleep stage graph as the primary focal point, providing users with an immediate visual understanding of their sleep patterns while maintaining easy access to detailed metrics and overall quality assessment.

@@ -687,9 +687,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const sleepStageGraph = document.querySelector('.sleep-stage-graph');
         const sleepQualityScore = document.querySelector('.sleep-quality-score');
         const detailedMetricsGrid = document.querySelector('.detailed-metrics-grid');
+        const sleepCoachSection = document.querySelector('.sleep-coach-section');
         
         if (sleepStageGraph) {
             sleepStageGraph.style.display = period === 'day' ? 'block' : 'none';
+        }
+
+        // Show sleep coach for any date with sleep data in day view
+        if (sleepCoachSection) {
+            const dateKey = getDateKey(currentDate);
+            const dayData = sleepDataFromFile[dateKey];
+            sleepCoachSection.style.display = (period === 'day' && dayData) ? 'block' : 'none';
+            
+            // Update sleep coach content if data exists
+            if (dayData && period === 'day') {
+                updateSleepCoachContent(dayData);
+            }
         }
 
         if (period === 'day') {
@@ -1125,83 +1138,72 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Color Slider Functionality ---
-    const colorSliderContainer = document.querySelector('.color-slider-container');
-    const colorSliderHandle = document.querySelector('.color-slider-handle');
-
-    if (colorSliderContainer && colorSliderHandle) {
-        let isDragging = false;
-
-        function updateSliderPosition(clientX) {
-            const rect = colorSliderContainer.getBoundingClientRect();
-            const position = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
-            const percentage = position * 100;
-
-            colorSliderHandle.style.left = `${percentage}%`;
+    // --- Color Button Functionality ---
+    const colorButtons = document.querySelectorAll('.color-button');
+    
+    if (colorButtons.length > 0) {
+        colorButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove selected class from all buttons
+                colorButtons.forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+                
+                // Add selected class to clicked button
+                this.classList.add('selected');
+                
+                // Get the selected color
+                const selectedColor = this.dataset.color;
+                
+                // You can add additional functionality here to apply the color
+                console.log('Selected color:', selectedColor);
+                
+                // Optional: Store the selected color in localStorage
+                localStorage.setItem('selectedLightColor', selectedColor);
+            });
+        });
+        
+        // Initialize with saved color if exists
+        const savedColor = localStorage.getItem('selectedLightColor');
+        if (savedColor) {
+            const savedButton = document.querySelector(`.color-button[data-color="${savedColor}"]`);
+            if (savedButton) {
+                colorButtons.forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+                savedButton.classList.add('selected');
+            }
         }
+    }
 
-        // Mouse events
-        colorSliderHandle.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            colorSliderHandle.classList.add('dragging');
-            e.preventDefault();
-        });
-
-        document.addEventListener('mousemove', (e) => {
-            if (isDragging) {
-                updateSliderPosition(e.clientX);
+    // --- Sleep Coach Toggle Handler ---
+    function initializeSleepCoach() {
+        const toggleBtn = document.querySelector('.coach-toggle-btn');
+        const coachDetails = document.querySelector('.coach-details');
+        const coachHeader = document.querySelector('.coach-header');
+        
+        if (coachHeader && coachDetails) {
+            coachHeader.addEventListener('click', function(e) {
                 e.preventDefault();
-            }
-        });
-
-        document.addEventListener('mouseup', () => {
-            if (isDragging) {
-                isDragging = false;
-                colorSliderHandle.classList.remove('dragging');
-            }
-        });
-
-        // Allow clicking on the bar to set the slider position
-        colorSliderContainer.addEventListener('mousedown', (e) => {
-            if (e.target !== colorSliderHandle) {
-                updateSliderPosition(e.clientX);
-            }
-        });
-
-        // Touch events
-        colorSliderHandle.addEventListener('touchstart', (e) => {
-            isDragging = true;
-            colorSliderHandle.classList.add('dragging');
-            e.preventDefault();
-        }, { passive: false });
-
-        document.addEventListener('touchmove', (e) => {
-            if (isDragging) {
-                updateSliderPosition(e.touches[0].clientX);
-                e.preventDefault();
-            }
-        }, { passive: false });
-
-        document.addEventListener('touchend', () => {
-            if (isDragging) {
-                isDragging = false;
-                colorSliderHandle.classList.remove('dragging');
-            }
-        });
-
-        colorSliderContainer.addEventListener('touchstart', (e) => {
-            if (e.target !== colorSliderHandle) {
-                updateSliderPosition(e.touches[0].clientX);
-            }
-        }, { passive: true });
-
-        // Initialize position
-        colorSliderHandle.style.left = '50%';
+                const isExpanded = toggleBtn.classList.contains('expanded');
+                
+                if (isExpanded) {
+                    // Collapse
+                    toggleBtn.classList.remove('expanded');
+                    coachDetails.style.display = 'none';
+                } else {
+                    // Expand
+                    toggleBtn.classList.add('expanded');
+                    coachDetails.style.display = 'block';
+                }
+            });
+        }
     }
 
     // --- Initial State ---
     showScreen(currentScreen); // Show the initial screen ('home-screen')
     updateHomeSleepSummary(); // Update home screen with today's date (July 30, 2024)
+    initializeSleepCoach(); // Initialize sleep coach toggle
     
     // Initialize OZI card values to match slider defaults
     sliders.forEach(slider => {
@@ -1228,9 +1230,393 @@ document.addEventListener('DOMContentLoaded', () => {
         return 'score-green';
     }
 
+    // Generate personalized sleep coach suggestions based on metrics
+    function generateSleepCoachSuggestions(dayData) {
+        if (!dayData) return null;
+
+        const suggestions = [];
+        
+        // Calculate sleep efficiency (approximation based on interruptions and times)
+        const efficiency = 100 - (dayData.interruptions * 2) - (dayData.timeToSleep > 30 ? 5 : 0) - (dayData.timeToWake > 20 ? 3 : 0);
+        
+        // Create detailed sleep analysis summary first
+        const sleepAnalysis = generateDetailedSleepAnalysis(dayData, efficiency);
+        suggestions.push({
+            title: 'Detailed Sleep Analysis',
+            content: sleepAnalysis,
+            isAnalysis: true
+        });
+
+        // Consolidated Suggestions Section
+        const allTips = [];
+        
+        // Collect relevant suggestions based on metrics
+        if (dayData.timeToSleep > 20) {
+            allTips.push('Create a 60-90 minute wind-down routine before bed');
+            allTips.push('Try the "4-7-8" breathing technique when you get in bed');
+            allTips.push('Keep bedroom temperature between 60-67°F (15.5-19.5°C)');
+        }
+        
+        if (dayData.stages && dayData.stages.deep < 25) {
+            allTips.push('Exercise regularly but complete workouts 3+ hours before bedtime');
+            allTips.push('Try pink or brown noise for deeper sleep');
+            allTips.push('Ensure complete darkness with blackout curtains or eye mask');
+        }
+        
+        if (dayData.stages && dayData.stages.rem < 23) {
+            allTips.push('Maintain consistent sleep schedule for optimal REM cycles');
+            allTips.push('Avoid alcohol completely - it severely reduces REM sleep');
+            allTips.push('Get 7.5-9 hours total sleep for adequate REM time');
+        }
+        
+        if (dayData.interruptions >= 3) {
+            allTips.push('Use continuous background noise (fan or white noise machine)');
+            allTips.push('Stop fluid intake 2-3 hours before bedtime');
+            allTips.push('Evaluate mattress comfort and support');
+        }
+        
+        if (dayData.heartRate > 55) {
+            allTips.push('Practice 10-minute meditation or deep breathing before bed');
+            allTips.push('Avoid large meals and spicy foods 3+ hours before sleep');
+            allTips.push('Check bedroom temperature - overheating raises heart rate');
+        }
+        
+        if (dayData.movementScore && dayData.movementScore < 85) {
+            allTips.push('Try a body pillow or knee pillow for better alignment');
+            allTips.push('Practice gentle stretching 1-2 hours before bed');
+        }
+        
+        // Add general optimization tips
+        allTips.push('Get bright light exposure within first hour of waking');
+        allTips.push('Avoid screens 1-2 hours before bedtime');
+        allTips.push('Set phone to "Do Not Disturb" mode at 9:30 PM');
+        
+        if (efficiency < 85) {
+            allTips.push('No caffeine after 2 PM today');
+        }
+
+        // Limit to most relevant suggestions (8-10 tips)
+        suggestions.push({
+            title: 'Personalized Sleep Recommendations',
+            tips: allTips.slice(0, 10),
+            isCategory: true
+        });
+
+        return suggestions;
+    }
+
+    // Generate detailed sleep analysis for comprehensive insights
+    function generateDetailedSleepAnalysis(dayData, efficiency) {
+        if (!dayData) return 'No sleep data available for analysis.';
+        
+        let analysis = '';
+        
+        // Overall assessment
+        const scoreCategory = dayData.score >= 85 ? 'excellent' : dayData.score >= 70 ? 'good' : dayData.score >= 60 ? 'fair' : 'poor';
+        analysis += `<div class="analysis-section"><strong>Overall Assessment:</strong> Your sleep quality scored ${dayData.score}/100, which is ${scoreCategory}. `;
+        
+        // Sleep architecture analysis
+        const stages = dayData.stages;
+        if (stages) {
+            analysis += `Your sleep architecture showed ${stages.deep}% deep sleep (optimal: 20-25%), ${stages.rem}% REM sleep (optimal: 20-25%), and ${stages.light}% light sleep. `;
+            
+            if (stages.deep >= 20 && stages.rem >= 20) {
+                analysis += 'Both deep and REM sleep were in healthy ranges, indicating good restorative sleep. ';
+            } else if (stages.deep < 20) {
+                analysis += 'Deep sleep was below optimal levels, which may affect physical recovery and immune function. ';
+            }
+            if (stages.rem < 20) {
+                analysis += 'REM sleep was below optimal levels, potentially impacting memory consolidation and mood regulation. ';
+            }
+        }
+        analysis += '</div>';
+        
+        // Sleep timing analysis
+        analysis += `<div class="analysis-section"><strong>Sleep Timing:</strong> You went to bed at ${dayData.startTime}, took ${dayData.timeToSleep} minutes to fall asleep `;
+        analysis += dayData.timeToSleep <= 20 ? '(excellent)' : dayData.timeToSleep <= 30 ? '(good)' : '(room for improvement)';
+        analysis += `, and woke up at ${dayData.endTime} after ${dayData.duration} of sleep. `;
+        analysis += `You took ${dayData.timeToWake} minutes to fully wake up `;
+        analysis += dayData.timeToWake <= 15 ? '(very good)' : dayData.timeToWake <= 25 ? '(normal)' : '(consider morning light exposure)';
+        analysis += '.</div>';
+        
+        // Sleep continuity analysis
+        analysis += `<div class="analysis-section"><strong>Sleep Continuity:</strong> You experienced ${dayData.interruptions} awakenings during the night `;
+        if (dayData.interruptions <= 2) {
+            analysis += '(excellent continuity). ';
+        } else if (dayData.interruptions <= 4) {
+            analysis += '(normal range, but room for improvement). ';
+        } else {
+            analysis += '(frequent awakenings that may be affecting sleep quality). ';
+        }
+        analysis += `Sleep efficiency was approximately ${Math.max(0, efficiency).toFixed(1)}%, `;
+        analysis += efficiency >= 85 ? 'which is excellent.' : efficiency >= 80 ? 'which is good but could be optimized.' : 'which suggests room for improvement.';
+        analysis += '</div>';
+        
+        // Physiological metrics
+        analysis += `<div class="analysis-section"><strong>Physiological Markers:</strong> Your average heart rate during sleep was ${dayData.heartRate} bpm `;
+        analysis += dayData.heartRate <= 60 ? '(excellent - indicates good cardiovascular relaxation)' : '(slightly elevated - may indicate stress or environmental factors)';
+        if (dayData.movementScore) {
+            analysis += `. Movement score was ${dayData.movementScore}/100 `;
+            analysis += dayData.movementScore >= 85 ? '(very stable sleep)' : dayData.movementScore >= 75 ? '(moderately stable)' : '(restless sleep that may benefit from comfort adjustments)';
+        }
+        analysis += '.</div>';
+        
+        // Comparative context
+        analysis += `<div class="analysis-section"><strong>Key Insights:</strong> `;
+        const strengths = [];
+        const improvements = [];
+        
+        if (dayData.timeToSleep <= 25) strengths.push('quick sleep onset');
+        else improvements.push('sleep onset time');
+        
+        if (stages && stages.deep >= 22) strengths.push('adequate deep sleep');
+        else if (stages) improvements.push('deep sleep duration');
+        
+        if (stages && stages.rem >= 23) strengths.push('healthy REM sleep');
+        else if (stages) improvements.push('REM sleep quality');
+        
+        if (dayData.interruptions <= 3) strengths.push('good sleep continuity');
+        else improvements.push('sleep continuity');
+        
+        if (dayData.heartRate <= 60) strengths.push('relaxed physiology');
+        else improvements.push('sleep relaxation');
+        
+        if (strengths.length > 0) {
+            analysis += `Your sleep strengths include: ${strengths.join(', ')}. `;
+        }
+        if (improvements.length > 0) {
+            analysis += `Areas for potential improvement: ${improvements.join(', ')}.`;
+        }
+        analysis += '</div>';
+        
+        return analysis;
+    }
+
+    // Generate summary text for sleep coach
+    function generateSleepCoachSummary(dayData) {
+        if (!dayData) return 'No sleep data available for this date.';
+        
+        // Keep it short - around 30 words
+        const scoreCategory = dayData.score >= 85 ? 'excellent' : dayData.score >= 70 ? 'good' : dayData.score >= 60 ? 'fair' : 'poor';
+        
+        // Identify top 1-2 focus areas
+        const focusAreas = [];
+        if (dayData.timeToSleep > 25) focusAreas.push('sleep onset');
+        if (dayData.interruptions >= 3) focusAreas.push('continuity');
+        if (dayData.stages && dayData.stages.deep < 22) focusAreas.push('deep sleep');
+        if (dayData.stages && dayData.stages.rem < 23) focusAreas.push('REM sleep');
+        if (dayData.heartRate > 60) focusAreas.push('relaxation');
+        
+        let summary = `${scoreCategory} sleep quality (${dayData.score}/100). `;
+        
+        if (focusAreas.length > 0) {
+            summary += `Focus on: ${focusAreas.slice(0, 2).join(', ')}. `;
+        } else {
+            summary += `Strong performance - maintain consistency. `;
+        }
+        
+        summary += 'Tap for detailed analysis.';
+        
+        return summary;
+    }
+
+    // Update sleep coach content dynamically
+    function updateSleepCoachContent(dayData) {
+        const summaryElement = document.querySelector('.coach-summary-text');
+        const suggestionsContainer = document.querySelector('.coach-suggestions');
+        
+        if (summaryElement) {
+            summaryElement.textContent = generateSleepCoachSummary(dayData);
+        }
+        
+        if (suggestionsContainer) {
+            const suggestions = generateSleepCoachSuggestions(dayData);
+            if (suggestions) {
+                let suggestionsHTML = '';
+                
+                suggestions.forEach(suggestion => {
+                    const isActionItems = suggestion.isActionItems;
+                    const isAnalysis = suggestion.isAnalysis;
+                    
+                    if (isAnalysis) {
+                        // Special handling for detailed analysis section
+                        suggestionsHTML += `
+                            <div class="suggestion-category analysis-category">
+                                <h5 class="category-title">${suggestion.title}</h5>
+                                <div class="analysis-content">${suggestion.content}</div>
+                            </div>
+                        `;
+                    } else {
+                        // Regular suggestion categories
+                        const ulClass = isActionItems ? 'action-items' : 'suggestion-list';
+                        
+                        suggestionsHTML += `
+                            <div class="suggestion-category ${isActionItems ? 'action-items-category' : ''}">
+                                <h5 class="category-title">${suggestion.title}</h5>
+                                <ul class="${ulClass}">
+                                    ${suggestion.tips.map(tip => `<li>${tip}</li>`).join('')}
+                                </ul>
+                            </div>
+                        `;
+                    }
+                });
+                
+                suggestionsContainer.innerHTML = suggestionsHTML;
+            }
+        }
+    }
+
     // Add styles for clickable days and score colors
     const style = document.createElement('style');
     style.textContent = `
+        /* Sleep Coach Analysis Styles */
+        .analysis-category {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .analysis-content {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #374151;
+        }
+        
+        .analysis-section {
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .analysis-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .analysis-section strong {
+            color: #1f2937;
+            font-weight: 600;
+        }
+        
+        .suggestion-category {
+            margin-bottom: 32px;
+            border-left: none !important;
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .suggestion-category:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #00c2c5 0%, #00d7da 50%, #10b981 100%);
+        }
+        
+        .category-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 20px;
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #00c2c5 0%, #00d7da 100%);
+            color: white;
+            border-radius: 12px 12px 0 0;
+            margin: -20px -20px 20px -20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .category-title:after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid #00d7da;
+        }
+        
+        .suggestion-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 12px;
+        }
+        
+        .suggestion-list li {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            margin-bottom: 0;
+            padding: 16px 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.6;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e2e8f0;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+        
+        .suggestion-list li:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            border-color: #00c2c5;
+        }
+        
+        .suggestion-list li:before {
+            content: "💡";
+            position: absolute;
+            left: 16px;
+            top: 16px;
+            font-size: 16px;
+        }
+        
+        .suggestion-list li {
+            padding-left: 48px;
+        }
+        
+        .action-items-category {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: none !important;
+        }
+        
+        .action-items {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .action-items li {
+            background: rgba(255, 255, 255, 0.7);
+            margin-bottom: 8px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+        
+        .action-items li:before {
+            content: "✓ ";
+            color: #f59e0b;
+            font-weight: bold;
+            margin-right: 6px;
+        }
+
         .clickable-day {
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
