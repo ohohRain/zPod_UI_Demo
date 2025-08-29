@@ -3781,99 +3781,77 @@ body {
 }
 
 /* Color Slider */
-.color-slider-container {
-    position: relative;
-    margin-top: 0;
-    height: 16px;
-    /* Match regular slider height */
-    cursor: pointer;
-    z-index: 10;
-    user-select: none;
-    pointer-events: auto;
-    padding: 0;
-    /* Remove padding to match regular sliders */
-    max-width: 180px;
-    /* Limit width to make it shorter */
+/* Color buttons container and layout */
+.color-buttons-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 8px;
+    max-width: 200px;
+    margin-top: 4px;
 }
 
-.color-gradient-bar {
-    width: 100%;
-    height: 16px;
-    border-radius: 8px;
-    background: linear-gradient(to right,
-            #ff0000 0%,
-            #ff8000 16.66%,
-            #ffff00 33.33%,
-            #80ff00 50%,
-            #00ff80 66.66%,
-            #0080ff 83.33%,
-            #8000ff 100%);
-    position: relative;
-    cursor: pointer;
-    z-index: 11;
-    pointer-events: auto;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.color-slider-handle {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    /* Default center position */
-    transform: translateY(-50%) translateX(-50%);
-    width: 20px;
-    height: 20px;
-    background: white;
-    border: 2px solid #e5e7eb;
+/* Individual color button styles */
+.color-button {
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
-    cursor: grab;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
-    transition: transform 0.1s ease, box-shadow 0.1s ease;
-    z-index: 12;
-    pointer-events: auto;
-    /* Ensure handle is always clickable */
-    min-width: 20px;
-    min-height: 20px;
-}
-
-.color-slider-handle:hover {
-    transform: translateY(-50%) translateX(-50%) scale(1.15);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
-}
-
-.color-slider-handle:active,
-.color-slider-handle.dragging {
-    cursor: grabbing;
-    transform: translateY(-50%) translateX(-50%) scale(1.05);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
-}
-
-/* Ensure the color slider is interactive within the control card */
-.control-card .color-slider-container {
+    border: 3px solid transparent;
+    cursor: pointer;
     position: relative;
-    margin-top: 0;
-    width: 100%;
-    pointer-events: auto;
-    min-height: 32px;
     display: flex;
     align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    outline: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-clip: padding-box;
 }
 
-.control-card .color-slider-container,
-.control-card .color-slider-container * {
-    pointer-events: auto !important;
-    /* Force enable pointer events */
+/* Color button hover effect */
+.color-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-color: rgba(0, 194, 197, 0.3);
 }
 
-/* Improve control card layout for color slider */
-.control-card:has(.color-slider-container) {
+/* Color button active/pressed state */
+.color-button:active {
+    transform: scale(0.95);
+}
+
+/* Selected color button state - no checkmark, just border and glow */
+.color-button.selected {
+    border: 3px solid var(--primary);
+    box-shadow: 0 0 0 3px rgba(0, 194, 197, 0.2), 0 4px 12px rgba(0, 194, 197, 0.3);
+    transform: scale(1.1);
+}
+
+/* Remove checkmark icon - buttons use border only for selection */
+.color-button i {
+    display: none;
+}
+
+/* Special styling for white and yellow buttons - add subtle inner shadow */
+.color-button[data-color="white"],
+.color-button[data-color="yellow"] {
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.color-button[data-color="white"].selected,
+.color-button[data-color="yellow"].selected {
+    box-shadow: 0 0 0 3px rgba(0, 194, 197, 0.2), 0 4px 12px rgba(0, 194, 197, 0.3), inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+/* Improve control card layout for color buttons */
+.control-card:has(.color-buttons-container) {
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     gap: 16px;
+    min-height: 90px;
 }
 
-.control-card:has(.color-slider-container) .control-info {
+.control-card:has(.color-buttons-container) .control-info {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -3881,17 +3859,45 @@ body {
 }
 
 /* Fallback for browsers without :has() support */
-.control-card.color-slider-card {
+.control-card.color-buttons-card {
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     gap: 16px;
+    min-height: 90px;
+    transition: opacity 0.3s ease, filter 0.3s ease;
 }
 
-.control-card.color-slider-card .control-info {
+.control-card.color-buttons-card .control-info {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 8px;
+}
+
+/* Disabled state for color buttons card */
+.control-card.color-buttons-card.disabled {
+    opacity: 0.5;
+    filter: grayscale(100%);
+    pointer-events: none;
+}
+
+.control-card.color-buttons-card.disabled .control-info h5 {
+    color: var(--text-secondary);
+}
+
+/* Disabled state for individual color buttons */
+.color-button.disabled,
+.color-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+    filter: grayscale(100%);
+    pointer-events: none;
+}
+
+.color-button.disabled:hover,
+.color-button:disabled:hover {
+    transform: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* === WHITE NOISE SCREEN STYLES === */

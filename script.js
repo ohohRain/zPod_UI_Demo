@@ -545,6 +545,33 @@ document.addEventListener('DOMContentLoaded', () => {
                         stateLabel.textContent = 'OFF';
                     }
                 }
+                
+                // Handle brightness changes to enable/disable color selection
+                if (metric === 'brightness') {
+                    const brightnessValue = parseInt(this.value);
+                    const colorButtonsCard = document.querySelector('.color-buttons-card');
+                    const colorButtons = document.querySelectorAll('.color-button');
+                    
+                    if (brightnessValue === 0) {
+                        // Disable color selection when brightness is 0
+                        if (colorButtonsCard) {
+                            colorButtonsCard.classList.add('disabled');
+                        }
+                        colorButtons.forEach(button => {
+                            button.disabled = true;
+                            button.classList.add('disabled');
+                        });
+                    } else {
+                        // Enable color selection when brightness is above 0
+                        if (colorButtonsCard) {
+                            colorButtonsCard.classList.remove('disabled');
+                        }
+                        colorButtons.forEach(button => {
+                            button.disabled = false;
+                            button.classList.remove('disabled');
+                        });
+                    }
+                }
             }
         });
     });
@@ -566,6 +593,33 @@ document.addEventListener('DOMContentLoaded', () => {
         controlValueSpans.forEach(span => {
             span.textContent = value;
         });
+        
+        // Handle brightness changes for color button state
+        if (metric === 'brightness') {
+            const brightnessValue = parseInt(value);
+            const colorButtonsCard = document.querySelector('.color-buttons-card');
+            const colorButtons = document.querySelectorAll('.color-button');
+            
+            if (brightnessValue === 0) {
+                // Disable color selection when brightness is 0
+                if (colorButtonsCard) {
+                    colorButtonsCard.classList.add('disabled');
+                }
+                colorButtons.forEach(button => {
+                    button.disabled = true;
+                    button.classList.add('disabled');
+                });
+            } else {
+                // Enable color selection when brightness is above 0
+                if (colorButtonsCard) {
+                    colorButtonsCard.classList.remove('disabled');
+                }
+                colorButtons.forEach(button => {
+                    button.disabled = false;
+                    button.classList.remove('disabled');
+                });
+            }
+        }
     }
 
     // Modern Toggles
@@ -607,6 +661,36 @@ document.addEventListener('DOMContentLoaded', () => {
         darkModeToggleProfile.querySelector('.toggle-state').textContent = isDarkModeInitially ? 'ON' : 'OFF';
     }
 
+    // --- Color Button Selection ---
+    // Handle light color button selection
+    const lightColorButtons = document.querySelectorAll('.color-button');
+    lightColorButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Remove selected class from all color buttons
+            lightColorButtons.forEach(btn => btn.classList.remove('selected'));
+            
+            // Add selected class to clicked button
+            this.classList.add('selected');
+            
+            // Get the selected color
+            const selectedColor = this.getAttribute('data-color');
+            
+            // Optional: You can add logic here to communicate with the OZI device
+            // about the selected color, or update other UI elements
+            console.log('Selected light color:', selectedColor);
+            
+            // Turn off Sleep Autopilot if it's currently ON (similar to sliders)
+            const autopilotToggle = document.querySelector('.modern-toggle-container[data-control="sleep-autopilot"]');
+            if (autopilotToggle && autopilotToggle.classList.contains('on')) {
+                autopilotToggle.classList.remove('on');
+                autopilotToggle.classList.add('off');
+                const stateLabel = autopilotToggle.querySelector('.toggle-state');
+                if (stateLabel) {
+                    stateLabel.textContent = 'OFF';
+                }
+            }
+        });
+    });
 
     // --- AI Chat Specific ---
     const chatInput = document.getElementById('chat-input');
@@ -1259,6 +1343,24 @@ document.addEventListener('DOMContentLoaded', () => {
             const valueSpan = slider.parentElement.querySelector('.slider-value');
             if (valueSpan) {
                 valueSpan.textContent = value;
+            }
+            
+            // Check initial brightness value to set color buttons state
+            if (metric === 'brightness') {
+                const brightnessValue = parseInt(value);
+                const colorButtonsCard = document.querySelector('.color-buttons-card');
+                const colorButtons = document.querySelectorAll('.color-button');
+                
+                if (brightnessValue === 0) {
+                    // Disable color selection on page load if brightness is 0
+                    if (colorButtonsCard) {
+                        colorButtonsCard.classList.add('disabled');
+                    }
+                    colorButtons.forEach(button => {
+                        button.disabled = true;
+                        button.classList.add('disabled');
+                    });
+                }
             }
         }
     });
