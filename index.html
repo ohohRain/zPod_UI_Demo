@@ -13,10 +13,10 @@
 
 <body>
     <!-- Optional Header -->
-    <div class="header">
+    <!-- <div class="header">
         <h1>OZI Interactive Demo</h1>
         <p>Navigate using the bottom tabs and icons.</p>
-    </div>
+    </div> -->
 
     <!-- New Container for Phone + Description -->
     <div class="ui-preview-container">
@@ -1448,11 +1448,22 @@
         </div> <!-- End .phone-bezel -->
 
         <!-- New Description Panel -->
-        <div class="page-description">
-            <h3 id="description-title">Home Screen</h3> <!-- Placeholder Title -->
-            <p id="description-text">This is the main dashboard, providing a quick overview of your connected OZI,
-                recent sleep analysis, key metrics, and recommended sleep music.</p> <!-- Placeholder Text -->
-        </div>
+        <div class="flex flex-col gap-8 justify-between items-start">
+            <div class="flex flex-col gap-2 header justify-start items-start">
+              <h1>OZI Interactive Demo</h1>
+              <p>Navigate using the bottom tabs and icons.</p>
+            </div>
+            <div class="page-description">
+              <h3 id="description-title">Home Screen</h3>
+              <!-- Placeholder Title -->
+              <p id="description-text">
+                This is the main dashboard, providing a quick overview of your
+                connected OZI, recent sleep analysis, key metrics, and recommended
+                sleep music.
+              </p>
+              <!-- Placeholder Text -->
+            </div>
+          </div>
 
     </div> <!-- End .ui-preview-container -->
 

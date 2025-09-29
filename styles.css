@@ -13,11 +13,11 @@
 }
 
 :root {
-    /* Updated colors from UI_DOCUMENTATION.md */
-    --primary: #00C2C5;
-    --primary-dark: #00D7DA;
-    --secondary: #8B5CF6;
-    --secondary-dark: #A78BFA;
+    /* Updated colors from new design system */
+    --primary: #7A52E6;
+    --primary-dark: #6B47CC;
+    --secondary: #BC9BF3;
+    --secondary-dark: #A985E8;
     --accent: #10B981;
     --accent-dark: #34D399;
     --success: #10B981;
@@ -39,8 +39,14 @@
     --card-background: #FFFFFF;
     --card-background-dark: #1E1E1E;
 
+    /* Separate webpage and app backgrounds */
+    --webpage-background: linear-gradient(-45deg, hsl(181, 100%, 90%), hsl(258, 90%, 92%), hsl(217, 91%, 92%), hsl(145, 80%, 90%));
+    --webpage-background-size: 400% 400%;
+    --app-background: linear-gradient(-45deg, hsl(254, 68%, 92%), hsl(264, 80%, 94%), hsl(252, 74%, 95%), hsl(258, 70%, 93%));
+    --app-background-size: 400% 400%;
+
     /* Text colors */
-    --text: #1F2937;
+    --text: #2B2B2B;
     --text-dark: #F9FAFB;
     --text-secondary: #4B5563;
     --text-secondary-dark: #E5E7EB;
@@ -60,7 +66,7 @@
 
     /* Updated gradients */
     --primary-gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-    --secondary-gradient: linear-gradient(135deg, var(--accent) 0%, var(--info) 100%);
+    --secondary-gradient: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
 
     /* Border radii from UI_DOCUMENTATION.md */
     --border-radius-small: 8px;
@@ -90,9 +96,9 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    /* Animated Gradient Background */
-    background: linear-gradient(-45deg, hsl(181, 100%, 90%), hsl(258, 90%, 92%), hsl(217, 91%, 92%), hsl(145, 80%, 90%));
-    background-size: 400% 400%;
+    /* Animated Gradient Background for webpage - using original cyan/green tones */
+    background: var(--webpage-background);
+    background-size: var(--webpage-background-size);
     /* Make the gradient large for smooth animation */
     animation: gradientAnimation 15s ease infinite;
     /* Apply the animation */
@@ -191,7 +197,7 @@ body {
     color: var(--primary);
     margin-bottom: var(--spacing-m);
     padding-bottom: var(--spacing-s);
-    border-bottom: 1px solid hsla(181, 100%, 80%, 0.5);
+    border-bottom: 1px solid hsla(283, 87.90%, 74.10%, 0.50);
     /* Light primary color border */
 }
 
@@ -273,12 +279,17 @@ body {
     box-shadow: inset -1px 0 1px rgba(0, 0, 0, 0.3);
 }
 
+/* App container with ID selector */
+#app-container,
 .phone-frame {
     width: 375px;
     height: 100%;
     /* Let the frame fill the padded area of the bezel */
     /* iPhone 6/7/8 height */
-    background-color: var(--background);
+    /* App background with purple/violet tones */
+    background: var(--app-background);
+    background-size: var(--app-background-size);
+    animation: gradientAnimation 15s ease infinite;
     border-radius: 35px;
     /* Match outer bezel curve (45px - 10px padding) */
     /* Match inner radius to bezel padding */
@@ -1239,7 +1250,7 @@ body {
     padding: var(--spacing-m);
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-m);
+    gap: var(--spacing-s);
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
@@ -1458,13 +1469,13 @@ body {
 .music-categories-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-m);
+    gap: var(--spacing-s);
     margin-bottom: var(--spacing-l);
 }
 
 .category-card {
     border-radius: var(--border-radius-md);
-    padding: var(--spacing-m);
+    padding: var(--spacing-s);
     color: white;
     aspect-ratio: 1 / 1;
     display: flex;
@@ -1472,6 +1483,7 @@ body {
     justify-content: space-between;
     cursor: pointer;
     transition: transform 0.2s ease;
+    
 }
 
 .category-card:hover {
@@ -2048,8 +2060,8 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: var(--spacing-l);
-    gap: var(--spacing-m);
+    padding: var(--spacing-m);
+    gap: var(--spacing-s);
     height: 100%;
     min-height: 0;
 }
@@ -2119,7 +2131,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: var(--spacing-l);
+    margin-bottom: var(--spacing-s);
 }
 
 .date-text {
@@ -2143,7 +2155,7 @@ body {
 .summary-content {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-m);
+    gap: var(--spacing-s);
     align-items: center;
     flex: 1;
     min-height: 0;
@@ -2156,7 +2168,9 @@ body {
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
+    margin-top: var(--spacing-s);
     margin-bottom: var(--spacing-s);
+    width: 90%;
 }
 
 .quality-score-container {
@@ -2268,8 +2282,8 @@ body {
 
 .metric-value-line {
     display: flex;
-    align-items: baseline;
-    gap: 4px;
+    align-items: end;
+    gap: 6px;
 }
 
 .metric-value {
@@ -3320,7 +3334,8 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: var(--spacing-m);
+    margin-bottom: var(--spacing-s);
+    margin-top: var(--spacing-s);
     gap: var(--spacing-m);
     min-height: 40px;
 }
@@ -3362,7 +3377,7 @@ body {
 }
 
 .score-rating.good {
-    color: var(--primary);
+    color: var(--success);
     background: rgba(0, 194, 197, 0.1);
 }
 
