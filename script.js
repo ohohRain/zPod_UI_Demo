@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentScreen = 'home-screen'; // Keep track of the current screen
     let selectedPeriod = 'day'; // Track selected time period in sleep details
     let currentDate = new Date(2024, 6, 2); // Initialize with July 2, 2024 (month is 0-based) - for sleep details navigation
-    let homepageDate = new Date(2024, 6, 30); // July 30, 2024 - fixed date for homepage "today"
+    let homepageDate = new Date(2024, 6, 29); // July 29, 2024 - fixed date for homepage "today"
     // Sleep data with realistic distribution: 10% red (<60), 20% yellow (60-70), 70% green (>70)
     const sleepDataFromFile = {
         "2024-06-30": {
@@ -178,11 +178,6 @@ document.addEventListener('DOMContentLoaded', () => {
             "score": 49, "startTime": "03:00", "endTime": "09:30", "duration": "6h30m",
             "heartRate": 74, "interruptions": 18, "timeToSleep": 110, "timeToWake": 65, "movementScore": 40,
             "stages": { "awake": 40, "rem": 10, "light": 40, "deep": 10 }
-        },
-        "2024-07-30": {
-            "score": 82, "startTime": "23:00", "endTime": "07:10", "duration": "8h10m",
-            "heartRate": 58, "interruptions": 3, "timeToSleep": 25, "timeToWake": 16, "movementScore": 81,
-            "stages": { "awake": 10, "rem": 25, "light": 43, "deep": 22 }
         }
     };
     
@@ -452,7 +447,7 @@ document.addEventListener('DOMContentLoaded', () => {
         card.addEventListener('click', () => {
             const targetScreenId = card.dataset.navigate;
             if (targetScreenId) {
-                // Special handling for sleep summary card - navigate to today's date (July 30)
+                // Special handling for sleep summary card - navigate to today's date (July 29)
                 if (card.classList.contains('sleep-summary-card') && targetScreenId === 'sleep-details-screen') {
                     currentDate = new Date(homepageDate); // Set to today's date
                     selectedPeriod = 'day'; // Reset to day view
@@ -761,7 +756,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Update home screen sleep summary with homepage date data (always July 30, 2024)
+    // Update home screen sleep summary with homepage date data (always July 29, 2024)
     function updateHomeSleepSummary() {
         const dateKey = getDateKey(homepageDate);
         const dayData = sleepDataFromFile[dateKey];
@@ -1346,7 +1341,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Initial State ---
     showScreen(currentScreen); // Show the initial screen ('home-screen')
-    updateHomeSleepSummary(); // Update home screen with today's date (July 30, 2024)
+    updateHomeSleepSummary(); // Update home screen with today's date (July 29, 2024)
     initializeSleepCoach(); // Initialize sleep coach toggle
     
     // Initialize OZI card values to match slider defaults
