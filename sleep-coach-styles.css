@@ -16,7 +16,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 12px 16px;
-    background: linear-gradient(135deg, #00C2C5 0%, #00D7DA 100%);
+    background: var(--primary-gradient);
     color: white;
     cursor: pointer;
 }
@@ -83,15 +83,15 @@
 }
 
 .suggestion-category {
-    background: var(--gray50, #f9fafb);
+    background: rgba(122, 82, 230, 0.08);
     padding: 16px;
     border-radius: 8px;
     border-left: 3px solid var(--primary);
 }
 
 .action-items-category {
-    background: rgba(16, 185, 129, 0.1);
-    border-left: 3px solid var(--success, #10B981);
+    background: rgba(122, 82, 230, 0.12);
+    border-left: 3px solid var(--primary);
 }
 
 .category-title {
@@ -133,7 +133,7 @@
     content: "✓";
     position: absolute;
     left: 8px;
-    color: var(--success, #10B981);
+    color: var(--primary);
 }
 
 /* Action items special styling */

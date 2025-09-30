@@ -1406,48 +1406,78 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Consolidated Suggestions Section
         const allTips = [];
-        
-        // Collect relevant suggestions based on metrics
+
+        // Top 3: OZI Device-specific recommendations
+        const oziTips = [];
+
+        if (dayData.timeToSleep > 60) {
+            oziTips.push('🎵 Play "Ocean Waves" or "Rain on Window" white noise to help you fall asleep faster');
+        } else if (dayData.interruptions >= 10) {
+            oziTips.push('🔊 Set OZI speaker volume at 5-7 with continuous white noise all night');
+        } else if (dayData.stages && dayData.stages.deep < 15) {
+            oziTips.push('🎵 Try "Brown Noise" or "Pink Noise" from OZI for deeper sleep stages');
+        }
+
+        if (dayData.heartRate > 70) {
+            oziTips.push('💡 Use soft blue or light purple light on OZI for calming effect');
+        } else if (dayData.timeToSleep > 60) {
+            oziTips.push('💡 Set OZI light to warm orange or red color (promotes melatonin production)');
+        } else if (dayData.stages && dayData.stages.deep < 15) {
+            oziTips.push('💡 Dim OZI light to level 2-3 with deep purple color for relaxation');
+        }
+
+        if (dayData.interruptions >= 10) {
+            oziTips.push('🌬️ Set OZI fan to consistent speed 6-8 to mask environmental noise');
+        } else if (dayData.heartRate > 70) {
+            oziTips.push('🌬️ Set fan to medium speed (4-6) to maintain cool, comfortable temperature');
+        } else if (dayData.timeToSleep > 60) {
+            oziTips.push('🌬️ Increase fan speed to 7-9 for better air circulation and cooling');
+        }
+
+        // Add top 3 OZI tips
+        allTips.push(...oziTips.slice(0, 3));
+
+        // General sleep hygiene tips (rest of recommendations)
         if (dayData.timeToSleep > 20) {
             allTips.push('Create a 60-90 minute wind-down routine before bed');
             allTips.push('Try the "4-7-8" breathing technique when you get in bed');
             allTips.push('Keep bedroom temperature between 60-67°F (15.5-19.5°C)');
         }
-        
+
         if (dayData.stages && dayData.stages.deep < 25) {
             allTips.push('Exercise regularly but complete workouts 3+ hours before bedtime');
             allTips.push('Try pink or brown noise for deeper sleep');
             allTips.push('Ensure complete darkness with blackout curtains or eye mask');
         }
-        
+
         if (dayData.stages && dayData.stages.rem < 23) {
             allTips.push('Maintain consistent sleep schedule for optimal REM cycles');
             allTips.push('Avoid alcohol completely - it severely reduces REM sleep');
             allTips.push('Get 7.5-9 hours total sleep for adequate REM time');
         }
-        
+
         if (dayData.interruptions >= 3) {
             allTips.push('Use continuous background noise (fan or white noise machine)');
             allTips.push('Stop fluid intake 2-3 hours before bedtime');
             allTips.push('Evaluate mattress comfort and support');
         }
-        
+
         if (dayData.heartRate > 55) {
             allTips.push('Practice 10-minute meditation or deep breathing before bed');
             allTips.push('Avoid large meals and spicy foods 3+ hours before sleep');
             allTips.push('Check bedroom temperature - overheating raises heart rate');
         }
-        
+
         if (dayData.movementScore && dayData.movementScore < 85) {
             allTips.push('Try a body pillow or knee pillow for better alignment');
             allTips.push('Practice gentle stretching 1-2 hours before bed');
         }
-        
+
         // Add general optimization tips
         allTips.push('Get bright light exposure within first hour of waking');
         allTips.push('Avoid screens 1-2 hours before bedtime');
         allTips.push('Set phone to "Do Not Disturb" mode at 9:30 PM');
-        
+
         if (efficiency < 85) {
             allTips.push('No caffeine after 2 PM today');
         }
@@ -1675,23 +1705,23 @@ document.addEventListener('DOMContentLoaded', () => {
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, #00c2c5 0%, #00d7da 50%, #10b981 100%);
+            background: var(--primary-gradient);
         }
-        
+
         .category-title {
             font-size: 18px;
             font-weight: 700;
             color: #1f2937;
             margin-bottom: 20px;
             padding: 16px 20px;
-            background: linear-gradient(135deg, #00c2c5 0%, #00d7da 100%);
+            background: var(--primary-gradient);
             color: white;
             border-radius: 12px 12px 0 0;
             margin: -20px -20px 20px -20px;
             text-align: center;
             position: relative;
         }
-        
+
         .category-title:after {
             content: "";
             position: absolute;
@@ -1702,7 +1732,7 @@ document.addEventListener('DOMContentLoaded', () => {
             height: 0;
             border-left: 10px solid transparent;
             border-right: 10px solid transparent;
-            border-top: 10px solid #00d7da;
+            border-top: 10px solid #BC9BF3;
         }
         
         .suggestion-list {
@@ -1729,7 +1759,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .suggestion-list li:hover {
             transform: translateY(-1px);
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-            border-color: #00c2c5;
+            border-color: #7A52E6;
         }
         
         .suggestion-list li:before {
