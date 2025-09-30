@@ -304,8 +304,8 @@ document.addEventListener('DOMContentLoaded', () => {
             text: 'Your central hub. Check the status of your OZI in the header bar, get a quick AI sleep analysis from the last night, view key sleep metrics like duration and quality, and discover recommended sleep music.'
         },
         'ai-chat-screen': {
-            title: 'AI Sleep Assistant',
-            text: 'Chat with your intelligent sleep assistant. Ask questions about your sleep patterns, get personalized tips for improvement, and understand your OZI data.'
+            title: 'AI Bedtime Stories',
+            text: 'Let AI create magical bedtime stories for your children. Request a personalized tale and listen to the narrated version to help your little ones drift off to sleep peacefully.'
         },
         'music-screen': {
             title: 'Sleep Music Library',
@@ -740,6 +740,26 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // Audio play button for story demo
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('.audio-play-btn')) {
+            const btn = e.target.closest('.audio-play-btn');
+            const icon = btn.querySelector('i');
+
+            if (icon.classList.contains('fa-play')) {
+                // Change to pause
+                icon.classList.remove('fa-play');
+                icon.classList.add('fa-pause');
+                btn.style.background = 'linear-gradient(135deg, #4ade80, #22c55e)';
+            } else {
+                // Change to play
+                icon.classList.remove('fa-pause');
+                icon.classList.add('fa-play');
+                btn.style.background = 'linear-gradient(135deg, var(--secondary), var(--info))';
+            }
+        }
+    });
 
     // Update home screen sleep summary with homepage date data (always July 30, 2024)
     function updateHomeSleepSummary() {

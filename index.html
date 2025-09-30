@@ -7,8 +7,8 @@
     <title>Interactive OZI App UI Demo</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="styles.css?v=2.0">
-    <link rel="stylesheet" href="sleep-coach-styles.css?v=2.0">
+    <link rel="stylesheet" href="styles.css?v=2.1">
+    <link rel="stylesheet" href="sleep-coach-styles.css?v=2.1">
 </head>
 
 <body>
@@ -397,81 +397,52 @@
                         </div>
                     </div>
 
-                    <!-- ===== AI Chat Screen ===== -->
+                    <!-- ===== AI Story Screen ===== -->
                     <div id="ai-chat-screen" class="app-screen ai-chat-screen">
                         <!-- No header needed, accessed via tabs -->
                         <div class="chat-container">
                             <!-- AI welcome message -->
                             <div class="chat-message ai">
-                                <div class="ai-avatar"><i class="fas fa-robot"></i></div>
+                                <div class="ai-avatar"><i class="fas fa-book-open"></i></div>
                                 <div class="message-bubble ai">
-                                    <p>Hello! I'm your OZI AI sleep assistant. How can I help you today?</p>
+                                    <p>Hello! Would your little one like a bedtime story tonight? I can create a lovely tale to help them drift off to sleep. 📖✨</p>
                                 </div>
                             </div>
                             <!-- User message -->
                             <div class="chat-message user">
                                 <div class="message-bubble user">
-                                    <p>Why am I waking up during my REM sleep? Is this normal?</p>
+                                    <p>Yes please! Can you tell a story about a friendly dragon?</p>
                                 </div>
                             </div>
-                            <!-- AI response -->
+                            <!-- AI response with story -->
                             <div class="chat-message ai">
-                                <div class="ai-avatar"><i class="fas fa-robot"></i></div>
+                                <div class="ai-avatar"><i class="fas fa-book-open"></i></div>
                                 <div class="message-bubble ai">
-                                    <p>It's actually quite common to briefly wake up after REM sleep periods. REM sleep
-                                        happens in cycles throughout the night, and the transitions between cycles can
-                                        sometimes lead to brief awakenings.</p>
-                                    <p>Your OZI data shows that you typically have 4-5 REM cycles per night, which is
-                                        normal. Most people don't remember these brief awakenings unless they last
-                                        longer
-                                        than a few minutes.</p>
-                                    <p>If you're concerned about frequent wakings, here are some tips:</p>
-                                    <ul>
-                                        <li>Maintain a consistent sleep schedule</li>
-                                        <li>Reduce caffeine and alcohol before bed</li>
-                                        <li>Keep your bedroom cool (around 65-68°F/18-20°C)</li>
-                                        <li>Try the Relaxation Program in your OZI before sleep</li>
-                                    </ul>
-                                    <div
-                                        style="margin-top: var(--spacing-m); background-color: rgba(0, 194, 197, 0.1); padding: var(--spacing-s); border-radius: 10px; display: flex; align-items: center;">
-                                        <i class="fas fa-headset"
-                                            style="color: var(--primary); margin-right: var(--spacing-s);"></i>
-                                        <a href="#"
-                                            style="color: var(--primary); text-decoration: none; font-weight: 500;">Get
-                                            more
-                                            support from a sleep specialist</a>
+                                    <p style="font-weight: 600; color: var(--primary); margin-bottom: var(--spacing-s);">🐉 The Little Dragon Who Loved the Stars</p>
+                                    <p>Once upon a time, in a cozy mountain cave, lived a small purple dragon named Luna. Unlike other dragons who loved to roar and breathe fire, Luna had a special dream—she wanted to touch the stars that sparkled in the night sky.</p>
+                                    <p>Every evening, Luna would climb to the highest peak and reach up with her tiny claws, but the stars remained far away. One night, a wise old owl flew by and whispered a secret: "The stars aren't meant to be touched, dear Luna. They're meant to be friends who watch over you."</p>
+                                    <p>Luna smiled and realized the stars had been her friends all along, twinkling just for her each night. From that day on, she never felt alone. She would curl up under the starry blanket and dream the most wonderful dreams, knowing her sparkling friends were always there.</p>
+                                    <p style="margin-top: var(--spacing-m); font-style: italic; color: var(--text-secondary);">And just like Luna, you too have friends in the stars, watching over you as you sleep. Sweet dreams, little one. 🌟</p>
+
+                                    <!-- Audio Player Button -->
+                                    <div class="story-audio-player" style="margin-top: var(--spacing-m); background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1)); padding: var(--spacing-m); border-radius: 15px; display: flex; align-items: center; gap: var(--spacing-m);">
+                                        <button class="audio-play-btn" style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--secondary), var(--info)); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3); transition: all 0.3s ease;">
+                                            <i class="fas fa-play" style="color: white; font-size: 18px; margin-left: 3px;"></i>
+                                        </button>
+                                        <div style="flex: 1;">
+                                            <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">Listen to Story Audio</div>
+                                            <div style="font-size: 13px; color: var(--text-secondary);">Narrated version • 3:45 min</div>
+                                        </div>
+                                        <div style="color: var(--secondary); font-size: 24px;">
+                                            <i class="fas fa-headphones"></i>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <!-- User message -->
-                            <div class="chat-message user">
-                                <div class="message-bubble user">
-                                    <p>Thanks! How can I improve my deep sleep?</p>
-                                </div>
-                            </div>
-                            <!-- AI response -->
-                            <div class="chat-message ai">
-                                <div class="ai-avatar"><i class="fas fa-robot"></i></div>
-                                <div class="message-bubble ai">
-                                    <p>Based on your sleep data, your deep sleep averages 18% of total sleep time, which
-                                        is
-                                        within the normal range but could be improved. Here are evidence-based ways to
-                                        increase deep sleep:</p>
-                                    <ul>
-                                        <li>Exercise regularly, but not within 2 hours of bedtime</li>
-                                        <li>Try the "Deep Sleep" sound program on your OZI</li>
-                                        <li>Avoid screens 1 hour before bedtime</li>
-                                        <li>Consider taking a warm bath 1-2 hours before sleep</li>
-                                        <li>Ensure your bedroom is completely dark</li>
-                                    </ul>
-                                    <p>Your OZI can track improvements in your deep sleep percentage over time as you
-                                        implement these changes.</p>
                                 </div>
                             </div>
                         </div>
                         <div class="message-input-area">
                             <div class="message-input-wrapper">
-                                <input type="text" placeholder="Type your question..." id="chat-input">
+                                <input type="text" placeholder="Ask for a bedtime story..." id="chat-input">
                                 <button class="send-button" id="send-chat-button"><i
                                         class="fas fa-paper-plane"></i></button>
                             </div>
@@ -1431,8 +1402,8 @@
                         <span>Home</span>
                     </div>
                     <div class="nav-item" data-target="ai-chat-screen">
-                        <i class="fas fa-robot"></i>
-                        <span>AI Chat</span>
+                        <i class="fas fa-book-open"></i>
+                        <span>AI Story</span>
                     </div>
                     <div class="nav-item" data-target="music-screen">
                         <i class="fas fa-music"></i>
@@ -1467,7 +1438,7 @@
 
     </div> <!-- End .ui-preview-container -->
 
-    <script src="script.js?v=2.0"></script>
+    <script src="script.js?v=2.1"></script>
 
 </body>
 
