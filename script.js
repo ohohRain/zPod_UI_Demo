@@ -705,7 +705,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (type === 'ai') {
             const avatar = document.createElement('div');
             avatar.classList.add('ai-avatar');
-            avatar.innerHTML = '<i class="fas fa-robot"></i>';
+            avatar.innerHTML = '<i class="fas fa-book-open"></i>';
             messageWrapper.appendChild(avatar);
         }
 
@@ -718,13 +718,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handleSendChat() {
         const message = chatInput.value;
+        if (!message.trim()) return;
+
         addChatMessage(message, 'user');
         chatInput.value = ''; // Clear input
 
-        // Simulate AI response (replace with actual logic)
+        // Demo mode response
         setTimeout(() => {
-            addChatMessage("I'm processing your request...", 'ai');
-        }, 1000);
+            addChatMessage("This is a UI demo only. No LLM is connected yet. The full AI story generation feature will be available in the real app! 📖✨", 'ai');
+        }, 800);
     }
 
     if (sendChatButton && chatInput) {
