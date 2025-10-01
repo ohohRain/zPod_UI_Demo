@@ -195,9 +195,9 @@ document.addEventListener('DOMContentLoaded', () => {
             "stages": { "awake": 16, "rem": 21, "light": 45, "deep": 18 }
         },
         "2024-07-29": {
-            "score": 49, "startTime": "03:00", "endTime": "09:30", "duration": "6h30m",
-            "heartRate": 74, "interruptions": 18, "timeToSleep": 110, "timeToWake": 65, "movementScore": 40,
-            "stages": { "awake": 40, "rem": 10, "light": 40, "deep": 10 }
+            "score": 58, "startTime": "23:30", "endTime": "06:45", "duration": "7h15m",
+            "heartRate": 68, "interruptions": 3, "timeToSleep": 45, "timeToWake": 30, "movementScore": 52,
+            "stages": { "awake": 18, "rem": 20, "light": 48, "deep": 14 }
         }
     };
     
@@ -1127,6 +1127,130 @@ document.addEventListener('DOMContentLoaded', () => {
 
         storyChatContainer.scrollTop = storyChatContainer.scrollHeight;
     }
+
+    // ===== SLEEP COACH CHAT MODAL =====
+    const coachModal = document.getElementById('coach-chat-modal');
+    const askCoachBtn = document.getElementById('ask-coach-btn');
+    const coachCloseBtn = document.getElementById('coach-chat-close');
+    const coachSendBtn = document.getElementById('coach-send-button');
+    const coachChatInput = document.getElementById('coach-chat-input');
+    const coachMessagesContainer = document.getElementById('coach-chat-messages');
+
+    // Hardcoded Q&A pairs for sleep coach
+    const coachQA = [
+        {
+            question: "How can I improve my deep sleep?",
+            answer: "Your deep sleep was only 14% last night, which is below the ideal 20-25%. I recommend establishing a relaxing bedtime routine, avoiding screens 1 hour before bed, and keeping your room temperature around 65-68°F. Try using the white noise features in the Music tab! 🌙"
+        },
+        {
+            question: "Why did I wake up during the night?",
+            answer: "I noticed 3 interruptions last night. This could be due to environmental factors like noise, light, or temperature. Try using white noise from the Music tab and ensure your room is completely dark. Your OZI device can help create an ideal sleep environment! 😴"
+        },
+        {
+            question: "Is my sleep score good?",
+            answer: "Your sleep score was 58/100 last night, which indicates there's room for improvement. You got 7h 15min of sleep and took 45 minutes to fall asleep. Focus on going to bed earlier and establishing a consistent sleep schedule to improve your score. You've got this! 💪"
+        }
+    ];
+
+    let currentQAIndex = 0;
+    let coachChatActive = false;
+
+    // Open modal
+    askCoachBtn?.addEventListener('click', () => {
+        coachModal.classList.add('visible');
+        coachChatActive = true;
+        currentQAIndex = 0;
+
+        // Reset to first question
+        coachChatInput.value = coachQA[0].question;
+
+        // Reset messages to just welcome message
+        const welcomeMsg = coachMessagesContainer.querySelector('.coach-message.ai');
+        coachMessagesContainer.innerHTML = '';
+        coachMessagesContainer.appendChild(welcomeMsg);
+    });
+
+    // Close modal
+    coachCloseBtn?.addEventListener('click', () => {
+        coachModal.classList.remove('visible');
+        coachChatActive = false;
+    });
+
+    // Close on outside click
+    coachModal?.addEventListener('click', (e) => {
+        if (e.target === coachModal) {
+            coachModal.classList.remove('visible');
+            coachChatActive = false;
+        }
+    });
+
+    // Send message
+    coachSendBtn?.addEventListener('click', async () => {
+        if (!coachChatActive || currentQAIndex >= coachQA.length) return;
+
+        const userMessage = coachChatInput.value.trim();
+        if (!userMessage) return;
+
+        // Disable input while processing
+        coachChatInput.disabled = true;
+        coachSendBtn.disabled = true;
+
+        // Add user message
+        const userMsgDiv = document.createElement('div');
+        userMsgDiv.className = 'coach-message user';
+        userMsgDiv.innerHTML = `
+            <div class="coach-user-avatar"><i class="fas fa-user"></i></div>
+            <div class="coach-message-bubble user">
+                <p>${userMessage}</p>
+            </div>
+        `;
+        coachMessagesContainer.appendChild(userMsgDiv);
+        coachMessagesContainer.scrollTop = coachMessagesContainer.scrollHeight;
+
+        // Clear input
+        coachChatInput.value = '';
+
+        // Wait before AI responds
+        await new Promise(resolve => setTimeout(resolve, 600));
+
+        // Add AI response
+        const aiMsgDiv = document.createElement('div');
+        aiMsgDiv.className = 'coach-message ai';
+        aiMsgDiv.innerHTML = `
+            <div class="coach-ai-avatar"><i class="fas fa-user-md"></i></div>
+            <div class="coach-message-bubble ai">
+                <p class="coach-response"></p>
+            </div>
+        `;
+        coachMessagesContainer.appendChild(aiMsgDiv);
+        coachMessagesContainer.scrollTop = coachMessagesContainer.scrollHeight;
+
+        // Type out the response
+        const responseEl = aiMsgDiv.querySelector('.coach-response');
+        await typeText(responseEl, coachQA[currentQAIndex].answer, 15);
+
+        coachMessagesContainer.scrollTop = coachMessagesContainer.scrollHeight;
+
+        // Move to next question
+        currentQAIndex++;
+
+        // Set next question or disable if done
+        if (currentQAIndex < coachQA.length) {
+            coachChatInput.value = coachQA[currentQAIndex].question;
+            coachChatInput.disabled = false;
+            coachSendBtn.disabled = false;
+        } else {
+            coachChatInput.value = '';
+            coachChatInput.placeholder = 'No more questions available in demo';
+        }
+    });
+
+    // Enter key to send
+    coachChatInput?.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && coachChatActive && currentQAIndex < coachQA.length) {
+            coachSendBtn.click();
+        }
+    });
 
     // Update home screen sleep summary with homepage date data (always July 29, 2024)
     function updateHomeSleepSummary() {

@@ -324,6 +324,10 @@
                                             <!-- Dynamic content will be generated here -->
                                         </div>
                                     </div>
+                                    <button class="ask-coach-btn" id="ask-coach-btn">
+                                        <i class="fas fa-comments"></i>
+                                        <span>Ask Sleep Coach</span>
+                                    </button>
                                 </div>
                             </div>
 
@@ -1453,6 +1457,35 @@
                             </div>
                             <div class="timer-option" data-timer="song-end">
                                 <span>When current song ends</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== Sleep Coach Chat Modal ===== -->
+                <div id="coach-chat-modal" class="coach-chat-modal">
+                    <div class="coach-chat-content">
+                        <div class="coach-chat-header">
+                            <h4><i class="fas fa-user-md"></i> Sleep Coach</h4>
+                            <button id="coach-chat-close">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="coach-chat-messages" id="coach-chat-messages">
+                            <!-- AI welcome message -->
+                            <div class="coach-message ai">
+                                <div class="coach-ai-avatar"><i class="fas fa-user-md"></i></div>
+                                <div class="coach-message-bubble ai">
+                                    <p>Hi! I'm here to help you understand your sleep better. Ask me anything about last night's sleep! 💤</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="coach-chat-input-area">
+                            <div class="coach-input-wrapper">
+                                <input type="text" value="How can I improve my deep sleep?" id="coach-chat-input" placeholder="Ask about your sleep...">
+                                <button class="coach-send-button" id="coach-send-button">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
