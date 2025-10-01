@@ -726,56 +726,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- AI Chat Specific ---
-    const chatInput = document.getElementById('chat-input');
-    const sendChatButton = document.getElementById('send-chat-button');
-    const chatContainer = document.querySelector('.chat-container');
-
-    function addChatMessage(message, type = 'user') {
-        if (!message.trim() || !chatContainer) return;
-
-        const messageWrapper = document.createElement('div');
-        messageWrapper.classList.add('chat-message', type);
-
-        const messageBubble = document.createElement('div');
-        messageBubble.classList.add('message-bubble', type);
-        messageBubble.innerHTML = `<p>${message}</p>`; // Use innerHTML to allow basic formatting if needed later
-
-        if (type === 'ai') {
-            const avatar = document.createElement('div');
-            avatar.classList.add('ai-avatar');
-            avatar.innerHTML = '<i class="fas fa-book-open"></i>';
-            messageWrapper.appendChild(avatar);
-        }
-
-        messageWrapper.appendChild(messageBubble);
-        chatContainer.appendChild(messageWrapper);
-
-        // Scroll to bottom
-        chatContainer.scrollTop = chatContainer.scrollHeight;
-    }
-
-    function handleSendChat() {
-        const message = chatInput.value;
-        if (!message.trim()) return;
-
-        addChatMessage(message, 'user');
-        chatInput.value = ''; // Clear input
-
-        // Demo mode response
-        setTimeout(() => {
-            addChatMessage("This is a UI demo only. No LLM is connected yet. The full AI story generation feature will be available in the real app! 📖✨", 'ai');
-        }, 800);
-    }
-
-    if (sendChatButton && chatInput) {
-        sendChatButton.addEventListener('click', handleSendChat);
-        chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                handleSendChat();
-            }
-        });
-    }
+    // --- AI Chat code removed - replaced with interactive story feature below ---
 
     // TTS Variables
     let currentUtterance = null;
@@ -996,6 +947,186 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+
+    // ===== AI Story Interactive Chat =====
+    const storyData = {
+        title: "🐉 The Little Dragon Who Loved the Stars",
+        paragraphs: [
+            "Once upon a time, in a cozy mountain cave, lived a small purple dragon named Luna. Unlike other dragons who loved to roar and breathe fire, Luna had a special dream—she wanted to touch the stars that sparkled in the night sky.",
+            "Every evening, Luna would climb to the highest peak and reach up with her tiny claws, but the stars remained far away. One night, a wise old owl flew by and whispered a secret: \"The stars aren't meant to be touched, dear Luna. They're meant to be friends who watch over you.\"",
+            "Luna smiled and realized the stars had been her friends all along, twinkling just for her each night. From that day on, she never felt alone. She would curl up under the starry blanket and dream the most wonderful dreams, knowing her sparkling friends were always there.",
+            "And just like Luna, you too have friends in the stars, watching over you as you sleep. Sweet dreams, little one. 🌟"
+        ]
+    };
+
+    const validStoryRequest = "Tell me a dragon story!";
+    let storyShown = false;
+
+    // Typing animation function with cool effect
+    async function typeText(element, text, speed = 15) {
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(10px)';
+
+        await new Promise(resolve => setTimeout(resolve, 50));
+        element.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        element.style.opacity = '1';
+        element.style.transform = 'translateY(0)';
+
+        let displayText = '';
+        for (let i = 0; i < text.length; i++) {
+            displayText += text[i];
+            element.textContent = displayText;
+
+            // Add cursor effect
+            element.classList.add('typing-cursor');
+
+            // Variable speed for more natural typing
+            let charSpeed = speed;
+            if (text[i] === '.' || text[i] === '!' || text[i] === '?') {
+                charSpeed = speed * 10; // Pause at sentence end
+            } else if (text[i] === ',' || text[i] === ':') {
+                charSpeed = speed * 5; // Pause at comma
+            } else if (text[i] === ' ') {
+                charSpeed = speed * 0.3; // Faster for spaces
+            }
+
+            await new Promise(resolve => setTimeout(resolve, charSpeed));
+        }
+
+        // Remove cursor effect when done
+        element.classList.remove('typing-cursor');
+    }
+
+    // Send button handler
+    const sendChatButton = document.getElementById('send-chat-button');
+    const chatInput = document.getElementById('chat-input');
+    const storyChatContainer = document.getElementById('story-chat-container');
+
+    sendChatButton?.addEventListener('click', async () => {
+        const userMessage = chatInput.value.trim();
+
+        if (!userMessage || storyShown) return;
+
+        // Disable input while processing
+        chatInput.disabled = true;
+        sendChatButton.disabled = true;
+
+        // Add user message
+        const userMsgDiv = document.createElement('div');
+        userMsgDiv.className = 'chat-message user';
+        userMsgDiv.innerHTML = `
+            <div class="message-bubble user">
+                <p>${userMessage}</p>
+            </div>
+        `;
+        storyChatContainer.appendChild(userMsgDiv);
+
+        // Scroll to bottom
+        storyChatContainer.scrollTop = storyChatContainer.scrollHeight;
+
+        // Clear input
+        chatInput.value = '';
+
+        // Wait a bit before AI responds
+        await new Promise(resolve => setTimeout(resolve, 800));
+
+        // Check if it's the valid story request
+        if (userMessage === validStoryRequest) {
+            // Show the dragon story with typing animation
+            await showDragonStory();
+        } else {
+            // Show demo mode message
+            await showDemoMessage();
+        }
+
+        storyShown = true;
+    });
+
+    // Enter key support
+    chatInput?.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !storyShown) {
+            sendChatButton.click();
+        }
+    });
+
+    async function showDragonStory() {
+        // Create AI message container
+        const aiMsgDiv = document.createElement('div');
+        aiMsgDiv.className = 'chat-message ai';
+        aiMsgDiv.innerHTML = `
+            <div class="ai-avatar"><i class="fas fa-book-open"></i></div>
+            <div class="message-bubble ai">
+                <p class="story-title" style="font-weight: 600; color: var(--primary); margin-bottom: var(--spacing-s);"></p>
+                <p class="story-p1"></p>
+                <p class="story-p2"></p>
+                <p class="story-p3"></p>
+                <p class="story-p4" style="margin-top: var(--spacing-m); font-style: italic; color: var(--text-secondary);"></p>
+            </div>
+        `;
+        storyChatContainer.appendChild(aiMsgDiv);
+        storyChatContainer.scrollTop = storyChatContainer.scrollHeight;
+
+        // Type out title
+        const titleEl = aiMsgDiv.querySelector('.story-title');
+        await typeText(titleEl, storyData.title, 20);
+        await new Promise(resolve => setTimeout(resolve, 300));
+
+        // Type out each paragraph
+        for (let i = 0; i < storyData.paragraphs.length; i++) {
+            const pEl = aiMsgDiv.querySelector(`.story-p${i + 1}`);
+            await typeText(pEl, storyData.paragraphs[i], 12);
+            await new Promise(resolve => setTimeout(resolve, 200));
+            storyChatContainer.scrollTop = storyChatContainer.scrollHeight;
+        }
+
+        // Add audio player after story is complete
+        await new Promise(resolve => setTimeout(resolve, 300));
+        const audioPlayerHTML = `
+            <div class="story-audio-player" style="margin-top: var(--spacing-m); background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1)); padding: var(--spacing-m); border-radius: 15px; display: flex; align-items: center; gap: var(--spacing-m); opacity: 0; transform: translateY(20px); transition: all 0.5s ease;">
+                <button class="audio-play-btn" style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--secondary), var(--info)); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3); transition: all 0.3s ease;">
+                    <i class="fas fa-play" style="color: white; font-size: 18px; margin-left: 3px;"></i>
+                </button>
+                <div style="flex: 1;">
+                    <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">Listen to Story Audio</div>
+                    <div style="font-size: 13px; color: var(--text-secondary);">Narrated version • 3:45 min</div>
+                </div>
+                <div style="color: var(--secondary); font-size: 24px;">
+                    <i class="fas fa-headphones"></i>
+                </div>
+            </div>
+        `;
+
+        const bubble = aiMsgDiv.querySelector('.message-bubble');
+        bubble.insertAdjacentHTML('beforeend', audioPlayerHTML);
+
+        // Animate in the audio player
+        setTimeout(() => {
+            const player = bubble.querySelector('.story-audio-player');
+            player.style.opacity = '1';
+            player.style.transform = 'translateY(0)';
+        }, 100);
+
+        storyChatContainer.scrollTop = storyChatContainer.scrollHeight;
+    }
+
+    async function showDemoMessage() {
+        const aiMsgDiv = document.createElement('div');
+        aiMsgDiv.className = 'chat-message ai';
+        aiMsgDiv.innerHTML = `
+            <div class="ai-avatar"><i class="fas fa-book-open"></i></div>
+            <div class="message-bubble ai">
+                <p class="demo-message"></p>
+            </div>
+        `;
+        storyChatContainer.appendChild(aiMsgDiv);
+        storyChatContainer.scrollTop = storyChatContainer.scrollHeight;
+
+        const messageEl = aiMsgDiv.querySelector('.demo-message');
+        const demoText = "This is a demo! Try asking: \"Tell me a dragon story!\" to see the interactive story feature. 🎭✨";
+        await typeText(messageEl, demoText, 15);
+
+        storyChatContainer.scrollTop = storyChatContainer.scrollHeight;
+    }
 
     // Update home screen sleep summary with homepage date data (always July 29, 2024)
     function updateHomeSleepSummary() {

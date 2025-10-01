@@ -401,8 +401,8 @@
                     <!-- ===== AI Story Screen ===== -->
                     <div id="ai-chat-screen" class="app-screen ai-chat-screen">
                         <!-- No header needed, accessed via tabs -->
-                        <div class="chat-container">
-                            <!-- AI welcome message -->
+                        <div class="chat-container" id="story-chat-container">
+                            <!-- AI welcome message (always visible) -->
                             <div class="chat-message ai">
                                 <div class="ai-avatar"><i class="fas fa-book-open"></i></div>
                                 <div class="message-bubble ai">
@@ -410,60 +410,11 @@
                                         tale to help them drift off to sleep. 📖✨</p>
                                 </div>
                             </div>
-                            <!-- User message -->
-                            <div class="chat-message user">
-                                <div class="message-bubble user">
-                                    <p>Yes please! Can you tell a story about a friendly dragon?</p>
-                                </div>
-                            </div>
-                            <!-- AI response with story -->
-                            <div class="chat-message ai">
-                                <div class="ai-avatar"><i class="fas fa-book-open"></i></div>
-                                <div class="message-bubble ai">
-                                    <p
-                                        style="font-weight: 600; color: var(--primary); margin-bottom: var(--spacing-s);">
-                                        🐉 The Little Dragon Who Loved the Stars</p>
-                                    <p>Once upon a time, in a cozy mountain cave, lived a small purple dragon named
-                                        Luna. Unlike other dragons who loved to roar and breathe fire, Luna had a
-                                        special dream—she wanted to touch the stars that sparkled in the night sky.</p>
-                                    <p>Every evening, Luna would climb to the highest peak and reach up with her tiny
-                                        claws, but the stars remained far away. One night, a wise old owl flew by and
-                                        whispered a secret: "The stars aren't meant to be touched, dear Luna. They're
-                                        meant to be friends who watch over you."</p>
-                                    <p>Luna smiled and realized the stars had been her friends all along, twinkling just
-                                        for her each night. From that day on, she never felt alone. She would curl up
-                                        under the starry blanket and dream the most wonderful dreams, knowing her
-                                        sparkling friends were always there.</p>
-                                    <p
-                                        style="margin-top: var(--spacing-m); font-style: italic; color: var(--text-secondary);">
-                                        And just like Luna, you too have friends in the stars, watching over you as you
-                                        sleep. Sweet dreams, little one. 🌟</p>
-
-                                    <!-- Audio Player Button -->
-                                    <div class="story-audio-player"
-                                        style="margin-top: var(--spacing-m); background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1)); padding: var(--spacing-m); border-radius: 15px; display: flex; align-items: center; gap: var(--spacing-m);">
-                                        <button class="audio-play-btn"
-                                            style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--secondary), var(--info)); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3); transition: all 0.3s ease;">
-                                            <i class="fas fa-play"
-                                                style="color: white; font-size: 18px; margin-left: 3px;"></i>
-                                        </button>
-                                        <div style="flex: 1;">
-                                            <div
-                                                style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">
-                                                Listen to Story Audio</div>
-                                            <div style="font-size: 13px; color: var(--text-secondary);">Narrated version
-                                                • 3:45 min</div>
-                                        </div>
-                                        <div style="color: var(--secondary); font-size: 24px;">
-                                            <i class="fas fa-headphones"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <!-- User and story messages will be added here dynamically -->
                         </div>
                         <div class="message-input-area">
                             <div class="message-input-wrapper">
-                                <input type="text" placeholder="Ask for a bedtime story..." id="chat-input">
+                                <input type="text" value="Tell me a dragon story!" id="chat-input">
                                 <button class="send-button" id="send-chat-button"><i
                                         class="fas fa-paper-plane"></i></button>
                             </div>
@@ -1551,7 +1502,7 @@
     </div> <!-- End .ui-preview-container -->
 
     <script src="music-player.js"></script>
-    <script src="script.js?v=2.5"></script>
+    <script src="script.js?v=2.7"></script>
 
 </body>
 

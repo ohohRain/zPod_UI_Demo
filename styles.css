@@ -4315,3 +4315,29 @@ body {
 }
 
 /* === END WHITE NOISE STYLES === */
+
+/* === TYPING CURSOR ANIMATION === */
+@keyframes blink {
+    0%, 49% {
+        border-right-color: var(--primary);
+    }
+    50%, 100% {
+        border-right-color: transparent;
+    }
+}
+
+.typing-cursor::after {
+    content: '|';
+    color: var(--primary);
+    animation: blink 0.8s step-end infinite;
+    margin-left: 2px;
+    font-weight: normal;
+    display: inline-block;
+}
+
+/* Story text fade-in */
+.story-p1, .story-p2, .story-p3, .story-p4, .story-title, .demo-message {
+    opacity: 0;
+    display: inline-block;
+}
+/* === END TYPING ANIMATION === */
