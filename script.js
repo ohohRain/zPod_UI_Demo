@@ -738,22 +738,208 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Audio play button for story demo
+    // TTS Variables
+    let currentUtterance = null;
+    let isPaused = false;
+
+    // Function to extract story text from the AI message bubble with the story
+    function getStoryText() {
+        console.log('Getting story text...');
+        // Find the message bubble that contains the audio player (the story message)
+        const audioPlayer = document.querySelector('.story-audio-player');
+        console.log('Audio player found:', audioPlayer);
+        if (audioPlayer) {
+            const storyMessageBubble = audioPlayer.closest('.message-bubble.ai');
+            console.log('Story message bubble found:', storyMessageBubble);
+            if (storyMessageBubble) {
+                const paragraphs = storyMessageBubble.querySelectorAll('p');
+                console.log('Paragraphs found:', paragraphs.length);
+                let fullText = '';
+                paragraphs.forEach(p => {
+                    fullText += p.textContent.trim() + ' ';
+                });
+                console.log('Full story text:', fullText.substring(0, 100) + '...');
+                return fullText.trim();
+            }
+        }
+        return null;
+    }
+
+    // Function to clean text for better TTS
+    function cleanTextForSpeech(text) {
+        // Remove emojis and special characters that don't speak well
+        return text.replace(/[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '')
+                  .replace(/🐉|🌟|📖|✨/g, '') // Remove specific emojis
+                  .replace(/\s+/g, ' ') // Replace multiple spaces with single space
+                  .trim();
+    }
+
+    // Function to get the best available voice
+    function getBestVoice() {
+        const voices = speechSynthesis.getVoices();
+        console.log('Available voices:', voices.length);
+
+        // Prefer English voices, then female voices, then any voice
+        const englishVoices = voices.filter(voice => voice.lang.startsWith('en'));
+        const femaleVoices = englishVoices.filter(voice =>
+            voice.name.toLowerCase().includes('female') ||
+            voice.name.toLowerCase().includes('woman') ||
+            voice.name.toLowerCase().includes('samantha') ||
+            voice.name.toLowerCase().includes('victoria') ||
+            voice.name.toLowerCase().includes('karen')
+        );
+
+        if (femaleVoices.length > 0) {
+            console.log('Using female voice:', femaleVoices[0].name);
+            return femaleVoices[0];
+        } else if (englishVoices.length > 0) {
+            console.log('Using English voice:', englishVoices[0].name);
+            return englishVoices[0];
+        } else if (voices.length > 0) {
+            console.log('Using first available voice:', voices[0].name);
+            return voices[0];
+        }
+
+        console.log('No voices available, using default');
+        return null;
+    }
+
+    // Function to play the story using TTS
+    function playStory(text, btn, icon) {
+        console.log('Playing story with text length:', text.length);
+        console.log('Speech synthesis available:', 'speechSynthesis' in window);
+
+        if ('speechSynthesis' in window) {
+            // Cancel any existing utterance before starting new one
+            if (speechSynthesis.speaking) {
+                speechSynthesis.cancel();
+            }
+
+            // Clean the text for better speech
+            const cleanedText = cleanTextForSpeech(text);
+            console.log('Cleaned text:', cleanedText.substring(0, 100) + '...');
+
+            // Function to create and speak utterance
+            function createAndSpeak() {
+                currentUtterance = new SpeechSynthesisUtterance(cleanedText);
+
+                // Set voice and speech properties
+                const bestVoice = getBestVoice();
+                if (bestVoice) {
+                    currentUtterance.voice = bestVoice;
+                }
+
+                // Optimize speech settings
+                currentUtterance.rate = 0.9; // Slightly slower for bedtime story
+                currentUtterance.pitch = 1.0;
+                currentUtterance.volume = 1.0;
+
+                console.log('Created utterance with voice:', currentUtterance.voice?.name || 'default');
+
+                currentUtterance.onstart = () => {
+                    console.log('Speech started');
+                };
+
+                currentUtterance.onend = () => {
+                    console.log('Speech ended');
+                    resetPlayButton(btn, icon);
+                    isPaused = false;
+                };
+
+                currentUtterance.onerror = (event) => {
+                    console.error('Speech error:', event.error);
+                    resetPlayButton(btn, icon);
+                    isPaused = false;
+                };
+
+                console.log('Starting speech...');
+                speechSynthesis.speak(currentUtterance);
+
+                // Update UI to pause state
+                icon.classList.remove('fa-play');
+                icon.classList.add('fa-pause');
+                btn.style.background = 'linear-gradient(135deg, #4ade80, #22c55e)';
+            }
+
+            // Chrome needs voices to be loaded first
+            if (speechSynthesis.getVoices().length === 0) {
+                console.log('Waiting for voices to load...');
+                speechSynthesis.addEventListener('voiceschanged', function() {
+                    console.log('Voices loaded, creating utterance');
+                    createAndSpeak();
+                }, { once: true });
+
+                // Fallback timeout in case voiceschanged doesn't fire
+                setTimeout(() => {
+                    if (speechSynthesis.getVoices().length === 0) {
+                        console.log('Timeout waiting for voices, proceeding anyway');
+                    }
+                    createAndSpeak();
+                }, 100);
+            } else {
+                createAndSpeak();
+            }
+        } else {
+            console.error('Speech synthesis not supported');
+        }
+    }
+
+    // Function to pause the story
+    function pauseStory(btn, icon) {
+        console.log('Pausing story');
+        if (speechSynthesis.speaking && !speechSynthesis.paused) {
+            speechSynthesis.pause();
+            isPaused = true;
+            // Update UI to play state
+            icon.classList.remove('fa-pause');
+            icon.classList.add('fa-play');
+            btn.style.background = 'linear-gradient(135deg, var(--secondary), var(--info))';
+        }
+    }
+
+    // Function to reset the play button
+    function resetPlayButton(btn, icon) {
+        console.log('Resetting play button');
+        currentUtterance = null;
+        // Update UI to play state
+        icon.classList.remove('fa-pause');
+        icon.classList.add('fa-play');
+        btn.style.background = 'linear-gradient(135deg, var(--secondary), var(--info))';
+    }
+
+    // Audio play button for story demo with TTS
     document.addEventListener('click', (e) => {
         if (e.target.closest('.audio-play-btn')) {
+            console.log('Audio play button clicked');
             const btn = e.target.closest('.audio-play-btn');
             const icon = btn.querySelector('i');
 
             if (icon.classList.contains('fa-play')) {
-                // Change to pause
-                icon.classList.remove('fa-play');
-                icon.classList.add('fa-pause');
-                btn.style.background = 'linear-gradient(135deg, #4ade80, #22c55e)';
+                console.log('Play button state - starting playback');
+                // Start or resume playing
+                if (isPaused && speechSynthesis.paused) {
+                    console.log('Resuming paused speech');
+                    // Resume if paused
+                    speechSynthesis.resume();
+                    isPaused = false;
+                    // Update UI to pause state
+                    icon.classList.remove('fa-play');
+                    icon.classList.add('fa-pause');
+                    btn.style.background = 'linear-gradient(135deg, #4ade80, #22c55e)';
+                } else {
+                    console.log('Starting new playback');
+                    // Start new playback
+                    const storyText = getStoryText();
+                    if (storyText) {
+                        playStory(storyText, btn, icon);
+                    } else {
+                        console.error('No story text found');
+                    }
+                }
             } else {
-                // Change to play
-                icon.classList.remove('fa-pause');
-                icon.classList.add('fa-play');
-                btn.style.background = 'linear-gradient(135deg, var(--secondary), var(--info))';
+                console.log('Pause button state - pausing playback');
+                // Pause playing
+                pauseStory(btn, icon);
             }
         }
     });
