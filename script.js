@@ -946,39 +946,53 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.style.background = 'linear-gradient(135deg, var(--secondary), var(--info))';
     }
 
-    // Audio play button for story demo with TTS
+    // Audio play button for story demo with static audio file
+    let storyAudio = null;
+    let isAudioPlaying = false;
+
     document.addEventListener('click', (e) => {
         if (e.target.closest('.audio-play-btn')) {
             console.log('Audio play button clicked');
             const btn = e.target.closest('.audio-play-btn');
             const icon = btn.querySelector('i');
 
+            // Initialize audio element if not already created
+            if (!storyAudio) {
+                storyAudio = new Audio('assets/story-audio.mp3');
+
+                storyAudio.addEventListener('ended', () => {
+                    console.log('Audio playback ended');
+                    icon.classList.remove('fa-pause');
+                    icon.classList.add('fa-play');
+                    btn.style.background = 'linear-gradient(135deg, var(--secondary), var(--info))';
+                    isAudioPlaying = false;
+                });
+
+                storyAudio.addEventListener('error', (err) => {
+                    console.error('Audio error:', err);
+                    icon.classList.remove('fa-pause');
+                    icon.classList.add('fa-play');
+                    btn.style.background = 'linear-gradient(135deg, var(--secondary), var(--info))';
+                    isAudioPlaying = false;
+                });
+            }
+
             if (icon.classList.contains('fa-play')) {
-                console.log('Play button state - starting playback');
-                // Start or resume playing
-                if (isPaused && speechSynthesis.paused) {
-                    console.log('Resuming paused speech');
-                    // Resume if paused
-                    speechSynthesis.resume();
-                    isPaused = false;
-                    // Update UI to pause state
-                    icon.classList.remove('fa-play');
-                    icon.classList.add('fa-pause');
-                    btn.style.background = 'linear-gradient(135deg, #4ade80, #22c55e)';
-                } else {
-                    console.log('Starting new playback');
-                    // Start new playback
-                    const storyText = getStoryText();
-                    if (storyText) {
-                        playStory(storyText, btn, icon);
-                    } else {
-                        console.error('No story text found');
-                    }
-                }
+                // Play or resume
+                console.log('Starting/resuming audio playback');
+                storyAudio.play();
+                isAudioPlaying = true;
+                icon.classList.remove('fa-play');
+                icon.classList.add('fa-pause');
+                btn.style.background = 'linear-gradient(135deg, #4ade80, #22c55e)';
             } else {
-                console.log('Pause button state - pausing playback');
-                // Pause playing
-                pauseStory(btn, icon);
+                // Pause
+                console.log('Pausing audio playback');
+                storyAudio.pause();
+                isAudioPlaying = false;
+                icon.classList.remove('fa-pause');
+                icon.classList.add('fa-play');
+                btn.style.background = 'linear-gradient(135deg, var(--secondary), var(--info))';
             }
         }
     });

@@ -1,0 +1,5 @@
+# Generation scripts (local development only)
+generate-story-audio.js
+
+# Server logs
+server.log
