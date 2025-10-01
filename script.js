@@ -2269,13 +2269,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Handle track playing (placeholder function)
+    // Handle track playing (using new music player)
     function playTrack(trackName, category) {
         console.log(`Playing: ${trackName} from ${category} category`);
-        
-        // Here you would integrate with actual audio playback
-        // For now, we'll just show a visual feedback
-        showTrackFeedback(trackName);
+
+        // Use the new music player instead of toast notification
+        if (window.musicPlayer) {
+            window.musicPlayer.playTrack(trackName, category);
+        } else {
+            // Fallback to old behavior if music player isn't loaded
+            showTrackFeedback(trackName);
+        }
     }
 
     // Show visual feedback when track is selected

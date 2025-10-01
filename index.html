@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css?v=2.4">
     <link rel="stylesheet" href="sleep-coach-styles.css?v=2.4">
+    <link rel="stylesheet" href="music-player.css">
 </head>
 
 <body>
@@ -1395,6 +1396,84 @@
 
                 </div> <!-- End .app-content -->
 
+                <!-- ===== Music Control Panel ===== -->
+                <div id="music-control-panel" class="music-control-panel">
+                    <div class="music-player-header">
+                        <div class="music-track-info">
+                            <h5 id="music-player-track-title">Track Title</h5>
+                            <p id="music-player-track-category">Category</p>
+                        </div>
+                        <button id="music-player-close" class="music-close-btn">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+
+                    <div class="music-progress-container">
+                        <span id="music-current-time" class="time-display">0:00</span>
+                        <div class="music-progress-track">
+                            <div id="music-progress-bar" class="music-progress-bar"></div>
+                        </div>
+                        <span id="music-total-time" class="time-display">0:00</span>
+                    </div>
+
+                    <div class="music-controls">
+                        <button id="music-player-shuffle" class="music-control-btn">
+                            <i class="fas fa-random"></i>
+                        </button>
+                        <button id="music-player-previous" class="music-control-btn">
+                            <i class="fas fa-step-backward"></i>
+                        </button>
+                        <button id="music-player-play-pause" class="music-control-btn play-pause-btn">
+                            <i class="fas fa-pause"></i>
+                        </button>
+                        <button id="music-player-next" class="music-control-btn">
+                            <i class="fas fa-step-forward"></i>
+                        </button>
+                        <button id="music-player-timer" class="music-control-btn">
+                            <i class="fas fa-clock"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ===== Sleep Timer Modal ===== -->
+                <div id="sleep-timer-modal" class="sleep-timer-modal">
+                    <div class="timer-modal-content">
+                        <div class="timer-modal-header">
+                            <h4>Sleep Timer</h4>
+                            <button id="timer-modal-close">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="timer-options">
+                            <div class="timer-option selected" data-timer="off">
+                                <span>Off</span>
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="timer-option" data-timer="5">
+                                <span>5 minutes</span>
+                            </div>
+                            <div class="timer-option" data-timer="10">
+                                <span>10 minutes</span>
+                            </div>
+                            <div class="timer-option" data-timer="15">
+                                <span>15 minutes</span>
+                            </div>
+                            <div class="timer-option" data-timer="30">
+                                <span>30 minutes</span>
+                            </div>
+                            <div class="timer-option" data-timer="45">
+                                <span>45 minutes</span>
+                            </div>
+                            <div class="timer-option" data-timer="60">
+                                <span>1 hour</span>
+                            </div>
+                            <div class="timer-option" data-timer="song-end">
+                                <span>When current song ends</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- ===== Bottom Navigation ===== -->
                 <div class="phone-navigation">
                     <div class="nav-item active" data-target="home-screen">
@@ -1438,6 +1517,7 @@
 
     </div> <!-- End .ui-preview-container -->
 
+    <script src="music-player.js"></script>
     <script src="script.js?v=2.4"></script>
 
 </body>
