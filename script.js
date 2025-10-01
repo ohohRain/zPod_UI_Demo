@@ -1,5 +1,25 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    // Stop any lingering TTS from previous session/refresh
+    if ('speechSynthesis' in window && speechSynthesis.speaking) {
+        speechSynthesis.cancel();
+        console.log('Stopped lingering TTS from previous session');
+    }
+
+    // Reset play button state on page load
+    setTimeout(() => {
+        const playButton = document.querySelector('.audio-play-btn');
+        if (playButton) {
+            const icon = playButton.querySelector('i');
+            if (icon) {
+                icon.classList.remove('fa-pause');
+                icon.classList.add('fa-play');
+                playButton.style.background = 'linear-gradient(135deg, var(--secondary), var(--info))';
+                console.log('Reset play button state on page load');
+            }
+        }
+    }, 100); // Small delay to ensure DOM is fully loaded
+
     const screens = document.querySelectorAll('.app-screen');
     const navItems = document.querySelectorAll('.phone-navigation .nav-item');
     const settingsNavIcon = document.getElementById('settings-nav-icon');
@@ -349,6 +369,25 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     function showScreen(screenId) {
+        // Stop TTS if leaving AI chat screen
+        if (currentScreen === 'ai-chat-screen' && screenId !== 'ai-chat-screen') {
+            if ('speechSynthesis' in window && speechSynthesis.speaking) {
+                speechSynthesis.cancel();
+                console.log('Stopped TTS when leaving AI chat screen');
+
+                // Reset play button state if it exists
+                const playButton = document.querySelector('.audio-play-btn');
+                if (playButton) {
+                    const icon = playButton.querySelector('i');
+                    if (icon) {
+                        icon.classList.remove('fa-pause');
+                        icon.classList.add('fa-play');
+                        playButton.style.background = 'linear-gradient(135deg, var(--secondary), var(--info))';
+                    }
+                }
+            }
+        }
+
         screens.forEach(screen => {
             screen.classList.remove('active');
         });
@@ -2298,4 +2337,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // === END WHITE NOISE FUNCTIONALITY ===
 
+});
+
+// Stop TTS when page is about to unload (refresh, navigation, close)
+window.addEventListener('beforeunload', () => {
+    if ('speechSynthesis' in window && speechSynthesis.speaking) {
+        speechSynthesis.cancel();
+        console.log('Stopped TTS on page unload');
+    }
 });
