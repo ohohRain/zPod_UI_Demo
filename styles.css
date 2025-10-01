@@ -295,6 +295,7 @@ body {
     /* Match inner radius to bezel padding */
     overflow: hidden;
     position: relative;
+    /* Ensure music panel is contained within */
     box-shadow: none;
     /* Remove shadow from screen, apply to bezel */
     border: 1px solid rgba(0, 0, 0, 0.1);

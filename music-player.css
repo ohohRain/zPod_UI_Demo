@@ -1,0 +1,295 @@
+/* === MUSIC CONTROL PANEL STYLES === */
+
+/* Music Control Panel */
+.music-control-panel {
+    position: absolute;
+    bottom: 60px; /* Position above the navigation bar */
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, #7A52E6, #6B47CC);
+    color: white;
+    border-radius: 16px 16px 0 0;
+    padding: 16px;
+    transform: translateY(calc(100% + 60px));
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+    z-index: 999; /* Below the navigation bar z-index */
+    backdrop-filter: blur(10px);
+}
+
+.music-control-panel.visible {
+    transform: translateY(0);
+}
+
+/* Music Player Header */
+.music-player-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.music-track-info h5 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+    color: white;
+    line-height: 1.2;
+}
+
+.music-track-info p {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+    font-weight: 400;
+}
+
+.music-close-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 12px;
+}
+
+.music-close-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+/* Progress Bar */
+.music-progress-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.time-display {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+    min-width: 35px;
+}
+
+.music-progress-track {
+    flex: 1;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+}
+
+.music-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.9));
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.1s ease;
+}
+
+/* Music Controls */
+.music-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}
+
+.music-control-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+}
+
+.music-control-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+.music-control-btn.active {
+    background: white;
+    color: #7A52E6;
+}
+
+.play-pause-btn {
+    width: 44px;
+    height: 44px;
+    background: white;
+    color: #7A52E6;
+    font-size: 16px;
+}
+
+.play-pause-btn:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: scale(1.1);
+}
+
+/* Sleep Timer Modal */
+.sleep-timer-modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1001; /* Above music panel but within phone frame */
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    border-radius: 35px; /* Match phone frame border radius */
+}
+
+.sleep-timer-modal.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.timer-modal-content {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    margin: 16px;
+    max-width: 90%;
+    width: calc(100% - 32px);
+    max-height: 70%;
+    overflow-y: auto;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.sleep-timer-modal.visible .timer-modal-content {
+    transform: scale(1);
+}
+
+.timer-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.timer-modal-header h4 {
+    margin: 0;
+    color: #2B2B2B;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.timer-modal-header button {
+    background: none;
+    border: none;
+    color: #6B7280;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.timer-modal-header button:hover {
+    background: #F9FAFB;
+    color: #2B2B2B;
+}
+
+/* Timer Options */
+.timer-options {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.timer-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: white;
+}
+
+.timer-option:hover {
+    background: #F9FAFB;
+}
+
+.timer-option.selected {
+    background: linear-gradient(135deg, #7A52E6, #6B47CC);
+    color: white;
+}
+
+.timer-option span {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.timer-option i {
+    font-size: 16px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.timer-option.selected i {
+    opacity: 1;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 480px) {
+    .music-control-panel {
+        padding: 12px;
+    }
+
+    .music-controls {
+        gap: 16px;
+    }
+
+    .music-control-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 16px;
+    }
+
+    .play-pause-btn {
+        width: 52px;
+        height: 52px;
+        font-size: 18px;
+    }
+}
+
+/* Animations */
+@keyframes musicPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.music-control-btn.active {
+    animation: musicPulse 2s infinite;
+}
+
+/* === END MUSIC CONTROL PANEL STYLES === */
